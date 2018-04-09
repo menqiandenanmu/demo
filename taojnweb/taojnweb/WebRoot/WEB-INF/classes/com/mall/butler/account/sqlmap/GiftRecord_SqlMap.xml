@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="GIFTRECORD" >
+	<typeAlias alias="giftRecordAlias" type="com.mall.butler.account.model.GiftRecord"/>
+	<resultMap id="giftRecordResultMap" class="giftRecordAlias" >
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+    	<result column="ID" property="id"/>
+    	<result column="RULE_ID" property="ruleId"/>
+    	<result column="ACCOUNT_ID" property="accountId"/>
+    	<result column="ACCOUNT_NAME" property="accountName"/>
+    	<result column="REAL_NAME" property="realName"/>
+    	<result column="RECHAGE_AWAY" property="rechageAway"/>
+    	<result column="TRANS_NO" property="transNo"/>
+    	<result column="RECHAGE_SUM" property="rechageSum"/>
+    	<result column="PRICE" property="price"/>
+    	<result column="PAY_TIME" property="payTime"/>
+    	<result column="REMARK2" property="remark2"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="ruleId" >
+			RULE_ID = #ruleId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountId" >
+			ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountName" >
+			ACCOUNT_NAME = #accountName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="realName" >
+			REAL_NAME = #realName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="rechageAway" >
+			RECHAGE_AWAY = #rechageAway#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="transNo" >
+			TRANS_NO = #transNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="rechageSum" >
+			RECHAGE_SUM = #rechageSum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="price" >
+			PRICE = #price#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="payTime" >
+			to_char(PAY_TIME,'yyyy-mm-dd') = to_char(#payTime#,'yyyy-mm-dd')
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark2" >
+			REMARK2 = #remark2#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="giftRecordResultMap">
+		select * from GIFT_RECORD where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="giftRecordAlias" resultClass="Integer">
+		select count(*) as totalCount from GIFT_RECORD where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="giftRecordResultMap" parameterClass="giftRecordAlias">
+  	select * from GIFT_RECORD
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="giftRecordResultMap" parameterClass="giftRecordAlias" >
+		select *
+		from GIFT_RECORD
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="giftRecordAlias" >
+		delete from GIFT_RECORD
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="giftRecordAlias" >
+		insert into GIFT_RECORD
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="ruleId" >
+				RULE_ID
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				ACCOUNT_ID
+			</isNotNull>
+			<isNotNull prepend="," property="accountName" >
+				ACCOUNT_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="realName" >
+				REAL_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="rechageAway" >
+				RECHAGE_AWAY
+			</isNotNull>
+			<isNotNull prepend="," property="transNo" >
+				TRANS_NO
+			</isNotNull>
+			<isNotNull prepend="," property="rechageSum" >
+				RECHAGE_SUM
+			</isNotNull>
+			<isNotNull prepend="," property="price" >
+				PRICE
+			</isNotNull>
+			<isNotNull prepend="," property="payTime" >
+				PAY_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="remark2" >
+				REMARK2
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="ruleId" >
+				#ruleId#
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				#accountId#
+			</isNotNull>
+			<isNotNull prepend="," property="accountName" >
+				#accountName#
+			</isNotNull>
+			<isNotNull prepend="," property="realName" >
+				#realName#
+			</isNotNull>
+			<isNotNull prepend="," property="rechageAway" >
+				#rechageAway#
+			</isNotNull>
+			<isNotNull prepend="," property="transNo" >
+				#transNo#
+			</isNotNull>
+			<isNotNull prepend="," property="rechageSum" >
+				#rechageSum#
+			</isNotNull>
+			<isNotNull prepend="," property="price" >
+				#price#
+			</isNotNull>
+			<isNotNull prepend="," property="payTime" >
+				#payTime#
+			</isNotNull>
+			<isNotNull prepend="," property="remark2" >
+				#remark2#
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				#remark#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="giftRecordAlias" >
+		update GIFT_RECORD
+		set 
+		DELETED = #deleted#,
+		RULE_ID = #ruleId#,
+		ACCOUNT_ID = #accountId#,
+		ACCOUNT_NAME = #accountName#,
+		REAL_NAME = #realName#,
+		RECHAGE_AWAY = #rechageAway#,
+		TRANS_NO = #transNo#,
+		RECHAGE_SUM = #rechageSum#,
+		PRICE = #price#,
+		PAY_TIME = #payTime#,
+		REMARK2 = #remark2#,
+		REMARK = #remark#,
+		CREATE_TIME = #createTime#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_GIFT_RECORD.nextval from dual
+	</select>
+</sqlMap>

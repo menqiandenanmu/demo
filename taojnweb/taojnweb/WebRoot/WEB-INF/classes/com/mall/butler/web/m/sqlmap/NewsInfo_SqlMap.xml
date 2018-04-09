@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="NEWSINFO">
+	<resultMap id="newsInfoResultVoMapVo" class="com.mall.butler.web.m.model.NewsExtendInfo">
+	<result column="ID" property="id"/>
+    	<result column="LOGIN_ID" property="loginId"/>
+    	<result column="TITLE" property="title"/>
+    	<result column="TITLE_IMAGE_ID" property="titleImageId"/>
+    	<result column="SOURCE" property="source"/>
+    	<result column="AUTH" property="auth"/>
+    	<result column="CONTENT_ID" property="contentId"/>
+    	<result column="KEY_WORKS" property="keyWorks"/>
+    	<result column="CLASS_NAME" property="className"/>
+    	<result column="CLASS_CODE" property="classCode"/>
+    	<result column="READ_NUM" property="readNum"/>
+    	<result column="SUMMARY" property="summary"/>
+    	<result column="ORDERID" property="orderid"/>
+    	<result column="DESCRIPTION" property="description"/>
+    	<result column="KEYWORDS" property="keywords"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+		<result column="LOGIN_NAME" property="loginName" />
+	</resultMap>
+
+	<select id="SELECT_PAGE_M" parameterClass="java.util.Map"
+		resultMap="newsInfoResultVoMapVo">
+		SELECT * FROM (
+		select a.*,b.LOGIN_NAME FROM
+		NEWS_INFO a,ACCOUNT_LOGIN
+		b WHERE a.LOGIN_ID=b.ID
+		AND a.deleted=0 AND b.deleted=0
+		<include refid="ALL_SQL" />
+		)T
+		order by orderid desc
+	</select>
+	<select id="SELECT_COUNT_PAGE_M" parameterClass="newsInfoAlias"
+		resultClass="Integer">
+		SELECT COUNT(ID) AS totalCount FROM (
+		SELECT A.ID AS ID FROM NEWS_INFO a,ACCOUNT_LOGIN b
+		WHERE a.LOGIN_ID=b.ID
+		AND a.deleted=0 AND b.deleted=0
+			<include refid="ALL_SQL" />
+		)T
+	
+	</select>
+</sqlMap>

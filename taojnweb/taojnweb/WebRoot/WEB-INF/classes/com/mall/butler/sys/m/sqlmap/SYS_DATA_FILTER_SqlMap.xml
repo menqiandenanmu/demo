@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SYSDATAFILTER" >
+	<typeAlias alias="sysDataFilterAlias" type="com.mall.butler.sys.model.SysDataFilter"/>
+	<resultMap id="sysDataFilterResultMMap" class="sysDataFilterAlias" extends="sysDataFilterResultMap">
+    	<result column="CREATE_USER_NAME" property="createUserName"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL_M">
+		<isNotEmpty prepend="and" property="id" >
+			ID = #id#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="filterType" >
+			FILTER_TYPE = #filterType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="filterValue" >
+			FILTER_VALUE = #filterValue#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createUser" >
+			CREATE_USER = #createUser#
+		</isNotEmpty>
+
+	</sql>
+	
+	<select id="SELECT_PAGE_M" parameterClass="java.util.Map" resultMap="sysDataFilterResultMMap">
+		select * from (select a.*,b.login_name as CREATE_USER_NAME from SYS_DATA_FILTER a ,account_login b 
+		 where 1=1  and a.create_user = b.id ) tb
+		 where deleted=0
+		<include refid="ALL_SQL_M"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE_M" parameterClass="sysDataFilterAlias" resultClass="Integer">
+		select count(*) as totalCount from (select a.*,b.login_name as createUserName from SYS_DATA_FILTER a ,account_login b 
+		 where 1=1  and a.create_user = b.id ) tb where 1=1 and deleted=0
+		<include refid="ALL_SQL_M"/>
+	</select>
+  
+</sqlMap>

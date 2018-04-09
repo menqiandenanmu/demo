@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="TRADEACCOUNTLIMIT" >
+	<typeAlias alias="tradeAccountLimitAlias" type="com.mall.butler.account.model.TradeAccountLimit"/>
+	<resultMap id="tradeAccountLimitResultMap" class="tradeAccountLimitAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="TRADE_ACCOUNT_ID" property="tradeAccountId"/>
+    	<result column="SUPPLY_ID" property="supplyId"/>
+    	<result column="SUPPLY_NAME" property="supplyName"/>
+    	<result column="OBJ_TYPE" property="objType"/>
+    	<result column="OBJ_ID" property="objId"/>
+    	<result column="USE_FLAG" property="useFlag"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="tradeAccountId" >
+			TRADE_ACCOUNT_ID = #tradeAccountId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="supplyId" >
+			SUPPLY_ID = #supplyId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="supplyName" >
+			SUPPLY_NAME = #supplyName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="objType" >
+			OBJ_TYPE = #objType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="objId" >
+			OBJ_ID = #objId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="useFlag" >
+			USE_FLAG = #useFlag#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="tradeAccountLimitResultMap">
+		select * from TRADE_ACCOUNT_LIMIT where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="tradeAccountLimitAlias" resultClass="Integer">
+		select count(*) as totalCount from TRADE_ACCOUNT_LIMIT where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="tradeAccountLimitResultMap" parameterClass="tradeAccountLimitAlias">
+  	select * from TRADE_ACCOUNT_LIMIT
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="tradeAccountLimitResultMap" parameterClass="tradeAccountLimitAlias" >
+		select *
+		from TRADE_ACCOUNT_LIMIT
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="tradeAccountLimitAlias" >
+		delete from TRADE_ACCOUNT_LIMIT
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="tradeAccountLimitAlias" >
+		insert into TRADE_ACCOUNT_LIMIT
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="tradeAccountId" >
+				TRADE_ACCOUNT_ID
+			</isNotNull>
+			<isNotNull prepend="," property="supplyId" >
+				SUPPLY_ID
+			</isNotNull>
+			<isNotNull prepend="," property="supplyName" >
+				SUPPLY_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="objType" >
+				OBJ_TYPE
+			</isNotNull>
+			<isNotNull prepend="," property="objId" >
+				OBJ_ID
+			</isNotNull>
+			<isNotNull prepend="," property="useFlag" >
+				USE_FLAG
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="tradeAccountId" >
+				#tradeAccountId#
+			</isNotNull>
+			<isNotNull prepend="," property="supplyId" >
+				#supplyId#
+			</isNotNull>
+			<isNotNull prepend="," property="supplyName" >
+				#supplyName#
+			</isNotNull>
+			<isNotNull prepend="," property="objType" >
+				#objType#
+			</isNotNull>
+			<isNotNull prepend="," property="objId" >
+				#objId#
+			</isNotNull>
+			<isNotNull prepend="," property="useFlag" >
+				#useFlag#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="tradeAccountLimitAlias" >
+		update TRADE_ACCOUNT_LIMIT
+		set 
+		TRADE_ACCOUNT_ID = #tradeAccountId#,
+		SUPPLY_ID = #supplyId#,
+		SUPPLY_NAME = #supplyName#,
+		OBJ_TYPE = #objType#,
+		OBJ_ID = #objId#,
+		USE_FLAG = #useFlag#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_TRADE_ACCOUNT_LIMIT.nextval from dual
+	</select>
+</sqlMap>

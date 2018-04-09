@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="POINTCHANGEDETAL">
+	<resultMap id="pointChangeDetalResultMapVo"
+		class="com.mall.butler.point.w.model.PointChangeDetalExtendDetail" extends="pointChangeDetalResultMap">
+		<result column="CUT_POINT" property="cutPoint" />
+		<result column="ADD_POINT" property="addPoint" />
+	</resultMap>
+	<sql id="ALL_SQL_W">
+		<isNotEmpty prepend="and" property="accountId">
+			ACCOUNT_ID =
+			#accountId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opType">
+			OP_TYPE =
+			#opType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="orderNo">
+			ORDER_NO =
+			#orderNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="point">
+			POINT = #point#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="leftPoint">
+			LEFT_POINT =
+			#leftPoint#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark">
+			REMARK =
+			#remark#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="loginId">
+			LOGIN_ID =
+			#loginId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="loginName">
+			LOGIN_NAME =
+			#loginName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="begCreateDate">
+		<![CDATA[
+			create_time > #begCreateDate#
+			]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endCreateDate">
+		<![CDATA[
+			create_time < #endCreateDate#+1
+			]]>
+		</isNotEmpty>
+	</sql>
+	<!-- 全部 -->
+	<select id="SELECT_BY_PAGE_DETAIL_ALL_W" parameterClass="java.util.Map"
+		resultMap="pointChangeDetalResultMap">
+		select * from (select pointDetail.*
+		from
+		POINT_CHANGE_DETAL
+		pointDetail,
+		ACCOUNT_INFO accountInfo
+		where
+		pointDetail.ACCOUNT_ID=accountInfo.ID
+		)tb where 1=1 and deleted=0
+		<include refid="ALL_SQL_W" />
+		order by create_Time desc
+	</select>
+
+	<select id="SELECT_COUNT_BY_PAGE_DETAIL_ALL_W" parameterClass="java.util.Map"
+		resultClass="Integer">
+		select COUNT(*) as totalCount
+		from (select pointDetail.*
+		from POINT_CHANGE_DETAL
+		pointDetail,
+		ACCOUNT_INFO
+		accountInfo
+		where
+		pointDetail.ACCOUNT_ID=accountInfo.ID
+		)tb where 1=1 and DELETED=0
+		<include refid="ALL_SQL_W" />
+	</select>
+	<!-- 收入 -->
+	<select id="SELECT_BY_PAGE_DETAIL_ADD_W" parameterClass="java.util.Map"
+		resultMap="pointChangeDetalResultMap">
+	select * from (select pointDetail.*
+		from
+		POINT_CHANGE_DETAL
+		pointDetail,
+		ACCOUNT_INFO accountInfo
+		where
+		pointDetail.ACCOUNT_ID=accountInfo.ID
+		)tb where 1=1 and deleted=0
+		and OP_TYPE in (0,1)
+		<include refid="ALL_SQL_W" />
+		order by create_Time desc
+	</select>
+
+	<select id="SELECT_COUNT_BY_PAGE_DETAIL_ADD_W" parameterClass="java.util.Map"
+		resultClass="Integer">
+		select COUNT(*) as totalCount
+		from (select pointDetail.*
+		from POINT_CHANGE_DETAL
+		pointDetail,
+		ACCOUNT_INFO
+		accountInfo
+		where
+		pointDetail.ACCOUNT_ID=accountInfo.ID
+		)tb where 1=1 and DELETED=0
+		and OP_TYPE in (0,1)
+		<include refid="ALL_SQL_W" />
+	</select>
+	<!-- 支出 -->
+	<select id="SELECT_BY_PAGE_DETAIL_CUT_W" parameterClass="java.util.Map"
+		resultMap="pointChangeDetalResultMap">
+		select * from (select pointDetail.*
+		from
+		POINT_CHANGE_DETAL
+		pointDetail,
+		ACCOUNT_INFO accountInfo
+		where
+		pointDetail.ACCOUNT_ID=accountInfo.ID
+		)tb where 1=1 and deleted=0
+		and OP_TYPE=2
+		<include refid="ALL_SQL_W" />
+		order by create_Time desc
+	</select>
+
+	<select id="SELECT_COUNT_BY_PAGE_DETAIL_CUT_W" parameterClass="java.util.Map"
+		resultClass="Integer">
+		select COUNT(*) as totalCount
+		from (select pointDetail.*
+		from POINT_CHANGE_DETAL
+		pointDetail,
+		ACCOUNT_INFO
+		accountInfo
+		where
+		pointDetail.ACCOUNT_ID=accountInfo.ID
+		)tb where 1=1 and DELETED=0
+		and OP_TYPE=2
+		<include refid="ALL_SQL_W" />
+	</select>
+</sqlMap>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ACCOUNTCOUPON" >
+	
+	<sql id="ALL_SQL_M">
+		<isNotEmpty prepend="and" property="accountId" >
+			ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountName" >
+			ACCOUNT_NAME = #accountName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="realName" >
+			REAL_NAME = #realName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="ruleId" >
+			RULE_ID = #ruleId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="couponName" >
+			COUPON_NAME like #couponName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="couponCode" >
+			COUPON_CODE = #couponCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="transNo" >
+			TRANS_NO = #transNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="paySum" >
+			PAY_SUM = #paySum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="price" >
+			PRICE = #price#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="payTime" >
+			to_char(PAY_TIME,'yyyy-mm-dd') = to_char(#payTime#,'yyyy-mm-dd')
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="expiratDate" >
+			to_char(EXPIRAT_DATE,'yyyy-mm-dd') = to_char(#expiratDate#,'yyyy-mm-dd')
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="couponStatus" >
+			COUPON_STATUS = #couponStatus#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark2" >
+			REMARK2 = #remark2#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_BY_TODAY_NUM" resultMap="accountCouponResultMap" parameterClass="accountCouponAlias">
+	  	select * from ACCOUNT_COUPON
+		where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<sql id="ALL_SQL_COUNT">
+		<isNotEmpty prepend="and" property="accountId" >
+			a.ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountName" >
+			a.ACCOUNT_NAME = #accountName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="realName" >
+			a.REAL_NAME = #realName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="ruleId" >
+			a.RULE_ID = #ruleId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="couponName" >
+			a.COUPON_NAME like #couponName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="couponCode" >
+			a.COUPON_CODE = #couponCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="transNo" >
+			a.TRANS_NO = #transNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="paySum" >
+			a.PAY_SUM = #paySum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="price" >
+			a.PRICE = #price#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="payTime" >
+			to_char(a.PAY_TIME,'yyyy-mm-dd') = to_char(#payTime#,'yyyy-mm-dd')
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="expiratDate" >
+			to_char(a.EXPIRAT_DATE,'yyyy-mm-dd') = to_char(#expiratDate#,'yyyy-mm-dd')
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="couponStatus" >
+			a.COUPON_STATUS = #couponStatus#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark2" >
+			a.REMARK2 = #remark2#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			a.REMARK = #remark#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endDate" >
+			<![CDATA[to_char(a.CREATE_TIME,'yyyy-mm-dd') <= to_char(#endDate#,'yyyy-mm-dd')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="beginDate" >
+			<![CDATA[to_char(a.CREATE_TIME,'yyyy-mm-dd') >= to_char(#beginDate#,'yyyy-mm-dd')]]>
+		</isNotEmpty>
+	</sql>
+	
+	
+	<resultMap id="accountCouponResultMapCount" class="accountCouponAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="ACCOUNT_NAME" property="accountName"/>
+    	<result column="REAL_NAME" property="realName"/>
+    	<result column="COUPON_NAME" property="couponName"/>
+    	<result column="TRANS_NO" property="transNo"/>
+    	<result column="PAY_SUM" property="paySum"/>
+    	<result column="PRICE" property="price"/>
+    	<result column="PAY_TIME" property="payTime"/>
+    	<result column="COUPON_STATUS" property="couponStatus"/>
+    	<result column="BARCODE" property="barcode"/>
+    	<result column="REMARK2" property="remark2"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+	</resultMap>
+	<select id="SELECT_PAGE_COUNT" parameterClass="java.util.Map" resultMap="accountCouponResultMapCount">
+		select a.ID,A.ACCOUNT_NAME,A.REAL_NAME,a.COUPON_NAME,A.TRANS_NO,
+		A.PAY_SUM,A.PRICE,A.CREATE_TIME,a.REMARK,b.create_time as PAY_TIME,a.COUPON_STATUS,a.BARCODE,a.REMARK2,a.REMARK
+		from ACCOUNT_COUPON a LEFT JOIN COUPON_USE_RECORD b on a.BARCODE=b.COUPON_CODE
+		where
+		 A.deleted=0
+		<include refid="ALL_SQL_COUNT"/>
+		order by A.create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE_COUNT" parameterClass="java.util.Map" resultClass="Integer">
+		select count(A.ID) as totalCount from ACCOUNT_COUPON A 
+		where a.COUPON_STATUS=1 
+		AND A.deleted=0
+		<include refid="ALL_SQL_COUNT"/>
+	</select>
+	  <select id="SELECT_BY_PAGE_COUNT" resultMap="accountCouponResultMapCount" parameterClass="java.util.Map">
+		  	select a.ID,A.ACCOUNT_NAME,A.REAL_NAME,a.COUPON_NAME,A.TRANS_NO,
+			A.PAY_SUM,A.PRICE,A.CREATE_TIME,a.REMARK,b.create_time as PAY_TIME,a.COUPON_STATUS,a.BARCODE,a.REMARK2,a.REMARK
+			from ACCOUNT_COUPON a LEFT JOIN COUPON_USE_RECORD b on a.BARCODE=b.COUPON_CODE
+			where A.deleted=0
+			<include refid="ALL_SQL_COUNT"/>
+			order by A.create_time desc
+		</select>
+	
+</sqlMap>

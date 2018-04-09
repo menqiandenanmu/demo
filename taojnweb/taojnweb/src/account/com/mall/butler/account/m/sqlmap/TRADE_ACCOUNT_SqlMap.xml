@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="TRADEACCOUNT" >
+	<typeAlias alias="tradeAccountAliasVo" type="com.mall.butler.account.m.model.TradeAccountVo"/>
+	<resultMap id="tradeAccountResultMMap" class="tradeAccountAliasVo">
+	<result column="ID" property="id"/>
+    	<result column="ACCOUNT_NAME" property="accountName"/>
+    	<result column="ACCOUNT_ID" property="accountId"/>
+    	<result column="LEFT_VALUE" property="leftValue"/>
+    	<result column="WARN_LINE" property="warnLine"/>
+    	<result column="CUR_LEFT_VALUE" property="curLeftValue"/>
+    	<result column="TRADE_ACC_ID" property="tradeAccId"/>
+    	<result column="TRADE_ACC_NAME" property="tradeAccName"/>
+    	<result column="STATUS" property="status"/>
+    	<result column="TRADE_TYPE" property="tradeType"/>
+    	<result column="TRAN_PASSWORD" property="tranPassword"/>
+    	<result column="CORP_NAME" property="corpName"/>
+    	<result column="accResource" property="accResource"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	<sql id="ALL_SQL_M">
+		<isNotEmpty prepend="and" property="accountName" >
+			ACCOUNT_NAME LIKE #accountName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountId" >
+			ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="leftValue" >
+			LEFT_VALUE = #leftValue#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="warnLine" >
+			WARN_LINE = #warnLine#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="curLeftValue" >
+			CUR_LEFT_VALUE = #curLeftValue#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="tradeAccId" >
+			TRADE_ACC_ID = #tradeAccId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="tradeAccName" >
+			TRADE_ACC_NAME LIKE #tradeAccName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="status" >
+			STATUS = #status#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="tradeType" >
+			TRADE_TYPE = #tradeType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="tranPassword" >
+			TRAN_PASSWORD = #tranPassword#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="corpName" >
+			CORP_NAME LIKE #corpName#
+		</isNotEmpty>
+	</sql>
+	<select id="SELECT_BY_PAGE_M" parameterClass="java.util.Map" resultMap="tradeAccountResultMMap">
+		select * from (select a.*,B.CORP_NAME,b.fax as accResource from TRADE_ACCOUNT a,AGENT_INFO b where a.ID=b.ID and a.deleted=0 and b.DELETED=0) tb where 1=1
+		<include refid="ALL_SQL_M"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_BY_PAGE_M" parameterClass="tradeAccountAliasVo" resultClass="Integer">
+		select count(*) as totalCount from (select * from (select a.*,B.CORP_NAME from TRADE_ACCOUNT a,AGENT_INFO b where a.ID=b.ID and a.deleted=0 and b.DELETED=0) tb where 1=1) tb  where 1=1 and deleted=0
+		<include refid="ALL_SQL_M"/>
+	</select>
+  
+	
+</sqlMap>

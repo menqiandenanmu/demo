@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="TRADEACCOUNT" >
+	<typeAlias alias="tradeAccountAlias" type="com.mall.butler.account.model.TradeAccount"/>
+	<resultMap id="tradeAccountResultMap" class="tradeAccountAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="ACCOUNT_NAME" property="accountName"/>
+    	<result column="ACCOUNT_ID" property="accountId"/>
+    	<result column="LEFT_VALUE" property="leftValue"/>
+    	<result column="WARN_LINE" property="warnLine"/>
+    	<result column="CUR_LEFT_VALUE" property="curLeftValue"/>
+    	<result column="TRADE_ACC_ID" property="tradeAccId"/>
+    	<result column="TRADE_ACC_NAME" property="tradeAccName"/>
+    	<result column="STATUS" property="status"/>
+    	<result column="TRADE_TYPE" property="tradeType"/>
+    	<result column="TRAN_PASSWORD" property="tranPassword"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="accountName" >
+			ACCOUNT_NAME = #accountName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountId" >
+			ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="leftValue" >
+			LEFT_VALUE = #leftValue#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="warnLine" >
+			WARN_LINE = #warnLine#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="curLeftValue" >
+			CUR_LEFT_VALUE = #curLeftValue#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="tradeAccId" >
+			TRADE_ACC_ID = #tradeAccId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="tradeAccName" >
+			TRADE_ACC_NAME = #tradeAccName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="status" >
+			STATUS = #status#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="tradeType" >
+			TRADE_TYPE = #tradeType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="tranPassword" >
+			TRAN_PASSWORD = #tranPassword#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="tradeAccountResultMap">
+		select * from TRADE_ACCOUNT where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="tradeAccountAlias" resultClass="Integer">
+		select count(*) as totalCount from TRADE_ACCOUNT where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="tradeAccountResultMap" parameterClass="tradeAccountAlias">
+  	select * from TRADE_ACCOUNT
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="tradeAccountResultMap" parameterClass="tradeAccountAlias" >
+		select *
+		from TRADE_ACCOUNT
+		where ID = #id#
+	</select>
+	
+	<select id="SELECT_BY_LIMIT" resultMap="tradeAccountResultMap" parameterClass="java.util.Map">
+		select a.* from TRADE_ACCOUNT a where a.TRADE_ACC_ID=1 and DELETED=0 and ACCOUNT_ID=#accountId#
+		UNION ALL
+	  	SELECT a.* from TRADE_ACCOUNT a,TRADE_ACCOUNT_INFO i,TRADE_ACCOUNT_LIMIT l
+		 WHERE a.TRADE_ACC_ID = i.ID and i.ID = l.TRADE_ACCOUNT_ID 
+		   AND a.DELETED=0 and i.DELETED=0 and l.DELETED=0 
+		   AND a.status=1 and i.use_flag=1 and l.use_flag=1
+		   AND a.ACCOUNT_ID=#accountId# and l.SUPPLY_ID=#supplyId# 
+		   AND (l.OBJ_TYPE=-1 or l.OBJ_TYPE=#objId# or l.obj_type is null)
+		<include refid="ALL_SQL"/>
+		order by create_time 
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="tradeAccountAlias" >
+		delete from TRADE_ACCOUNT
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="tradeAccountAlias" >
+		insert into TRADE_ACCOUNT
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="accountName" >
+				ACCOUNT_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				ACCOUNT_ID
+			</isNotNull>
+			<isNotNull prepend="," property="leftValue" >
+				LEFT_VALUE
+			</isNotNull>
+			<isNotNull prepend="," property="warnLine" >
+				WARN_LINE
+			</isNotNull>
+			<isNotNull prepend="," property="curLeftValue" >
+				CUR_LEFT_VALUE
+			</isNotNull>
+			<isNotNull prepend="," property="tradeAccId" >
+				TRADE_ACC_ID
+			</isNotNull>
+			<isNotNull prepend="," property="tradeAccName" >
+				TRADE_ACC_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="status" >
+				STATUS
+			</isNotNull>
+			<isNotNull prepend="," property="tradeType" >
+				TRADE_TYPE
+			</isNotNull>
+			<isNotNull prepend="," property="tranPassword" >
+				TRAN_PASSWORD
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="accountName" >
+				#accountName#
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				#accountId#
+			</isNotNull>
+			<isNotNull prepend="," property="leftValue" >
+				#leftValue#
+			</isNotNull>
+			<isNotNull prepend="," property="warnLine" >
+				#warnLine#
+			</isNotNull>
+			<isNotNull prepend="," property="curLeftValue" >
+				#curLeftValue#
+			</isNotNull>
+			<isNotNull prepend="," property="tradeAccId" >
+				#tradeAccId#
+			</isNotNull>
+			<isNotNull prepend="," property="tradeAccName" >
+				#tradeAccName#
+			</isNotNull>
+			<isNotNull prepend="," property="status" >
+				#status#
+			</isNotNull>
+			<isNotNull prepend="," property="tradeType" >
+				#tradeType#
+			</isNotNull>
+			<isNotNull prepend="," property="tranPassword" >
+				#tranPassword#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="tradeAccountAlias" >
+		update TRADE_ACCOUNT
+		set 
+		ACCOUNT_NAME = #accountName#,
+		ACCOUNT_ID = #accountId#,
+		LEFT_VALUE = #leftValue#,
+		WARN_LINE = #warnLine#,
+		CUR_LEFT_VALUE = #curLeftValue#,
+		TRADE_ACC_ID = #tradeAccId#,
+		TRADE_ACC_NAME = #tradeAccName#,
+		STATUS = #status#,
+		TRADE_TYPE = #tradeType#,
+		TRAN_PASSWORD = #tranPassword#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_TRADE_ACCOUNT.nextval from dual
+	</select>
+</sqlMap>

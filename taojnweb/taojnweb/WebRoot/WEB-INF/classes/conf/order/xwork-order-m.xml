@@ -1,0 +1,22 @@
+<!DOCTYPE struts PUBLIC	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "struts-2.3.dtd">
+<struts>
+	<package name="manage.order" extends="manage" namespace="/manage/order">
+		<default-interceptor-ref name="authStack" />
+		<!-- 添加订单 -->
+		<action name="orderNew" class="com.mall.butler.order.m.action.OrderNewAction">
+			<result name="success" type="freemarker">/template/b/store/m/newOrder.ftl</result>
+			<result name="add" type="freemarker">/template/b/store/m/orderAdd.ftl</result>
+		</action>
+		<!--订单管理-->
+		<action name="order" class="com.mall.butler.order.m.action.OrderAction">
+			<result name="list" type="freemarker">/template/b/store/m/orderList.ftl</result>
+			<result name="edit" type="freemarker">/template/b/store/m/orderEdit.ftl</result>
+			<result name="info" type="freemarker">/template/b/store/m/orderInfo.ftl</result>
+			<result name="fillPayinfo" type="freemarker">/template/b/store/m/orderPay.ftl</result>
+		</action>
+		<!--商品订单明细-->
+		<action name="orderDetail" class="com.mall.butler.order.m.action.GoodsOrderAction">
+			<result name="list" type="freemarker">/template/b/store/m/goodsOrderList.ftl</result>
+		</action>
+	</package>
+</struts>

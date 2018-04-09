@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="DISCOUNTRULES" >
+	<typeAlias alias="discountRulesAlias" type="com.mall.butler.account.model.DiscountRules"/>
+	<resultMap id="discountRulesResultMap" class="discountRulesAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="STORE_NAME" property="storeName"/>
+    	<result column="ACCOUNT_ID" property="accountId"/>
+    	<result column="MIN_NUM" property="minNum"/>
+    	<result column="MAX_NUM" property="maxNum"/>
+    	<result column="DISCOUNT_NUM" property="discountNum"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+    	<result column="RULE_STATUS" property="ruleStatus"/>
+    	<result column="BEGIN_TIME" property="beginTime"/>
+    	<result column="END_TIME" property="endTime"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="storeName" >
+			STORE_NAME = #storeName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountId" >
+			ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="minNum" >
+			MIN_NUM = #minNum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="maxNum" >
+			MAX_NUM = #maxNum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="discountNum" >
+			DISCOUNT_NUM = #discountNum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="ruleStatus" >
+			RULE_STATUS = #ruleStatus#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="beginTime" >
+			to_char(BEGIN_TIME,'yyyy-mm-dd') = to_char(#beginTime#,'yyyy-mm-dd')
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endTime" >
+			to_char(END_TIME,'yyyy-mm-dd') = to_char(#endTime#,'yyyy-mm-dd')
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="discountRulesResultMap">
+		select * from DISCOUNT_RULES where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="discountRulesAlias" resultClass="Integer">
+		select count(*) as totalCount from DISCOUNT_RULES where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="discountRulesResultMap" parameterClass="discountRulesAlias">
+  	select * from DISCOUNT_RULES
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="discountRulesResultMap" parameterClass="discountRulesAlias" >
+		select *
+		from DISCOUNT_RULES
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="discountRulesAlias" >
+		delete from DISCOUNT_RULES
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="discountRulesAlias" >
+		insert into DISCOUNT_RULES
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="storeName" >
+				STORE_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				ACCOUNT_ID
+			</isNotNull>
+			<isNotNull prepend="," property="minNum" >
+				MIN_NUM
+			</isNotNull>
+			<isNotNull prepend="," property="maxNum" >
+				MAX_NUM
+			</isNotNull>
+			<isNotNull prepend="," property="discountNum" >
+				DISCOUNT_NUM
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			<isNotNull prepend="," property="ruleStatus" >
+				RULE_STATUS
+			</isNotNull>
+			<isNotNull prepend="," property="beginTime" >
+				BEGIN_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="endTime" >
+				END_TIME
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="storeName" >
+				#storeName#
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				#accountId#
+			</isNotNull>
+			<isNotNull prepend="," property="minNum" >
+				#minNum#
+			</isNotNull>
+			<isNotNull prepend="," property="maxNum" >
+				#maxNum#
+			</isNotNull>
+			<isNotNull prepend="," property="discountNum" >
+				#discountNum#
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				#remark#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			<isNotNull prepend="," property="ruleStatus" >
+				#ruleStatus#
+			</isNotNull>
+			<isNotNull prepend="," property="beginTime" >
+				#beginTime#
+			</isNotNull>
+			<isNotNull prepend="," property="endTime" >
+				#endTime#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="discountRulesAlias" >
+		update DISCOUNT_RULES
+		set 
+		STORE_NAME = #storeName#,
+		ACCOUNT_ID = #accountId#,
+		MIN_NUM = #minNum#,
+		MAX_NUM = #maxNum#,
+		DISCOUNT_NUM = #discountNum#,
+		REMARK = #remark#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		RULE_STATUS = #ruleStatus#,
+		BEGIN_TIME = #beginTime#,
+		END_TIME = #endTime#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_DISCOUNT_RULES.nextval from dual
+	</select>
+</sqlMap>

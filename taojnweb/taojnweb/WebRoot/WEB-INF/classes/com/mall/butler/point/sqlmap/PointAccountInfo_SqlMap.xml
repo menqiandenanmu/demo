@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="POINTACCOUNTINFO" >
+	<typeAlias alias="pointAccountInfoAlias" type="com.mall.butler.point.model.PointAccountInfo"/>
+	<resultMap id="pointAccountInfoResultMap" class="pointAccountInfoAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="ACC_NAME" property="accName"/>
+    	<result column="COUNT_POINT" property="countPoint"/>
+    	<result column="POINT" property="point"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="accName" >
+			ACC_NAME = #accName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="countPoint" >
+			COUNT_POINT = #countPoint#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="point" >
+			POINT = #point#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="pointAccountInfoResultMap">
+		select * from POINT_ACCOUNT_INFO where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="pointAccountInfoAlias" resultClass="Integer">
+		select count(*) as totalCount from POINT_ACCOUNT_INFO where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="pointAccountInfoResultMap" parameterClass="pointAccountInfoAlias">
+  	select * from POINT_ACCOUNT_INFO
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="pointAccountInfoResultMap" parameterClass="pointAccountInfoAlias" >
+		select *
+		from POINT_ACCOUNT_INFO
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETED_BY_PK" parameterClass="pointAccountInfoAlias" >
+		delete from POINT_ACCOUNT_INFO
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="pointAccountInfoAlias" >
+		insert into POINT_ACCOUNT_INFO
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="accName" >
+				ACC_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="countPoint" >
+				COUNT_POINT
+			</isNotNull>
+			<isNotNull prepend="," property="point" >
+				POINT
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="accName" >
+				#accName#
+			</isNotNull>
+			<isNotNull prepend="," property="countPoint" >
+				#countPoint#
+			</isNotNull>
+			<isNotNull prepend="," property="point" >
+				#point#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="pointAccountInfoAlias" >
+		update POINT_ACCOUNT_INFO
+		set 
+		ACC_NAME = #accName#,
+		COUNT_POINT = #countPoint#,
+		POINT = #point#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_POINT_ACCOUNT_INFO.nextval from dual
+	</select>
+</sqlMap>

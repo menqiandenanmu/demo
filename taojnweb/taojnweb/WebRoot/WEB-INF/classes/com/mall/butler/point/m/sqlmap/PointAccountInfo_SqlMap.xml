@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="POINTACCOUNTINFO">
+	<typeAlias alias="pointAccountInfoAlias"
+		type="com.mall.butler.point.model.PointAccountInfo" />
+	<resultMap id="pointAccountInfoResultMap" class="pointAccountInfoAlias">
+		<result column="ID" property="id" />
+		<result column="ACC_NAME" property="accName" />
+		<result column="COUNT_POINT" property="countPoint" />
+		<result column="POINT" property="point" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="MODIFIED_TIME" property="modifiedTime" />
+		<result column="DELETED" property="deleted" />
+	</resultMap>
+	<resultMap id="pointAccountInfoResultMapAccountInfo"
+		class="com.mall.butler.point.m.model.PointAccountExtendsInfo">
+		<result column="ID_CARD" property="idCard" />
+		<result column="ID" property="id" />
+		<result column="ACC_NAME" property="accName" />
+		<result column="COUNT_POINT" property="countPoint" />
+	</resultMap>
+	<sql id="ALL_SQL_M">
+		<isNotEmpty prepend="and" property="accName">
+			pointInfo.ACC_NAME =
+			#accName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="countPoint">
+			pointInfo.COUNT_POINT =
+			#countPoint#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="point">
+			pointInfo.POINT =
+			#point#
+		</isNotEmpty>
+	</sql>
+	<!-- 查询用户积分全部 -->
+	<select id="SELECT_BY_USERPOINT_PAGE" parameterClass="java.util.Map"
+		resultMap="pointAccountInfoResultMap">
+		select pointInfo.ACC_NAME as ACC_NAME,
+		pointInfo.COUNT_POINT AS
+		COUNT_POINT,
+		pointInfo.POINT AS POINT,
+		pointInfo.MODIFIED_TIME AS
+		MODIFIED_TIME,
+		pointInfo.ID as ID,
+		pointInfo.CREATE_TIME as CREATE_TIME,
+		pointInfo.DELETED AS DELETED
+		from
+		POINT_ACCOUNT_INFO pointInfo,
+		ACCOUNT_INFO accountInfo
+		where accountInfo.ID=pointInfo.ID
+		and
+		pointInfo.DELETED=0
+		<include refid="ALL_SQL_M" />
+		order by CREATE_TIME desc
+	</select>
+
+	<select id="SELECT_COUNT_BY_USERPOINT_PAGE" parameterClass="java.util.Map"
+		resultClass="Integer">
+		select count(pointInfo.ACC_NAME) from
+		POINT_ACCOUNT_INFO pointInfo,
+		ACCOUNT_INFO accountInfo
+		where accountInfo.ID=pointInfo.ID
+		and
+		pointInfo.DELETED=0
+		<include refid="ALL_SQL_M" />
+	</select>
+	<!-- 查询用户积分有积分 -->
+	<select id="SELECT_BY_USERHASPOINT_PAGE" parameterClass="java.util.Map"
+		resultMap="pointAccountInfoResultMap">
+		select pointInfo.ACC_NAME as ACC_NAME,
+		pointInfo.COUNT_POINT AS
+		COUNT_POINT,
+		pointInfo.POINT AS POINT,
+		pointInfo.MODIFIED_TIME AS
+		MODIFIED_TIME,
+		pointInfo.ID as ID,
+		pointInfo.CREATE_TIME as CREATE_TIME,
+		pointInfo.DELETED AS DELETED
+		from
+		POINT_ACCOUNT_INFO pointInfo,
+		ACCOUNT_INFO accountInfo
+		where accountInfo.ID=pointInfo.ID
+		and
+		pointInfo.DELETED=0
+		and
+		pointInfo.point&gt;0
+		<include refid="ALL_SQL_M" />
+		order by CREATE_TIME desc
+	</select>
+
+	<select id="SELECT_COUNT_BY_USERHASPOINT_PAGE" parameterClass="java.util.Map"
+		resultClass="Integer">
+		select count(pointInfo.ACC_NAME) from
+		POINT_ACCOUNT_INFO pointInfo,
+		ACCOUNT_INFO accountInfo
+		where accountInfo.ID=pointInfo.ID
+		and
+		pointInfo.DELETED=0
+		and
+		pointInfo.point&gt;0
+		<include refid="ALL_SQL_M" />
+	</select>
+	<!-- 查询用户积分无积分 -->
+	<select id="SELECT_BY_USERNOPOINT_PAGE" parameterClass="java.util.Map"
+		resultMap="pointAccountInfoResultMap">
+		select pointInfo.ACC_NAME as ACC_NAME,
+		pointInfo.COUNT_POINT AS
+		COUNT_POINT,
+		pointInfo.POINT AS POINT,
+		pointInfo.MODIFIED_TIME AS
+		MODIFIED_TIME,
+		pointInfo.ID as ID,
+		pointInfo.CREATE_TIME as CREATE_TIME,
+		pointInfo.DELETED AS DELETED
+		from
+		POINT_ACCOUNT_INFO pointInfo,
+		ACCOUNT_INFO accountInfo
+		where accountInfo.ID=pointInfo.ID
+		and
+		pointInfo.DELETED=0
+		and
+		pointInfo.point&lt;=0
+		<include refid="ALL_SQL_M" />
+		order by CREATE_TIME desc
+	</select>
+
+	<select id="SELECT_COUNT_BY_USERNOPOINT_PAGE" parameterClass="java.util.Map"
+		resultClass="Integer">
+		select count(pointInfo.ACC_NAME) from
+		POINT_ACCOUNT_INFO pointInfo,
+		ACCOUNT_INFO accountInfo
+		where accountInfo.ID=pointInfo.ID
+		and
+		pointInfo.DELETED=0
+		and
+		pointInfo.point&lt;=0
+		<include refid="ALL_SQL_M" />
+	</select>
+	<!-- 得到用户信息 -->
+	<select id="SELECT_BY_GETACCOUNT_MESSAGE" parameterClass="pointAccountInfoAlias"
+		resultMap="pointAccountInfoResultMapAccountInfo">
+		select pointInfo.ACC_NAME as ACC_NAME,
+		pointInfo.id AS ID,
+		pointInfo.COUNT_POINT AS
+		COUNT_POINT,
+		accLogin.ID_CARD as ID_CARD
+		from
+		POINT_ACCOUNT_INFO
+		pointInfo,
+		ACCOUNT_INFO accountInfo,
+		ACCOUNT_LOGIN accLogin
+		where
+		accountInfo.ID=pointInfo.ID
+		and accLogin.ACCOUNT_ID=accountInfo.ID
+		and
+		pointInfo.DELETED=0
+		<include refid="ALL_SQL_M" />
+		order by pointInfo.CREATE_TIME desc
+	</select>
+</sqlMap>

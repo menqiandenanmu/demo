@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="TRADEACCOUNTDETAIL">
+	<typeAlias alias="tradeAccountDetailAlias"
+		type="com.mall.butler.account.model.TradeAccountDetail" />
+	<typeAlias alias="tradeAccountDetailVoAlias"
+		type="com.mall.butler.account.m.model.TradeAccountDetailVo" />
+
+	<resultMap id="tradeAccountDetailResultMap1" class="tradeAccountDetailAlias">
+	</resultMap>
+
+	<resultMap id="tradeAccountDetailResultMap2" class="tradeAccountDetailAlias">
+	</resultMap>
+
+	<sql id="DETAIL_SQL">
+	</sql>
+
+	<sql id="DETAIL_SQL1">
+	</sql>
+
+
+	<resultMap id="tradeAccountCountResultMap" class="tradeAccountDetailAlias">
+		<result column="ACCOUNT_ID" property="accountId" />
+		<result column="ACCOUNT_NAME" property="accountName" />
+		<result column="TRADE_ACC_ID" property="tradeAccId" />
+		<result column="TRADE_ACC_NAME" property="tradeAccName" />
+		<result column="TRADE_ACC_NAME" property="tradeAccName" />
+		<result column="OP_TYPE" property="opType" />
+		<result column="OP_VALUE" property="opValue" />
+	</resultMap>
+
+	<select id="SELECT_ACCOUNT_PAGE_M" resultMap="tradeAccountCountResultMap">
+		SELECT
+		ACCOUNT_ID,TRADE_ACC_ID,ACCOUNT_NAME,OP_TYPE,TRADE_ACC_NAME,sum(OP_VALUE)
+		as OP_VALUE
+		FROM TRADE_ACCOUNT_DETAIL
+		WHERE
+		DELETED=0
+		AND CREATE_TIME >= #begDate#
+		AND <![CDATA[ 
+		CREATE_TIME <= #endDate# 
+		]]>
+		<isNotEmpty prepend="and" property="accountId">
+			ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+		GROUP BY ACCOUNT_ID ,OP_TYPE,TRADE_ACC_ID,ACCOUNT_NAME,TRADE_ACC_NAME
+		ORDER BY ACCOUNT_ID desc
+	</select>
+
+	<select id="SELECT_COUNT_ACCOUNT_PAGE_M" parameterClass="tradeAccountDetailVoAlias"
+		resultClass="Integer">
+		SELECT count(*) FROM
+		(SELECT
+		ACCOUNT_ID,TRADE_ACC_ID,ACCOUNT_NAME,OP_TYPE,TRADE_ACC_NAME,sum(OP_VALUE)
+		as OP_VALUE
+		FROM TRADE_ACCOUNT_DETAIL
+		WHERE
+		DELETED=0
+		AND CREATE_TIME >= #begDate#
+		AND <![CDATA[ 
+		CREATE_TIME <= #endDate# 
+		]]>
+		<isNotEmpty prepend="and" property="accountId">
+			ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+		GROUP BY ACCOUNT_ID ,OP_TYPE,TRADE_ACC_ID,ACCOUNT_NAME,TRADE_ACC_NAME
+		) m
+
+	</select>
+
+	<select id="SELECT_FINDACCOUNTDETAIL" parameterClass="java.util.Map"
+		resultMap="tradeAccountDetailResultMap1">
+		select b.ACCOUNT_NAME,b.SUPPLY_NAME , a.* from TRADE_ACCOUNT_DETAIL a
+		left join TRADE_ACCOUNT b on b.SUPPLY_ID=a.OWNER_SUPPLY_ID
+		where 1=1
+		and A.DELETED=0 and A.OWNER_ID=1 and b.OWNER_ID=1
+		and b.ACCOUNT_ID=a.ACCOUNT_ID
+		<include refid="DETAIL_SQL" />
+		order by create_time desc
+	</select>
+
+	<select id="SELECT_COUNT_FINDACCOUNTDETAIL" parameterClass="tradeAccountDetailAlias"
+		resultClass="Integer">
+		select COUNT(a.ID) from TRADE_ACCOUNT_DETAIL a
+		left join TRADE_ACCOUNT
+		b on b.SUPPLY_ID=a.OWNER_SUPPLY_ID
+		where 1=1 and A.DELETED=0 and
+		A.OWNER_ID=1 and b.OWNER_ID=1
+		and b.ACCOUNT_ID=a.ACCOUNT_ID
+		<include refid="DETAIL_SQL" />
+	</select>
+
+	<select id="SELECT_FINDDISACCOUNTDETAIL" parameterClass="java.util.Map"
+		resultMap="tradeAccountDetailResultMap2">
+		select b.ACCOUNT_NAME, b.OWNER_NAME ,b.SUPPLY_NAME , a.* from
+		TRADE_ACCOUNT_DETAIL a
+		left join TRADE_ACCOUNT b on
+		b.SUPPLY_ID=a.OWNER_SUPPLY_ID
+		where 1=1 and A.DELETED=0 and
+		a.OWNER_ID!=1 and b.OWNER_ID!=1
+		and b.ACCOUNT_ID!=b.OWNER_ID and b.ACCOUNT_ID=a.ACCOUNT_ID
+		<include refid="DETAIL_SQL1" />
+		order by create_time desc
+	</select>
+
+	<select id="SELECT_COUNT_FINDDISACCOUNTDETAIL" parameterClass="tradeAccountDetailAlias"
+		resultClass="Integer">
+		select COUNT(a.ID) from TRADE_ACCOUNT_DETAIL a
+		left join TRADE_ACCOUNT
+		b on b.SUPPLY_ID=a.OWNER_SUPPLY_ID
+		where 1=1 and A.DELETED=0 and
+		a.OWNER_ID!=1 and b.OWNER_ID!=1
+		and b.ACCOUNT_ID!=b.OWNER_ID and b.ACCOUNT_ID=a.ACCOUNT_ID
+		<include refid="DETAIL_SQL1" />
+	</select>
+	<select id="SELECT_BY_ACCOUNT_DETAIL_PAGE_M" parameterClass="java.util.Map"
+		resultMap="tradeAccountDetailResultMap">
+		SELECT
+		T .*, c.price AS TRADE_ACC_ID
+		FROM
+		(
+		SELECT
+		A . ID,
+		A .ACCOUNT_ID,
+		A .ACCOUNT_NAME,
+		A .SERIAL_NO,
+		A .TRADE_ACC_NAME,
+		A .OP_TYPE,
+		A .ORDER_NO,
+		A .OP_VALUE,
+
+		a.LEFT_VALUE,a.OP_LOGIN_ID,a.OP_LOGIN_NAME,a.TRADE_TYPE,a.REMARK,a.REMARK1,b.corp_name
+		as REMARK2,
+		a.REMARK3,a.CREATE_TIME,a.MODIFIED_TIME,a.DELETED
+		FROM
+		TRADE_ACCOUNT_DETAIL a ,agent_info b
+		WHERE a.DELETED = 0 and a.account_id=b.id
+		<![CDATA[ 
+		AND  to_char(a.CREATE_TIME,'yyyy-MM-dd') >= to_char(#begDate#,'yyyy-MM-dd')
+		AND to_char(a.CREATE_TIME,'yyyy-MM-dd') <= to_char(#endDate#,'yyyy-MM-dd')
+		]]>
+		<isNotEmpty prepend="and" property="accountId">
+			a.ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountName">
+			a.ACCOUNT_NAME =
+			#accountName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="tradeAccId">
+			a.TRADE_ACC_ID =
+			#tradeAccId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="tradeAccName">
+			a.TRADE_ACC_NAME =
+			#tradeAccName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="orderNo">
+			a.ORDER_NO = #orderNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opType">
+			a.OP_TYPE = #opType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark1">
+			a.REMARK1 = #remark1#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark2">
+			b.CORP_NAME = #remark2#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="serialNo">
+			a.SERIAL_NO =
+			#serialNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountName">
+			a.ACCOUNT_NAME =
+			#accountName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opLoginName">
+			OP_LOGIN_NAME =
+			#opLoginName#
+		</isNotEmpty>
+		
+		)t left join COUPON_USE_RECORD c on
+		t.ORDER_NO=c.trans_no
+		ORDER BY t.ID desc
+	</select>
+
+	<select id="SELECT_COUNT_BY_ACCOUNT_DETAIL_PAGE_M"
+		parameterClass="java.util.Map" resultClass="Integer">
+		SELECT count(a.id)
+		FROM TRADE_ACCOUNT_DETAIL a,agent_info b
+		WHERE a.DELETED = 0 and a.account_id=b.id
+		<![CDATA[
+		AND  to_char(a.CREATE_TIME,'yyyy-MM-dd') >= to_char(#begDate#,'yyyy-MM-dd')
+		AND to_char(a.CREATE_TIME,'yyyy-MM-dd') <= to_char(#endDate#,'yyyy-MM-dd') 
+		]]>
+		<isNotEmpty prepend="and" property="accountId">
+			a.ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="tradeAccId">
+			a.TRADE_ACC_ID =
+			#tradeAccId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="orderNo">
+			a.ORDER_NO = #orderNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opType">
+			a.OP_TYPE = #opType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark1">
+			a.REMARK1 = #remark1#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark2">
+			b.CORP_NAME = #remark2#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="serialNo">
+			a.SERIAL_NO =
+			#serialNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountName">
+			a.ACCOUNT_NAME =
+			#accountName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opLoginName">
+			a.OP_LOGIN_NAME =
+			#opLoginName#
+		</isNotEmpty>
+	</select>
+
+
+
+</sqlMap>

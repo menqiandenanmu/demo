@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="GIROINFO" >
+	<typeAlias alias="giroInfoAlias" type="com.mall.butler.account.model.GiroInfo"/>
+	<resultMap id="giroInfoResultMap" class="giroInfoAlias" >
+    	<result column="LEFT_VALUE" property="leftValue"/>
+    	<result column="IN_LEFT_VALUE" property="inLeftValue"/>
+    	<result column="OP_LOGIN_NAME" property="opLoginName"/>
+    	<result column="OP_LOGIN_ID" property="opLoginId"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+    	<result column="ID" property="id"/>
+    	<result column="SERIAL_NO" property="serialNo"/>
+    	<result column="ACCOUNT_ID2" property="accountId2"/>
+    	<result column="ACCOUNT_NAME2" property="accountName2"/>
+    	<result column="REALNAME2" property="realname2"/>
+    	<result column="REALNAME" property="realname"/>
+    	<result column="ACCOUNT_ID" property="accountId"/>
+    	<result column="ACCOUNT_NAME" property="accountName"/>
+    	<result column="TRADE_ACC_ID" property="tradeAccId"/>
+    	<result column="TRADE_ACC_NAME" property="tradeAccName"/>
+    	<result column="OP_TYPE" property="opType"/>
+    	<result column="ORDER_NO" property="orderNo"/>
+    	<result column="OP_VALUE" property="opValue"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="leftValue" >
+			LEFT_VALUE = #leftValue#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="inLeftValue" >
+			IN_LEFT_VALUE = #inLeftValue#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opLoginName" >
+			OP_LOGIN_NAME = #opLoginName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opLoginId" >
+			OP_LOGIN_ID = #opLoginId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="serialNo" >
+			SERIAL_NO = #serialNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountId2" >
+			ACCOUNT_ID2 = #accountId2#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountName2" >
+			ACCOUNT_NAME2 = #accountName2#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="realname2" >
+			REALNAME2 = #realname2#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="realname" >
+			REALNAME = #realname#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountId" >
+			ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountName" >
+			ACCOUNT_NAME = #accountName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="tradeAccId" >
+			TRADE_ACC_ID = #tradeAccId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="tradeAccName" >
+			TRADE_ACC_NAME = #tradeAccName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opType" >
+			OP_TYPE = #opType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="orderNo" >
+			ORDER_NO = #orderNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opValue" >
+			OP_VALUE = #opValue#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="giroInfoResultMap">
+		select * from GIRO_INFO where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="giroInfoAlias" resultClass="Integer">
+		select count(*) as totalCount from GIRO_INFO where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="giroInfoResultMap" parameterClass="giroInfoAlias">
+  	select * from GIRO_INFO
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="giroInfoResultMap" parameterClass="giroInfoAlias" >
+		select *
+		from GIRO_INFO
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="giroInfoAlias" >
+		delete from GIRO_INFO
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="giroInfoAlias" >
+		insert into GIRO_INFO
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="leftValue" >
+				LEFT_VALUE
+			</isNotNull>
+			<isNotNull prepend="," property="inLeftValue" >
+				IN_LEFT_VALUE
+			</isNotNull>
+			<isNotNull prepend="," property="opLoginName" >
+				OP_LOGIN_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="opLoginId" >
+				OP_LOGIN_ID
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="serialNo" >
+				SERIAL_NO
+			</isNotNull>
+			<isNotNull prepend="," property="accountId2" >
+				ACCOUNT_ID2
+			</isNotNull>
+			<isNotNull prepend="," property="accountName2" >
+				ACCOUNT_NAME2
+			</isNotNull>
+			<isNotNull prepend="," property="realname2" >
+				REALNAME2
+			</isNotNull>
+			<isNotNull prepend="," property="realname" >
+				REALNAME
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				ACCOUNT_ID
+			</isNotNull>
+			<isNotNull prepend="," property="accountName" >
+				ACCOUNT_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="tradeAccId" >
+				TRADE_ACC_ID
+			</isNotNull>
+			<isNotNull prepend="," property="tradeAccName" >
+				TRADE_ACC_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="opType" >
+				OP_TYPE
+			</isNotNull>
+			<isNotNull prepend="," property="orderNo" >
+				ORDER_NO
+			</isNotNull>
+			<isNotNull prepend="," property="opValue" >
+				OP_VALUE
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="leftValue" >
+				#leftValue#
+			</isNotNull>
+			<isNotNull prepend="," property="inLeftValue" >
+				#inLeftValue#
+			</isNotNull>
+			<isNotNull prepend="," property="opLoginName" >
+				#opLoginName#
+			</isNotNull>
+			<isNotNull prepend="," property="opLoginId" >
+				#opLoginId#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="serialNo" >
+				#serialNo#
+			</isNotNull>
+			<isNotNull prepend="," property="accountId2" >
+				#accountId2#
+			</isNotNull>
+			<isNotNull prepend="," property="accountName2" >
+				#accountName2#
+			</isNotNull>
+			<isNotNull prepend="," property="realname2" >
+				#realname2#
+			</isNotNull>
+			<isNotNull prepend="," property="realname" >
+				#realname#
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				#accountId#
+			</isNotNull>
+			<isNotNull prepend="," property="accountName" >
+				#accountName#
+			</isNotNull>
+			<isNotNull prepend="," property="tradeAccId" >
+				#tradeAccId#
+			</isNotNull>
+			<isNotNull prepend="," property="tradeAccName" >
+				#tradeAccName#
+			</isNotNull>
+			<isNotNull prepend="," property="opType" >
+				#opType#
+			</isNotNull>
+			<isNotNull prepend="," property="orderNo" >
+				#orderNo#
+			</isNotNull>
+			<isNotNull prepend="," property="opValue" >
+				#opValue#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="giroInfoAlias" >
+		update GIRO_INFO
+		set 
+		LEFT_VALUE = #leftValue#,
+		IN_LEFT_VALUE = #inLeftValue#,
+		OP_LOGIN_NAME = #opLoginName#,
+		OP_LOGIN_ID = #opLoginId#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		SERIAL_NO = #serialNo#,
+		ACCOUNT_ID2 = #accountId2#,
+		ACCOUNT_NAME2 = #accountName2#,
+		REALNAME2 = #realname2#,
+		REALNAME = #realname#,
+		ACCOUNT_ID = #accountId#,
+		ACCOUNT_NAME = #accountName#,
+		TRADE_ACC_ID = #tradeAccId#,
+		TRADE_ACC_NAME = #tradeAccName#,
+		OP_TYPE = #opType#,
+		ORDER_NO = #orderNo#,
+		OP_VALUE = #opValue#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_GIRO_INFO.nextval from dual
+	</select>
+</sqlMap>

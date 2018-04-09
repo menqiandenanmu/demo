@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="STATICINFO" >
+	<typeAlias alias="staticInfoAlias" type="com.mall.butler.web.model.StaticInfo"/>
+	<resultMap id="staticInfoResultMap" class="staticInfoAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="KEYSTR" property="keystr"/>
+    	<result column="NAME" property="name"/>
+    	<result column="CLASS_CODE" property="classCode"/>
+    	<result column="CLASS_NAME" property="className"/>
+    	<result column="CONTENT_ID" property="contentId"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="keystr" >
+			KEYSTR like #keystr#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="name" >
+			NAME like #name#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="classCode" >
+			CLASS_CODE = #classCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="className" >
+			CLASS_NAME = #className#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="contentId" >
+			CONTENT_ID = #contentId#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="staticInfoResultMap">
+		select * from STATIC_INFO where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="staticInfoAlias" resultClass="Integer">
+		select count(*) as totalCount from STATIC_INFO where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="staticInfoResultMap" parameterClass="staticInfoAlias">
+  	select * from STATIC_INFO
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="staticInfoResultMap" parameterClass="staticInfoAlias" >
+		select *
+		from STATIC_INFO
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="staticInfoAlias" >
+		delete from STATIC_INFO
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="staticInfoAlias" >
+		insert into STATIC_INFO
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="keystr" >
+				KEYSTR
+			</isNotNull>
+			<isNotNull prepend="," property="name" >
+				NAME
+			</isNotNull>
+			<isNotNull prepend="," property="classCode" >
+				CLASS_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="className" >
+				CLASS_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="contentId" >
+				CONTENT_ID
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="keystr" >
+				#keystr#
+			</isNotNull>
+			<isNotNull prepend="," property="name" >
+				#name#
+			</isNotNull>
+			<isNotNull prepend="," property="classCode" >
+				#classCode#
+			</isNotNull>
+			<isNotNull prepend="," property="className" >
+				#className#
+			</isNotNull>
+			<isNotNull prepend="," property="contentId" >
+				#contentId#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="staticInfoAlias" >
+		update STATIC_INFO
+		set 
+		KEYSTR = #keystr#,
+		NAME = #name#,
+		CLASS_CODE = #classCode#,
+		CLASS_NAME = #className#,
+		CONTENT_ID = #contentId#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_STATIC_INFO.nextval from dual
+	</select>
+</sqlMap>

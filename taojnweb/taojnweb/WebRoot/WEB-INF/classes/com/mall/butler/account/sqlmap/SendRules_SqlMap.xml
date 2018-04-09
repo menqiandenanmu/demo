@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SENDRULES" >
+	<typeAlias alias="sendRulesAlias" type="com.mall.butler.account.model.SendRules"/>
+	<resultMap id="sendRulesResultMap" class="sendRulesAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="SEND_NAME" property="sendName"/>
+    	<result column="RULE_STATUS" property="ruleStatus"/>
+    	<result column="SUPERIMPOSED_FALG" property="superimposedFalg"/>
+    	<result column="RESOURCE_NAME" property="resourceName"/>
+    	<result column="BEGIN_TIME" property="beginTime"/>
+    	<result column="END_TIME" property="endTime"/>
+    	<result column="SEND_SUM" property="sendSum"/>
+    	<result column="SEND_AMOUNT" property="sendAmount"/>
+    	<result column="MAX_NUM" property="maxNum"/>
+    	<result column="TODAY_CASH_NUM" property="todayCashNum"/>
+    	<result column="ACTIVE_CASH_NUM" property="activeCashNum"/>
+    	<result column="SPEND_PARAM" property="spendParam"/>
+    	<result column="REMARK2" property="remark2"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="SEND_MAX_NUM" property="sendMaxNum"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="sendName" >
+			SEND_NAME = #sendName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="ruleStatus" >
+			RULE_STATUS = #ruleStatus#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="superimposedFalg" >
+			SUPERIMPOSED_FALG = #superimposedFalg#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="resourceName" >
+			RESOURCE_NAME = #resourceName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="beginTime" >
+			to_char(BEGIN_TIME,'yyyy-mm-dd') = to_char(#beginTime#,'yyyy-mm-dd')
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endTime" >
+			to_char(END_TIME,'yyyy-mm-dd') = to_char(#endTime#,'yyyy-mm-dd')
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="sendSum" >
+			SEND_SUM = #sendSum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="sendAmount" >
+			SEND_AMOUNT = #sendAmount#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="maxNum" >
+			MAX_NUM = #maxNum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="todayCashNum" >
+			TODAY_CASH_NUM = #todayCashNum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="activeCashNum" >
+			ACTIVE_CASH_NUM = #activeCashNum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="spendParam" >
+			SPEND_PARAM = #spendParam#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark2" >
+			REMARK2 = #remark2#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="sendMaxNum" >
+			SEND_MAX_NUM = #sendMaxNum#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="sendRulesResultMap">
+		select * from SEND_RULES where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="sendRulesAlias" resultClass="Integer">
+		select count(*) as totalCount from SEND_RULES where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="sendRulesResultMap" parameterClass="sendRulesAlias">
+  	select * from SEND_RULES
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="sendRulesResultMap" parameterClass="sendRulesAlias" >
+		select *
+		from SEND_RULES
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="sendRulesAlias" >
+		delete from SEND_RULES
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="sendRulesAlias" >
+		insert into SEND_RULES
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="sendName" >
+				SEND_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="ruleStatus" >
+				RULE_STATUS
+			</isNotNull>
+			<isNotNull prepend="," property="superimposedFalg" >
+				SUPERIMPOSED_FALG
+			</isNotNull>
+			<isNotNull prepend="," property="resourceName" >
+				RESOURCE_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="beginTime" >
+				BEGIN_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="endTime" >
+				END_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="sendSum" >
+				SEND_SUM
+			</isNotNull>
+			<isNotNull prepend="," property="sendAmount" >
+				SEND_AMOUNT
+			</isNotNull>
+			<isNotNull prepend="," property="maxNum" >
+				MAX_NUM
+			</isNotNull>
+			<isNotNull prepend="," property="todayCashNum" >
+				TODAY_CASH_NUM
+			</isNotNull>
+			<isNotNull prepend="," property="activeCashNum" >
+				ACTIVE_CASH_NUM
+			</isNotNull>
+			<isNotNull prepend="," property="spendParam" >
+				SPEND_PARAM
+			</isNotNull>
+			<isNotNull prepend="," property="remark2" >
+				REMARK2
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="sendMaxNum" >
+				SEND_MAX_NUM
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="sendName" >
+				#sendName#
+			</isNotNull>
+			<isNotNull prepend="," property="ruleStatus" >
+				#ruleStatus#
+			</isNotNull>
+			<isNotNull prepend="," property="superimposedFalg" >
+				#superimposedFalg#
+			</isNotNull>
+			<isNotNull prepend="," property="resourceName" >
+				#resourceName#
+			</isNotNull>
+			<isNotNull prepend="," property="beginTime" >
+				#beginTime#
+			</isNotNull>
+			<isNotNull prepend="," property="endTime" >
+				#endTime#
+			</isNotNull>
+			<isNotNull prepend="," property="sendSum" >
+				#sendSum#
+			</isNotNull>
+			<isNotNull prepend="," property="sendAmount" >
+				#sendAmount#
+			</isNotNull>
+			<isNotNull prepend="," property="maxNum" >
+				#maxNum#
+			</isNotNull>
+			<isNotNull prepend="," property="todayCashNum" >
+				#todayCashNum#
+			</isNotNull>
+			<isNotNull prepend="," property="activeCashNum" >
+				#activeCashNum#
+			</isNotNull>
+			<isNotNull prepend="," property="spendParam" >
+				#spendParam#
+			</isNotNull>
+			<isNotNull prepend="," property="remark2" >
+				#remark2#
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				#remark#
+			</isNotNull>
+			<isNotNull prepend="," property="sendMaxNum" >
+				#sendMaxNum#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="sendRulesAlias" >
+		update SEND_RULES
+		set 
+		SEND_NAME = #sendName#,
+		RULE_STATUS = #ruleStatus#,
+		SUPERIMPOSED_FALG = #superimposedFalg#,
+		RESOURCE_NAME = #resourceName#,
+		BEGIN_TIME = #beginTime#,
+		END_TIME = #endTime#,
+		SEND_SUM = #sendSum#,
+		SEND_AMOUNT = #sendAmount#,
+		MAX_NUM = #maxNum#,
+		TODAY_CASH_NUM = #todayCashNum#,
+		ACTIVE_CASH_NUM = #activeCashNum#,
+		SPEND_PARAM = #spendParam#,
+		REMARK2 = #remark2#,
+		REMARK = #remark#,
+		SEND_MAX_NUM = #sendMaxNum#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_SEND_RULES.nextval from dual
+	</select>
+</sqlMap>

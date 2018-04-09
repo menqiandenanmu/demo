@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ACCOUNTROLE" >
+	<typeAlias alias="accountRoleAlias" type="com.mall.butler.account.model.AccountRole"/>
+	<resultMap id="accountRoleResultMap" class="accountRoleAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="OPERATOR_ID" property="operatorId"/>
+    	<result column="ROLE_ID" property="roleId"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotNull prepend="and" property="id" >
+			ID = #id#
+		</isNotNull>
+		<isNotNull prepend="and" property="operatorId" >
+			OPERATOR_ID = #operatorId#
+		</isNotNull>
+		<isNotNull prepend="and" property="roleId" >
+			ROLE_ID = #roleId#
+		</isNotNull>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="accountRoleResultMap">
+		select * from ACCOUNT_ROLE where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="accountRoleAlias" resultClass="Integer">
+		select count(*) as totalCount from ACCOUNT_ROLE where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="accountRoleResultMap" parameterClass="accountRoleAlias">
+  	select * from ACCOUNT_ROLE
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="accountRoleResultMap" parameterClass="accountRoleAlias" >
+		select *
+		from ACCOUNT_ROLE
+		where ID = #id# and DELETED=0
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="accountRoleAlias" >
+		delete from ACCOUNT_ROLE
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="accountRoleAlias" >
+		insert into ACCOUNT_ROLE
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="operatorId" >
+				OPERATOR_ID
+			</isNotNull>
+			<isNotNull prepend="," property="roleId" >
+				ROLE_ID
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="operatorId" >
+				#operatorId#
+			</isNotNull>
+			<isNotNull prepend="," property="roleId" >
+				#roleId#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="accountRoleAlias" >
+		update ACCOUNT_ROLE
+		set 
+		OPERATOR_ID = #operatorId#,
+		ROLE_ID = #roleId#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		declare @a int exec NEXT_VAL 'ACCOUNT_ROLE',@a output select @a
+	</select>
+</sqlMap>

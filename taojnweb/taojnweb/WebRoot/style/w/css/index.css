@@ -1,0 +1,36 @@
+.index-body{ background-color: #f3f3f3;}
+.index-body2{ background-color: #FF83FA;}
+
+.amount-panel{ padding: 1.1rem; background-color: #fff; box-shadow: 0 2px 2px rgba(0,0,0,0.1); margin-top: 0.6rem; text-align: center;}
+.amount-panel span{ display: block; font-size:2rem; color: #da003d; }
+.amount-panel em{ font-size: 0.6rem; color: #868686;}
+
+.index-item{ padding: 0.5rem; background-color: #fff; box-shadow: 0 2px 2px rgba(0,0,0,0.1); margin-top: 0.6rem;}
+.index-item li{ height: 0.75rem; line-height: 0.75rem; border-bottom: 1px solid #d3d1d1; font-size: 0.7rem; padding: 0.6rem 0;}
+.index-item li:last-child{ border-bottom: none;}
+.lab-title{ color: #868686;}
+.index-item li span{ float: right;}
+
+.scan{display: block;
+    width: 2.7rem;
+    height: 2.7rem;
+    border-radius: 100%;
+    position: fixed;
+    right: 1rem;
+    top: 7.7rem;
+    background-color: rgba(255,255,255,.75);
+    box-shadow: 0 0 0.1rem rgba(0,0,0,.75);
+    text-align: center;
+    line-height: 2.7rem;}
+.scan1{ color: #868686;
+    display: block;
+    width: 3.7rem;
+    height: 3.9rem;
+    border-radius: 100%;
+    position: fixed;
+    right: 0.5rem;
+    top: 9.5rem;
+    text-align: center;
+    line-height: 2.7rem;
+    font-size: 14px;}
+.icon-scan{ display: inline-block; width: 1.25rem; height: 1.2rem; background: url("../images/scan-icon.png") no-repeat; background-size: cover; vertical-align: middle;}

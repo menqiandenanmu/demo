@@ -1,0 +1,167 @@
+<!DOCTYPE struts PUBLIC	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "struts-2.3.dtd">
+<struts>
+	<package name="manage.account" extends="manage" namespace="/manage/account">
+		<default-interceptor-ref name="authStack" />
+		<action name="consumer" class="com.mall.butler.account.m.action.ConsumerAction">
+			<result name="list" type="freemarker">/template/b/account/m/consumerList.ftl</result>
+			<result name="info" type="freemarker">/template/b/account/m/consumerInfo.ftl</result>
+			<result name="pass" type="freemarker">/template/b/account/m/consumerPass.ftl</result>
+			<result name="add" type="freemarker">/template/b/account/m/consumerAdd.ftl</result>
+		</action>
+		<action name="pass" class="com.mall.butler.account.m.action.ConsumerAction" method="pass">
+			<result name="pass" type="freemarker">/template/b/account/m/consumerPass.ftl</result>
+		</action>
+		<action name="agent" class="com.mall.butler.account.m.action.AgentAction">
+			<result name="list" type="freemarker">/template/b/account/m/agentList.ftl</result>
+			<result name="edit" type="freemarker">/template/b/account/m/agentEdit.ftl</result>
+			<result name="add" type="freemarker">/template/b/account/m/agentAdd.ftl</result>
+			<result name="info" type="freemarker">/template/b/account/m/agentInfo.ftl</result>
+			<result name="bns" type="freemarker">/template/b/account/m/agentBns.ftl</result>
+			<result name="agentGroup" type="freemarker">/template/b/account/m/accountGroupAcc.ftl</result>
+		</action>
+		<!-- 催款管理 -->
+		<action name="dunning" class="com.mall.butler.account.m.action.DunningInfoAction">
+			<result name="success" type="freemarker">/template/b/account/m/dunningList.ftl</result>
+			<result name="list" type="freemarker">/template/b/account/m/tradeAccList.ftl</result>
+			<result name="add" type="freemarker">/template/b/account/m/dunningAdd.ftl</result>
+			<result name="edit" type="freemarker">/template/b/account/m/dunningEdit.ftl</result>
+		</action>
+		<!-- 充值说明 -->
+		<action name="rechargeInfo" class="com.mall.butler.account.m.action.RechargeInfoAction">
+			<result name="success" type="freemarker">/template/b/account/m/rechargeInfo.ftl</result>
+			<result name="add" type="freemarker">/template/b/account/m/rechargeAdd.ftl</result>
+		</action>
+		<!-- 充值记录 -->
+		<action name="recharge" class="com.mall.butler.account.m.action.MAgentAccountAction" method="recharge">
+			<result name="success" type="freemarker">/template/b/account/m/recharge.ftl</result>
+		</action>
+		<!-- 消费记录 -->
+		<action name="purchase" class="com.mall.butler.account.m.action.MAgentAccountAction" method="purchase">
+			<result name="success" type="freemarker">/template/b/account/m/purchase.ftl</result>
+		</action>
+		<!-- 退款记录 -->
+		<action name="reback" class="com.mall.butler.account.m.action.MAgentAccountAction" method="reback">
+			<result name="success" type="freemarker">/template/b/account/m/reBack.ftl</result>
+		</action>
+		<!-- 电子券 -->
+		<action name="electronicCoup" class="com.mall.butler.account.m.action.ElectronicCoupAction" >
+			<result name="success" type="freemarker">/template/b/account/m/electronicCoupList.ftl</result>
+			<result name="info" type="freemarker">/template/b/account/m/electronicCoupInfo.ftl</result>
+			<result name="add" type="freemarker">/template/b/account/m/electronicCoupAdd.ftl</result>
+			<result name="edit" type="freemarker">/template/b/account/m/electronicCoupEdit.ftl</result>
+			<result name="tradeAccount" type="freemarker">/template/b/account/m/electronicTradeAccountList.ftl</result>
+			<result name="electronicCoupAudit" type="freemarker">/template/b/account/m/electronicCoupAuditList.ftl</result>
+			<result name="electronicCoupAuditInfo" type="freemarker">/template/b/account/m/electronicCoupAuditInfo.ftl</result>
+		</action>
+		<!-- 充值卡 -->
+		<action name="rechageCard" class="com.mall.butler.account.m.action.RechageCardAction" >
+			<result name="info" type="freemarker">/template/b/account/m/rechageCardInfo.ftl</result>
+			<result name="success" type="freemarker">/template/b/account/m/rechageCardList.ftl</result>
+			<result name="add" type="freemarker">/template/b/account/m/rechageCardAdd.ftl</result>
+			<result name="addAll" type="freemarker">/template/b/account/m/rechageCardAddAll.ftl</result>
+			<result name="edit" type="freemarker">/template/b/account/m/rechageCardEdit.ftl</result>
+			<result name="rechageCardAudit" type="freemarker">/template/b/account/m/rechageCardAudit.ftl</result>
+			<result name="rechageCardAuditInfo" type="freemarker">/template/b/account/m/rechageCardAuditInfo.ftl</result>
+			<result name="auditById" type="freemarker">/template/b/account/m/auditById.ftl</result>
+		</action>
+		<!-- 用户账户信息 -->
+		<action name="mAgentAccount" class="com.mall.butler.account.m.action.MAgentAccountAction">
+			<result name="success" type="freemarker">/template/b/account/m/mAgentAccountList.ftl</result>
+			<result name="warnLeftValue" type="freemarker">/template/b/account/m/warnLeftValueModify.ftl</result>
+			<result name="add" type="freemarker">/template/b/account/m/mAgentAccountAdd.ftl</result>
+			<result name="cut" type="freemarker">/template/b/account/m/mAgentAccountCut.ftl</result>
+			<result name="sign" type="freemarker">/template/b/account/m/mAgentAccountSign.ftl</result>
+			<result name="list" type="freemarker">/template/b/account/m/mAgentAccountDetailList.ftl</result>
+			<result name="count" type="freemarker">/template/b/account/m/mAgentAccountCount.ftl</result>
+			<result name="credit" type="freemarker">/template/b/account/m/mAgentAccountCreditEdit.ftl</result>
+			<result name="disList" type="freemarker">/template/b/account/m/mDisAccountDetailList.ftl</result>
+			<result name="discount" type="freemarker">/template/b/account/m/mAgentDisAccountCount.ftl</result>
+			<result name="artificial" type="freemarker">/template/b/account/m/mAgentAccountCharge.ftl</result>
+		</action>
+		<!-- 交易账户类型管理 -->
+		<action name="tradeAccount" class="com.mall.butler.account.m.action.TradeAccountAction">
+			<result name="list" type="freemarker">/template/b/account/m/tradeAccountList.ftl</result>
+			<result name="add" type="freemarker">/template/b/account/m/tradeAccountAdd.ftl</result>
+		</action>
+		<!-- 交易账户类型范围设置 -->
+		<action name="tradeAccountLimit" class="com.mall.butler.account.m.action.TradeAccountLimitAction">
+			<result name="edit" type="freemarker">/template/b/account/m/tradeAccountLimitEdit.ftl</result>
+			<result name="add" type="freemarker">/template/b/account/m/tradeAccountLimitAdd.ftl</result>
+			<result name="list" type="freemarker">/template/b/account/m/tradeAccountLimitList.ftl</result>
+		</action>
+		<!-- 通知管理 -->
+		<action name="tradeNotify" class="com.mall.butler.account.m.action.MTradeNotifyAction">
+			<result name="success" type="freemarker">/template/b/account/m/tradeNotifyList.ftl</result>
+		</action>
+		<!-- 通知记录-->
+		<action name="notifyHistory" class="com.mall.butler.account.m.action.MTradeNotifyAction" method="history">
+			<result name="success" type="freemarker">/template/b/account/m/notifyHistoryList.ftl</result>
+		</action>
+		
+		<!-- 账户统计 -->
+		<action name="agentOrderCount" class="com.mall.butler.account.m.action.AgentOrderCountAction" >
+			<result name="list" type="freemarker">/template/b/account/m/agentOrderCount.ftl</result>
+		</action>
+		
+		<!-- 商户 -->
+		<action name="merchant" class="com.mall.butler.account.m.action.MerchantAction" >
+			<result name="success" type="freemarker">/template/b/account/m/merchantList.ftl</result>
+			<result name="add" type="freemarker">/template/b/account/m/merchantAdd.ftl</result>
+		</action>
+		<!-- 满送规则 -->
+		<action name="sendRules" class="com.mall.butler.account.m.action.SendRulesAction" >
+			<result name="list" type="freemarker">/template/b/account/m/sendRulesList.ftl</result>
+			<result name="edit" type="freemarker">/template/b/account/m/sendRulesEdit.ftl</result>
+			<result name="add" type="freemarker">/template/b/account/m/sendRulesAdd.ftl</result>
+		</action>
+		<!-- 满送消费券-->
+		<action name="consumerCoupons" class="com.mall.butler.account.m.action.ConsumerCouponsAction" >
+			<result name="list" type="freemarker">/template/b/account/m/consumerCouponsList.ftl</result>
+			<result name="edit" type="freemarker">/template/b/account/m/consumerCouponsEdit.ftl</result>
+			<result name="add" type="freemarker">/template/b/account/m/consumerCouponsAdd.ftl</result>
+		</action>
+		<!-- 赠券列表-->
+		<action name="accountCoupon" class="com.mall.butler.account.m.action.AccountCouponAction" >
+			<result name="list" type="freemarker">/template/b/account/m/accountCouponList.ftl</result>
+		</action>
+		<!-- 赠券使用列表-->
+		<action name="couponUseRecord" class="com.mall.butler.account.m.action.CouponUseRecordAction" >
+			<result name="list" type="freemarker">/template/b/account/m/couponUseRecordList.ftl</result>
+		</action>
+		
+		<!-- 商户管理-->
+		<action name="storeInfo" class="com.mall.butler.account.m.action.StoreInfoAction" >
+			<result name="list" type="freemarker">/template/b/account/m/storeInfoList.ftl</result>
+			<result name="edit" type="freemarker">/template/b/account/m/storeInfoEdit.ftl</result>
+			<result name="add" type="freemarker">/template/b/account/m/storeInfoAdd.ftl</result>
+		</action>
+		<!-- 折扣管理-->
+		<action name="discountRule" class="com.mall.butler.account.m.action.DiscountRuleAction" >
+			<result name="list" type="freemarker">/template/b/account/m/discountRuleList.ftl</result>
+			<result name="edit" type="freemarker">/template/b/account/m/discountRuleEdit.ftl</result>
+			<result name="add" type="freemarker">/template/b/account/m/discountRuleAdd.ftl</result>
+		</action>
+		<!-- 交易管理-->
+		<action name="agentTrans" class="com.mall.butler.account.m.action.AgentTransAction" >
+			<result name="list" type="freemarker">/template/b/account/m/agentTransList.ftl</result>
+		</action>
+		
+		<!-- 单边帐退款 -->
+		
+		<!-- 消费记录 -->
+		<action name="singlePurchase" class="com.mall.butler.account.m.action.MAgentAccountAction" method="purchase" >
+			<result name="success" type="freemarker">/template/b/account/m/singlePurchase.ftl</result>
+		</action>
+		<action name="singleRefund" class="com.mall.butler.account.m.action.MAgentAccountAction" method="singleRefund"></action>
+		<!-- 转账管理 -->
+		<action name="giroInfo" class="com.mall.butler.account.m.action.GiroInfoAction" >
+			<result name="list" type="freemarker">/template/b/account/m/giroList.ftl</result>
+		</action>
+		
+		
+		<!-- 赠券统计-->
+		<action name="couponCount" class="com.mall.butler.account.m.action.ConsumerCouponsAction" method="couponCount">
+			<result name="list" type="freemarker">/template/b/account/m/couponCount.ftl</result>
+		</action>
+	</package>
+</struts>

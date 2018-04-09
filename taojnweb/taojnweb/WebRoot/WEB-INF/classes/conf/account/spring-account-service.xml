@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+	default-autowire="byName" default-lazy-init="false">
+	<bean id="mAccountService" class="com.mall.butler.account.m.service._impl.MAccountServiceImpl"></bean>
+	<bean id="wAccountService" class="com.mall.butler.account.w.service._impl.WAccountServiceImpl"></bean>
+		<!-- 用户消息 -->
+	<bean name="mAccountMessageService" class="com.mall.butler.account.m.service._impl.MAccountMessageServiceImpl" />
+	<!-- 散客管理 -->
+	<bean name="mConsumerInfoService" class="com.mall.butler.account.m.service._impl.MConsumerInfoServiceImpl" />
+	<!-- 用户  -->
+	<bean name="mAgentService" class="com.mall.butler.account.m.service._impl.MAgentServiceImpl" />
+	<!--用户账户 -->
+	<bean name="mAgentAccountService" class="com.mall.butler.account.m.service._impl.MAgentAccountServiceImpl" />
+	<!-- 交易账户类型 -->
+	<bean name="tradeAccountService" class="com.mall.butler.account.service._impl.TradeAccountServiceImpl" />
+	<bean name="tradeNotifyTaskService" class="com.mall.butler.account.service._impl.TradeNotifyTaskServiceImpl" />
+	
+	<!-- 交易账户范围-->
+	<bean name="tradeAccountLimitService" class="com.mall.butler.account.service._impl.TradeAccountLimitServiceImpl" />
+	<bean name="tradeAccountListService" class="com.mall.butler.account.m.service._impl.TradeAccountListServiceImpl" />
+		<!-- 网络支付统计 -->
+	<bean name="mTradeOrderService" class="com.mall.butler.account.m.service._impl.MTradeOrderServiceImpl" />
+	<!-- 充值订单-->
+	<bean name="tradeOrderService" class="com.mall.butler.account.service._impl.TradeOrderServiceImpl" />
+	<bean name="rechargeInfoService" class="com.mall.butler.account.m.service._impl.RechargeInfoServiceImpl" />
+	<bean name="dunningInfoService" class="com.mall.butler.account.m.service._impl.DunningInfoServiceImpl" />
+	
+	<!-- 电子券 -->
+	<bean name="electronicCoupService" class="com.mall.butler.account.m.service._impl.DunningInfoServiceImpl" />
+	<!-- 充值卡 -->
+	<bean name="rechageCardService" class="com.mall.butler.account.m.service._impl.RechageCardServiceImpl" />
+	<!-- 积分 -->
+	
+	<bean name="pointRuleService" class="com.mall.butler.account.m.service._impl.PointRuleServiceImpl" />
+	<!-- 商户 -->
+	<bean name="merchantService" class="com.mall.butler.account.m.service._impl.MerchantServiceImpl" />
+	
+	
+	<bean name="weelectronicCoupService" class="com.mall.butler.account.m.service._impl.ElectronicCoupServiceImpl" />
+	<bean name="accountCouponService" class="com.mall.butler.account.m.service._impl.MAccountCouponServiceImpl" />
+	<bean name="consumerCouponsService" class="com.mall.butler.account.m.service._impl.MConsumerCouponsServiceImpl" />
+	<bean name="giftRecordService" class="com.mall.butler.account.m.service._impl.MGiftRecordServiceImpl" />
+	<bean name="rechageRuleService" class="com.mall.butler.account.m.service._impl.MRechageRuleServiceImpl" />
+	<bean name="sendRulesService" class="com.mall.butler.account.m.service._impl.MSendRulesServiceImpl" />
+	<bean name="storeInfoService" class="com.mall.butler.account.m.service._impl.MStoreInfoServiceImpl" />
+</beans>

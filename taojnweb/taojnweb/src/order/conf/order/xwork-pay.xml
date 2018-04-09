@@ -1,0 +1,75 @@
+<!DOCTYPE struts PUBLIC	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "struts-2.3.dtd">
+<struts>
+	<package name="web.pay" extends="web" namespace="/pay">
+		<!-- 支付 -->
+		<action name="pay" class="com.mall.butler.order.m.action.PayOrderAction">
+			<result name="success" type="freemarker">/template/b/order/w/payOrder.ftl</result>
+			<result name="select" type="freemarker">/template/b/order/w/paySelect.ftl</result>
+			<result name="error" type="freemarker">/template/b/order/w/payError.ftl</result>
+		</action>
+		<!-- 支付返回显示 -->
+		<action name="payReturn" class="com.mall.butler.order.m.action.PayOrderAction" method="payReturn">
+			<result name="success" type="freemarker">/template/b/order/w/showSuccessPay.ftl</result>
+			<result name="unpay" type="freemarker">/template/b/order/w/showUnPay.ftl</result>
+			<result name="nopay" type="freemarker">/template/b/order/w/showNoPay.ftl</result>
+			<result name="error" type="freemarker">/template/b/order/w/showOverduePay.ftl</result>
+		</action>
+		
+		<!-- 支付宝支付 -->
+		<action name="toAlipay" class="com.mall.butler.order.m.action.AlipayAction">
+			<result name="success" type="freemarker">/template/b/order/w/alipayTopay.ftl</result>
+			<result name="error" type="freemarker">/template/b/order/w/payError.ftl</result>
+		</action>
+		<!-- 支付宝返回通知 -->
+		<action name="alipayNotify" class="com.mall.butler.order.m.action.AlipayAction" method="doNotify">
+			<result name="success" type="freemarker">/template/b/order/w/alipayNotifySuccess.ftl</result>
+			<result name="error" type="freemarker">/template/b/order/w/alipayNotifyError.ftl</result>
+		</action>
+		<!-- 支付宝页面返回 -->
+		<action name="alipayReturn" class="com.mall.butler.order.m.action.AlipayAction" method="doReturn">
+			<result name="success" type="freemarker">/template/b/order/w/alipayReturnSuccess.ftl</result>
+			<result name="error" type="freemarker">/template/b/order/w/alipayReturnError.ftl</result>
+		</action>
+		
+		<!-- 网银支付 -->
+		<action name="toNetpay" class="com.mall.butler.order.m.action.NetpayAction">
+			<result name="success" type="freemarker">/template/b/order/w/netpayTopay.ftl</result>
+			<result name="error" type="freemarker">/template/b/order/w/payError.ftl</result>
+		</action>
+		<!-- 网银返回通知 -->
+		<action name="netpayNotify" class="com.mall.butler.order.m.action.NetpayAction" method="doNotify">
+			<result name="success" type="freemarker">/template/b/order/w/netpayNotifySuccess.ftl</result>
+			<result name="error" type="freemarker">/template/b/order/w/netpayNotifyError.ftl</result>
+		</action>
+		<!-- 网银页面返回 -->
+		<action name="netpayReturn" class="com.mall.butler.order.m.action.NetpayAction" method="doReturn">
+			<result name="success" type="freemarker">/template/b/order/w/netpayReturnSuccess.ftl</result>
+			<result name="error" type="freemarker">/template/b/order/w/netpayReturnError.ftl</result>
+		</action>
+		<!-- 微信支付 -->
+		<action name="toWxpay" class="com.mall.butler.order.m.action.WeixinPayAction">
+			<result name="success" type="freemarker">/template/b/order/weixin/wxPrePay.ftl</result>
+			<result type="redirect" name="wxUserCheck">
+				<param name="location">/weixin/wxUserCheck.htm</param>
+				<param name="parse">true</param>
+			</result>
+		</action>
+		<!-- 微信支付后台通知 -->
+		<action name="payNotify" class="com.mall.butler.order.m.action.WeixinPayAction" method="payNotify">
+			<result name="success" type="freemarker">/template/b/order/weixin/alipayNotifySuccess.ftl</result>
+			<result name="fail" type="freemarker">/template/b/order/weixin/alipayNotifyError.ftl</result>
+		</action>
+		<!-- 停止支付 -->
+		<action name="stopPay" class="com.mall.butler.order.m.action.WeixinPayAction" method="stopPay">
+			<result name="success" type="freemarker">/template/b/order/wap/alipayReturnError.ftl</result>
+		</action>
+		<!-- 微信支付前台支付失败通知 -->
+		<action name="failPay" class="com.mall.butler.order.m.action.WeixinPayAction" method="failPay">
+			<result name="error" type="freemarker">/template/b/order/weixin/alipayReturnError.ftl</result>
+		</action>
+		<!-- 微信支付前台支付成功通知 -->
+		<action name="successPay" class="com.mall.butler.order.m.action.WeixinPayAction" method="successPay">
+			<result name="success" type="freemarker">/template/b/order/weixin/alipayReturnSuccess.ftl</result>
+		</action>
+	</package>
+</struts>

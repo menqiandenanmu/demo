@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="TRADEACCOUNTINFO" >
+	<typeAlias alias="tradeAccountInfoAlias" type="com.mall.butler.account.model.TradeAccountInfo"/>
+	<resultMap id="tradeAccountInfoResultMap" class="tradeAccountInfoAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="ACC_CODE" property="accCode"/>
+    	<result column="ACC_NAME" property="accName"/>
+    	<result column="CONTENT" property="content"/>
+    	<result column="USE_FLAG" property="useFlag"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="accCode" >
+			ACC_CODE = #accCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accName" >
+			ACC_NAME = #accName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="content" >
+			CONTENT = #content#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="useFlag" >
+			USE_FLAG = #useFlag#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="tradeAccountInfoResultMap">
+		select * from TRADE_ACCOUNT_INFO where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="tradeAccountInfoAlias" resultClass="Integer">
+		select count(*) as totalCount from TRADE_ACCOUNT_INFO where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="tradeAccountInfoResultMap" parameterClass="tradeAccountInfoAlias">
+  	select * from TRADE_ACCOUNT_INFO
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="tradeAccountInfoResultMap" parameterClass="tradeAccountInfoAlias" >
+		select *
+		from TRADE_ACCOUNT_INFO
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="tradeAccountInfoAlias" >
+		delete from TRADE_ACCOUNT_INFO
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="tradeAccountInfoAlias" >
+		insert into TRADE_ACCOUNT_INFO
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="accCode" >
+				ACC_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="accName" >
+				ACC_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="content" >
+				CONTENT
+			</isNotNull>
+			<isNotNull prepend="," property="useFlag" >
+				USE_FLAG
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="accCode" >
+				#accCode#
+			</isNotNull>
+			<isNotNull prepend="," property="accName" >
+				#accName#
+			</isNotNull>
+			<isNotNull prepend="," property="content" >
+				#content#
+			</isNotNull>
+			<isNotNull prepend="," property="useFlag" >
+				#useFlag#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="tradeAccountInfoAlias" >
+		update TRADE_ACCOUNT_INFO
+		set 
+		ACC_CODE = #accCode#,
+		ACC_NAME = #accName#,
+		CONTENT = #content#,
+		USE_FLAG = #useFlag#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_TRADE_ACCOUNT_INFO.nextval from dual
+	</select>
+</sqlMap>

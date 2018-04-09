@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="POINTACCOUNTINFO" >
+	
+	<sql id="ALL_SQL_A">
+		<isNotEmpty prepend="and" property="accName" >
+			ACC_NAME = #accName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="countPoint" >
+			COUNT_POINT = #countPoint#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="point" >
+			POINT = #point#
+		</isNotEmpty>
+	</sql>
+
+</sqlMap>

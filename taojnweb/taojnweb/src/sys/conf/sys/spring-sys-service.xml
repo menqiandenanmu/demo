@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+	default-autowire="byName" default-lazy-init="false">
+	<!-- 角色 -->
+	<bean id="mRoleService" class="com.mall.butler.sys.m.service._impl.MRoleServiceImpl"/>
+	<bean id="roleService" class="com.mall.butler.sys.service._impl.RoleServiceImpl"/>	
+	<!-- 模块菜单-->
+	<bean id="mSysFunctionService" class="com.mall.butler.sys.m.service._impl.MSysFunctionServiceImpl"/>
+	
+	<!-- 系统参数 -->
+	<bean id="mSysParamService" class="com.mall.butler.sys.m.service._impl.MSysParamServiceImpl"/>
+	<!-- 系统参数 -->
+	<bean id="areaService" class="com.mall.butler.sys.service._impl.AreaServiceImpl"/>
+	<!-- 系统字典-->
+	<bean id="mDictService" class="com.mall.butler.sys.m.service._impl.MDictServiceImpl"/>
+	<!-- 系统日志-->
+	<bean id="mSysOptLogService" class="com.mall.butler.sys.m.service._impl.MSysOptLogServiceImpl"/>
+	<!-- 系统资源管理 -->
+	<bean id="mLibraryService" class="com.mall.butler.sys.m.service._impl.MLibraryServiceImpl">
+		<property name="midWidth" value="${upload.image.midWidth}"></property>
+		<property name="midHeight" value="${upload.image.midHeight}"></property>
+		<property name="smallWidth" value="${upload.image.smallWidth}"></property>
+		<property name="smallHeight" value="${upload.image.smallHeight}"></property>
+	</bean>
+	<!-- 文本库-->
+	<bean id="mSysTextLibrayService" class="com.mall.butler.sys.m.service._impl.MSysTextLibrayServiceImpl"/>
+	
+	<!-- 操作系统日志信息 -->
+	<bean id="applicationLogService" class="com.mall.butler.sys.service._impl.ApplicationLogServiceImpl"/>
+	<!-- 操作系统日志信息 -->
+	<bean id="mSysDataFilterService" class="com.mall.butler.sys.m.service._impl.MSysDataFilterServiceImpl"/>
+</beans>
+

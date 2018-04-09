@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="DISCOUNTRULES" >
+	
+	<sql id="ALL_SQL_M">
+		<isNotEmpty prepend="and" property="storeName" >
+			STORE_NAME = #storeName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountId" >
+			ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="maxNum" >
+			MAX_NUM = #maxNum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="discountNum" >
+			DISCOUNT_NUM = #discountNum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="ruleStatus" >
+			RULE_STATUS = #ruleStatus#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="beginTime" >
+			<![CDATA[to_char(BEGIN_TIME,'yyyy-mm-dd') >= to_char(#beginTime#,'yyyy-mm-dd')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endTime" >
+			<![CDATA[to_char(END_TIME,'yyyy-mm-dd') <= to_char(#endTime#,'yyyy-mm-dd')]]>
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE_M" parameterClass="java.util.Map" resultMap="discountRulesResultMap">
+		select * from DISCOUNT_RULES where 1=1 and deleted=0
+		<include refid="ALL_SQL_M"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE_M" parameterClass="discountRulesAlias" resultClass="Integer">
+		select count(*) as totalCount from DISCOUNT_RULES where 1=1 and deleted=0
+		<include refid="ALL_SQL_M"/>
+	</select>
+  
+	
+	<select id="SELECT_BY_FIND_USED" resultMap="discountRulesResultMap"
+		parameterClass="discountRulesAlias">
+		select * from DISCOUNT_RULES
+		where deleted=0 AND
+		RULE_STATUS =1 AND
+		<![CDATA[
+		MIN_NUM <=
+		#minNum#
+		and 
+		to_char(BEGIN_TIME,'yyyy-mm-dd') <= to_char(SYSDATE,'yyyy-mm-dd')
+		AND to_char(END_TIME,'yyyy-mm-dd') >= to_char(SYSDATE,'yyyy-mm-dd')
+		]]>
+		<include refid="ALL_SQL_M" />
+		order by MIN_NUM desc
+	</select>
+	
+</sqlMap>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SYSIMAGELIBRARY" >
+	<typeAlias alias="sysImageLibraryAlias" type="com.mall.butler.sys.model.SysImageLibrary"/>
+	<resultMap id="sysImageLibraryResultMap" class="sysImageLibraryAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="IMAGE_URL" property="imageUrl"/>
+    	<result column="IMAGE_URL_MID" property="imageUrlMid"/>
+    	<result column="IMAGE_URL_SMALL" property="imageUrlSmall"/>
+    	<result column="IMAGE_TYPE" property="imageType"/>
+    	<result column="TARGET_TYPE" property="targetType"/>
+    	<result column="TARGET_ID" property="targetId"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="id" >
+			ID = #id#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="imageUrl" >
+			IMAGE_URL = #imageUrl#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="imageUrlMid" >
+			IMAGE_URL_MID = #imageUrlMid#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="imageUrlSmall" >
+			IMAGE_URL_SMALL = #imageUrlSmall#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="imageType" >
+			IMAGE_TYPE = #imageType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="targetType" >
+			TARGET_TYPE = #targetType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="targetId" >
+			TARGET_ID = #targetId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="sysImageLibraryResultMap">
+		select * from SYS_IMAGE_LIBRARY where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="sysImageLibraryAlias" resultClass="Integer">
+		select count(*) as totalCount from SYS_IMAGE_LIBRARY where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="sysImageLibraryResultMap" parameterClass="sysImageLibraryAlias">
+  	select * from SYS_IMAGE_LIBRARY
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="sysImageLibraryResultMap" parameterClass="sysImageLibraryAlias" >
+		select *
+		from SYS_IMAGE_LIBRARY
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="sysImageLibraryAlias" >
+		delete from SYS_IMAGE_LIBRARY
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="sysImageLibraryAlias" >
+		insert into SYS_IMAGE_LIBRARY
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="imageUrl" >
+				IMAGE_URL
+			</isNotNull>
+			<isNotNull prepend="," property="imageUrlMid" >
+				IMAGE_URL_MID
+			</isNotNull>
+			<isNotNull prepend="," property="imageUrlSmall" >
+				IMAGE_URL_SMALL
+			</isNotNull>
+			<isNotNull prepend="," property="imageType" >
+				IMAGE_TYPE
+			</isNotNull>
+			<isNotNull prepend="," property="targetType" >
+				TARGET_TYPE
+			</isNotNull>
+			<isNotNull prepend="," property="targetId" >
+				TARGET_ID
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="imageUrl" >
+				#imageUrl#
+			</isNotNull>
+			<isNotNull prepend="," property="imageUrlMid" >
+				#imageUrlMid#
+			</isNotNull>
+			<isNotNull prepend="," property="imageUrlSmall" >
+				#imageUrlSmall#
+			</isNotNull>
+			<isNotNull prepend="," property="imageType" >
+				#imageType#
+			</isNotNull>
+			<isNotNull prepend="," property="targetType" >
+				#targetType#
+			</isNotNull>
+			<isNotNull prepend="," property="targetId" >
+				#targetId#
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				#remark#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="sysImageLibraryAlias" >
+		update SYS_IMAGE_LIBRARY
+		set 
+		IMAGE_URL = #imageUrl#,
+		IMAGE_URL_MID = #imageUrlMid#,
+		IMAGE_URL_SMALL = #imageUrlSmall#,
+		IMAGE_TYPE = #imageType#,
+		TARGET_TYPE = #targetType#,
+		TARGET_ID = #targetId#,
+		REMARK = #remark#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_SYS_IMAGE_LIBRARY.nextval from dual
+	</select>
+</sqlMap>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" 
+	xmlns="http://java.sun.com/xml/ns/javaee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+<distributable />
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:spring.xml</param-value>
+	</context-param>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- 编码  --><!--
+	<filter>
+		<filter-name>Encoding</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.FilterDispatcher</filter-class>
+		<init-param>
+			<param-name>struts.i18n.encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>Encoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	--><!-- strtus -->
+	<filter>
+		<filter-name>struts2</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+		<init-param>
+			<param-name>actionPackages</param-name>
+			<param-value>com.mycompany.myapp.actions</param-value>
+		</init-param>
+		<init-param>
+			<param-name>struts.i18n.encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>struts2</filter-name>
+		<url-pattern>*.htm</url-pattern>
+	</filter-mapping>
+
+	<!-- fck -->
+	<servlet>
+		<servlet-name>Connector</servlet-name>
+		<servlet-class>net.fckeditor.connector.ConnectorServlet</servlet-class>
+		<init-param>
+			<param-name>baseDir</param-name>
+			<param-value>/UserFiles/</param-value><!--上传附件所在根路径 -->
+		</init-param>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>false</param-value><!--启动服务时是否显示调试信息 -->
+		</init-param>
+		<init-param>
+			<param-name>enabled</param-name>
+			<param-value>true</param-value><!--是否开启上传文件功能 -->
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Connector</servlet-name>
+		<url-pattern>/script/fckeditor/editor/filemanager/connectors/*</url-pattern>
+	</servlet-mapping>
+	<!-- QQ登录 
+	<servlet>
+		<servlet-name>QQlogin</servlet-name>
+		<servlet-class>com.qq.open.qzone.oauth.QqLoginServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>QQlogin</servlet-name>
+		<url-pattern>/QQlogin</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>QQLogincallback</servlet-name>
+		<servlet-class>com.qq.open.qzone.oauth.QqCallbackServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>QQLogincallback</servlet-name>
+		<url-pattern>/QQLogincallback</url-pattern>
+	</servlet-mapping>
+	--><!-- 默认页面 -->
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	<!-- 错误页面 -->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/404.html</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/500.html</location>
+	</error-page>
+	<!-- webservice -->
+</web-app>

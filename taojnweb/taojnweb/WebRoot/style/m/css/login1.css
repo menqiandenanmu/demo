@@ -1,0 +1,25 @@
+.w950{ width: 950px; margin: 0 auto;}
+.header{ height: 88px; background-color: #f2f2f2; border-bottom: 1px solid #e7e6e6;}
+
+.logo{ width: 300px; height: 51px; background: url("../images/login_logo.png") left no-repeat; float: left; margin-top: 14px; padding-left: 150px; line-height: 51px; font-size: 18px; text-align: left;}
+.login-top{ text-align: right;}
+.login-top span{ line-height: 88px; font-size: 16px;}
+.content{ border-top: 4px solid #e1e0e0; padding-top: 90px;}
+.login-img{ width: 362px; height: 453px; background: url("../images/left_bg.png") no-repeat; float: left;}
+
+.login-form{ width: 430px; float: right; height: 416px; margin-top: 26px;}
+.login-left,.login-right{ width: 25px; height: 416px; background: url("../images/login_left.png") no-repeat; float: left;}
+.login-right{background: url("../images/login_right.png") no-repeat; float: right;}
+.form-panel{ padding: 30px; width: 320px; height: 356px; float: left;}
+.login-title{ font-size: 18px; font-weight: bold;}
+.form-panel ul{ padding-top: 30px;}
+.form-panel li{ margin-bottom: 28px;}
+.form-panel li.form-handle{ margin-top: 45px;}
+.login-text{ width: 290px;height: 20px; line-height: 20px; border: 1px solid #cfcfcf; padding: 10px;}
+.login-text100{ width: 200px;height: 20px; line-height: 20px; border: 1px solid #cfcfcf; padding: 10px;}
+.login-text100:focus{ border: 1px solid #d9003d;}
+.login-text:focus{ border: 1px solid #d9003d;}
+.card-text{ width: 124px;}
+.card-img{ display: inline-block; vertical-align: middle;}
+.card-handle{ color: #da003d; font-size: 16px; margin-left: 15px;}
+.login-btn{ width: 100%; height: 40px; line-height: 40px; background-color: #d9003d; color: #fff; text-align: center; font-size: 18px;}

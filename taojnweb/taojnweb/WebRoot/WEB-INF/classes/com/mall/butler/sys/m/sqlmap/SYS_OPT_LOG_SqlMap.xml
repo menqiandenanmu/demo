@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SYSOPTLOG" >
+	<resultMap id="sysOptLogResultMapVo" class="com.mall.butler.sys.m.vo.SysOptLogVo">
+	<result column="ID" property="id"/>
+    	<result column="LOG_TYPE" property="logType"/>
+    	<result column="ACCOUNT_ID" property="accountId"/>
+    	<result column="LOGIN_ID" property="loginId"/>
+    	<result column="ACCOUNT_TYPE" property="accountType"/>
+    	<result column="TITLE" property="title"/>
+    	<result column="CONTENT" property="content"/>
+    	<result column="LOG_TIME" property="logTime"/>
+    	<result column="OPT_TYPE" property="optType"/>
+    	<result column="LOG_LEVEL" property="logLevel"/>
+    	<result column="OPT_IP" property="optIp"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+    	<result column="LOGIN_NAME" property="loginName"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL_M">
+	<isNotEmpty prepend="and" property="beginDate" >
+		<![CDATA[
+		to_char(CREATE_TIME,'yyyy-MM-dd') >= #beginDate#
+			]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endDate" >
+		<![CDATA[
+			to_char(CREATE_TIME,'yyyy-MM-dd') <= #endDate#
+			]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="loginName" >
+			LOGIN_NAME = #loginName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="logType" >
+			LOG_TYPE = #logType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="title" >
+			TITLE = #title#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="content" >
+			CONTENT like #content#
+		</isNotEmpty>
+			<isNotEmpty prepend="and" property="optType" >
+			OPT_TYPE = #optType#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE_M" parameterClass="java.util.Map" resultMap="sysOptLogResultMapVo">
+		select * from (select a.*,b.login_name as LOGIN_NAME from SYS_OPT_LOG a, ACCOUNT_LOGIN b
+		 where 1=1 and a.LOGIN_ID=b.id) tb
+		 where 1=1 and deleted=0
+		<include refid="ALL_SQL_M"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE_M" parameterClass="java.util.HashMap" resultClass="Integer">
+		select count(LOGIN_NAME) as totalCount from (select a.*, b.login_name as LOGIN_NAME from SYS_OPT_LOG a ,account_login b 
+		where a.deleted=0 and a.login_id = b.id ) tb
+		where 1=1
+		<include refid="ALL_SQL_M"/>
+	</select>
+  
+</sqlMap>

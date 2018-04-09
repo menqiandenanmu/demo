@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="GOODSORDER" >
+	<typeAlias alias="goodsOrderAlias" type="com.mall.butler.store.model.GoodsOrder"/>
+	<resultMap id="goodsOrderResultMap" class="goodsOrderAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="BUYER_ID" property="buyerId"/>
+    	<result column="BUYER_NAME" property="buyerName"/>
+    	<result column="ORDER_ID" property="orderId"/>
+    	<result column="ORDER_NO" property="orderNo"/>
+    	<result column="GOODS_ID" property="goodsId"/>
+    	<result column="GOODS_NAME" property="goodsName"/>
+    	<result column="AMOUNT" property="amount"/>
+    	<result column="PRICE" property="price"/>
+    	<result column="SUM" property="sum"/>
+    	<result column="ORDER_STATUS" property="orderStatus"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="buyerId" >
+			BUYER_ID = #buyerId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="buyerName" >
+			BUYER_NAME = #buyerName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="orderId" >
+			ORDER_ID = #orderId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="orderNo" >
+			ORDER_NO = #orderNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="goodsId" >
+			GOODS_ID = #goodsId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="goodsName" >
+			GOODS_NAME = #goodsName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="amount" >
+			AMOUNT = #amount#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="price" >
+			PRICE = #price#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="sum" >
+			SUM = #sum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="orderStatus" >
+			ORDER_STATUS = #orderStatus#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="goodsOrderResultMap">
+		select * from GOODS_ORDER where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="goodsOrderAlias" resultClass="Integer">
+		select count(*) as totalCount from GOODS_ORDER where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="goodsOrderResultMap" parameterClass="goodsOrderAlias">
+  	select * from GOODS_ORDER
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="goodsOrderResultMap" parameterClass="goodsOrderAlias" >
+		select *
+		from GOODS_ORDER
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETED_BY_PK" parameterClass="goodsOrderAlias" >
+		delete from GOODS_ORDER
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="goodsOrderAlias" >
+		insert into GOODS_ORDER
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="buyerId" >
+				BUYER_ID
+			</isNotNull>
+			<isNotNull prepend="," property="buyerName" >
+				BUYER_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="orderId" >
+				ORDER_ID
+			</isNotNull>
+			<isNotNull prepend="," property="orderNo" >
+				ORDER_NO
+			</isNotNull>
+			<isNotNull prepend="," property="goodsId" >
+				GOODS_ID
+			</isNotNull>
+			<isNotNull prepend="," property="goodsName" >
+				GOODS_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="amount" >
+				AMOUNT
+			</isNotNull>
+			<isNotNull prepend="," property="price" >
+				PRICE
+			</isNotNull>
+			<isNotNull prepend="," property="sum" >
+				SUM
+			</isNotNull>
+			<isNotNull prepend="," property="orderStatus" >
+				ORDER_STATUS
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="buyerId" >
+				#buyerId#
+			</isNotNull>
+			<isNotNull prepend="," property="buyerName" >
+				#buyerName#
+			</isNotNull>
+			<isNotNull prepend="," property="orderId" >
+				#orderId#
+			</isNotNull>
+			<isNotNull prepend="," property="orderNo" >
+				#orderNo#
+			</isNotNull>
+			<isNotNull prepend="," property="goodsId" >
+				#goodsId#
+			</isNotNull>
+			<isNotNull prepend="," property="goodsName" >
+				#goodsName#
+			</isNotNull>
+			<isNotNull prepend="," property="amount" >
+				#amount#
+			</isNotNull>
+			<isNotNull prepend="," property="price" >
+				#price#
+			</isNotNull>
+			<isNotNull prepend="," property="sum" >
+				#sum#
+			</isNotNull>
+			<isNotNull prepend="," property="orderStatus" >
+				#orderStatus#
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				#remark#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="goodsOrderAlias" >
+		update GOODS_ORDER
+		set 
+		BUYER_ID = #buyerId#,
+		BUYER_NAME = #buyerName#,
+		ORDER_ID = #orderId#,
+		ORDER_NO = #orderNo#,
+		GOODS_ID = #goodsId#,
+		GOODS_NAME = #goodsName#,
+		AMOUNT = #amount#,
+		PRICE = #price#,
+		SUM = #sum#,
+		ORDER_STATUS = #orderStatus#,
+		REMARK = #remark#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+			select SEQ_GOODS_ORDER.nextval from dual
+	</select>
+</sqlMap>

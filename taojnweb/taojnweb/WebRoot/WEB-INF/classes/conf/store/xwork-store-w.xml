@@ -1,0 +1,25 @@
+<!DOCTYPE struts PUBLIC	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "struts-2.3.dtd">
+<struts>
+	<package name="web.store" extends="web" namespace="/goods">
+	<!-- 前台门票展示业务 -->
+		<action name="index" class="com.mall.butler.store.w.action.WStoreAction" >
+			<result name="success" type="freemarker">/template/b/store/w/storeIndex.ftl</result>
+			<result name="info" type="freemarker">/template/b/store/w/storeInfo.ftl</result>
+		</action>
+		<!-- 购买门票 -->
+		<action name="buyGoods" class="com.mall.butler.store.w.action.WGoodsNewOrderAction">
+			<interceptor-ref name="authStack" />
+			<result name="success" type="freemarker">/template/b/store/w/storeShow.ftl</result>
+		</action>
+		<!--保存订单业务 -->
+		<action name="saveOrder" class="com.mall.butler.store.w.action.WGoodsNewOrderAction" method="saveOrder" >
+			<interceptor-ref name="authStack" />
+			<interceptor-ref name="token"></interceptor-ref>
+				<result name="success" type="freemarker">/template/b/store/w/orderFill.ftl</result>
+		</action>
+		<action name="fillOrder" class="com.mall.butler.store.w.action.WGoodsNewOrderAction" method="fillOrder" >
+			<interceptor-ref name="authStack" />
+			<result name="success" type="freemarker">/template/b/store/w/orderFill.ftl</result>
+		</action>
+		</package>
+</struts>

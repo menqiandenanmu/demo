@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="POINTRULE" >
+	<typeAlias alias="pointRuleAlias" type="com.mall.butler.point.model.PointRule"/>
+	<resultMap id="pointRuleResultMap" class="pointRuleAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="OP_VALUE" property="opValue"/>
+    	<result column="BNS_TYPE" property="bnsType"/>
+    	<result column="AMOUNT" property="amount"/>
+    	<result column="USE_STATUS" property="useStatus"/>
+    	<result column="REMARK4" property="remark4"/>
+    	<result column="REMARK3" property="remark3"/>
+    	<result column="REMARK2" property="remark2"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="SOURCE" property="source"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="opValue" >
+			OP_VALUE = #opValue#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="bnsType" >
+			BNS_TYPE = #bnsType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="amount" >
+			AMOUNT = #amount#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="source" >
+			SOURCE = #source#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="useStatus" >
+			USE_STATUS = #useStatus#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark4" >
+			REMARK4 = #remark4#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark3" >
+			REMARK3 = #remark3#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark2" >
+			REMARK2 = #remark2#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+	</sql>
+		<sql id="ALL_SQL_W">
+		<isNotEmpty prepend="and" property="opValue" >
+			<![CDATA[ OP_VALUE <= #opValue# AND #opValue#<=REMARK2]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="bnsType" >
+			BNS_TYPE = #bnsType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="amount" >
+			AMOUNT = #amount#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="source" >
+			SOURCE = #source#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="useStatus" >
+			USE_STATUS = #useStatus#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark4" >
+			REMARK4 = #remark4#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark3" >
+			REMARK3 = #remark3#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark2" >
+			REMARK2 = #remark2#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+	</sql>
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="pointRuleResultMap">
+		select * from POINT_RULE where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="pointRuleAlias" resultClass="Integer">
+		select count(*) as totalCount from POINT_RULE where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="pointRuleResultMap" parameterClass="pointRuleAlias">
+  	select * from POINT_RULE
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_FIND_ALL_RULE" resultMap="pointRuleResultMap" parameterClass="pointRuleAlias">
+  	select * from POINT_RULE
+	where deleted=0
+		<include refid="ALL_SQL_W"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="pointRuleResultMap" parameterClass="pointRuleAlias" >
+		select *
+		from POINT_RULE
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="pointRuleAlias" >
+		delete from POINT_RULE
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="pointRuleAlias" >
+		insert into POINT_RULE
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="opValue" >
+				OP_VALUE
+			</isNotNull>
+			<isNotNull prepend="," property="bnsType" >
+				BNS_TYPE
+			</isNotNull>
+			<isNotNull prepend="," property="amount" >
+				AMOUNT
+			</isNotNull>
+			<isNotNull prepend="," property="useStatus" >
+				USE_STATUS
+			</isNotNull>
+			<isNotNull prepend="," property="source" >
+				SOURCE
+			</isNotNull>
+			<isNotNull prepend="," property="remark4" >
+				REMARK4
+			</isNotNull>
+			<isNotNull prepend="," property="remark3" >
+				REMARK3
+			</isNotNull>
+			<isNotNull prepend="," property="remark2" >
+				REMARK2
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="opValue" >
+				#opValue#
+			</isNotNull>
+			<isNotNull prepend="," property="bnsType" >
+				#bnsType#
+			</isNotNull>
+			<isNotNull prepend="," property="amount" >
+				#amount#
+			</isNotNull>
+			<isNotNull prepend="," property="useStatus" >
+				#useStatus#
+			</isNotNull>
+			<isNotNull prepend="," property="source" >
+				#source#
+			</isNotNull>
+			<isNotNull prepend="," property="remark4" >
+				#remark4#
+			</isNotNull>
+			<isNotNull prepend="," property="remark3" >
+				#remark3#
+			</isNotNull>
+			<isNotNull prepend="," property="remark2" >
+				#remark2#
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				#remark#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="pointRuleAlias" >
+		update POINT_RULE
+		set 
+		OP_VALUE = #opValue#,
+		BNS_TYPE = #bnsType#,
+		AMOUNT = #amount#,
+		USE_STATUS = #useStatus#,
+		SOURCE = #source#,
+		REMARK4 = #remark4#,
+		REMARK3 = #remark3#,
+		REMARK2 = #remark2#,
+		REMARK = #remark#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_POINT_RULE.nextval from dual
+	</select>
+</sqlMap>

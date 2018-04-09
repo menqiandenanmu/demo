@@ -1,0 +1,36 @@
+<!DOCTYPE struts PUBLIC	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "struts-2.3.dtd">
+<struts>
+	<package name="manage.web" extends="manage" namespace="/manage/web">
+		<default-interceptor-ref name="authStack" />
+		<!-- 页面区域内容管理（广告） -->
+		<action name="pageArea" class="com.mall.butler.web.m.action.PageAreaAction">
+			<result name="list" type="freemarker">/template/b/web/m/pageAreaList.ftl</result>
+			<result name="edit" type="freemarker">/template/b/web/m/pageAreaEdit.ftl</result>
+			<result name="add" type="freemarker">/template/b/web/m/pageAreaAdd.ftl</result>
+		</action>
+		<action name="pageAreaDetail" class="com.mall.butler.web.m.action.PageAreaDetailAction">
+			<result name="list" type="freemarker">/template/b/web/m/pageAreaDetailList.ftl</result>
+			<result name="edit" type="freemarker">/template/b/web/m/pageAreaDetailEdit.ftl</result>
+			<result name="add" type="freemarker">/template/b/web/m/pageAreaDetailAdd.ftl</result>
+		</action>
+		<!-- 系统静态信息管理 (帮助等) -->
+		<action name="static" class="com.mall.butler.web.m.action.StaticAction">
+			<result name="list" type="freemarker">/template/b/web/m/staticList.ftl</result>
+			<result name="edit" type="freemarker">/template/b/web/m/staticEdit.ftl</result>
+			<result name="add" type="freemarker">/template/b/web/m/staticAdd.ftl</result>
+		</action>
+			<!-- 资讯分类 -->
+		<action name="newsClass" class="com.mall.butler.web.m.action.NewsClassAction">
+			<result name="add" type="freemarker">/template/b/web/m/newsClassAdd.ftl</result>
+			<result name="edit" type="freemarker">/template/b/web/m/newsClassEdit.ftl</result>
+			<result name="list" type="freemarker">/template/b/web/m/newsClassList.ftl</result>
+		</action>
+		<!-- 资讯内容 -->
+		<action name="news" class="com.mall.butler.web.m.action.NewsAction">
+			<result name="add" type="freemarker">/template/b/web/m/newsInfoAdd.ftl</result>
+			<result name="edit" type="freemarker">/template/b/web/m/newsInfoEdit.ftl</result>
+			<result name="list" type="freemarker">/template/b/web/m/newsInfoList.ftl</result>
+			<result name="info" type="freemarker">/template/b/web/m/newsDetail.ftl</result>
+		</action>
+	</package>
+</struts>

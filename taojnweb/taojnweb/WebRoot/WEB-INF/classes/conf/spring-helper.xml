@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+	<!-- 系统配置参数 -->
+	<bean id="configHelper" class="com.mall.butler.helper.config._impl.ConfigHelperAppImpl">
+		<property name="configs">
+			<list>
+				<value>/com/mall/butler/app.properties</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 用户认证管理 -->
+	<bean id="sessionHelper" class="com.mall.butler.helper._impl.HttpSessionHelperImpl" />
+	<!-- property文件读写管理 -->
+	<bean id="propertiesFileHelper" class="com.mall.butler.helper._impl.PropertiesFileHelperImpl" />
+
+	<!-- json工具 -->
+	<bean id="jsonHelper" class="com.mall.butler.helper.json._impl.JSONHelperGSONImpl" init-method="init" />
+<!-- 系统初始化 -->
+	<bean id="systemInit" class="com.mall.butler.service.SystemInitManage" />
+</beans>

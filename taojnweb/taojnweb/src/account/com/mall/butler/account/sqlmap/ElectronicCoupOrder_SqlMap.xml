@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ELECTRONICCOUPORDER" >
+	<typeAlias alias="electronicCoupOrderAlias" type="com.mall.butler.account.model.ElectronicCoupOrder"/>
+	<resultMap id="electronicCoupOrderResultMap" class="electronicCoupOrderAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="ELET_NAME" property="eletName"/>
+    	<result column="ELET_CODE" property="eletCode"/>
+    	<result column="LEFT_VALUE" property="leftValue"/>
+    	<result column="ACCOUNT_ID" property="accountId"/>
+    	<result column="ACCOUNT_NAME" property="accountName"/>
+    	<result column="LOGIN_ID" property="loginId"/>
+    	<result column="LOGIN_NAME" property="loginName"/>
+    	<result column="ORDER_NO" property="orderNo"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="eletName" >
+			ELET_NAME = #eletName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="eletCode" >
+			ELET_CODE = #eletCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="leftValue" >
+			LEFT_VALUE = #leftValue#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountId" >
+			ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountName" >
+			ACCOUNT_NAME = #accountName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="loginId" >
+			LOGIN_ID = #loginId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="loginName" >
+			LOGIN_NAME = #loginName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="orderNo" >
+			ORDER_NO = #orderNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="electronicCoupOrderResultMap">
+		select * from ELECTRONIC_COUP_ORDER where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="electronicCoupOrderAlias" resultClass="Integer">
+		select count(*) as totalCount from ELECTRONIC_COUP_ORDER where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="electronicCoupOrderResultMap" parameterClass="electronicCoupOrderAlias">
+  	select * from ELECTRONIC_COUP_ORDER
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="electronicCoupOrderResultMap" parameterClass="electronicCoupOrderAlias" >
+		select *
+		from ELECTRONIC_COUP_ORDER
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="electronicCoupOrderAlias" >
+		delete from ELECTRONIC_COUP_ORDER
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="electronicCoupOrderAlias" >
+		insert into ELECTRONIC_COUP_ORDER
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="eletName" >
+				ELET_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="eletCode" >
+				ELET_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="leftValue" >
+				LEFT_VALUE
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				ACCOUNT_ID
+			</isNotNull>
+			<isNotNull prepend="," property="accountName" >
+				ACCOUNT_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="loginId" >
+				LOGIN_ID
+			</isNotNull>
+			<isNotNull prepend="," property="loginName" >
+				LOGIN_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="orderNo" >
+				ORDER_NO
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="eletName" >
+				#eletName#
+			</isNotNull>
+			<isNotNull prepend="," property="eletCode" >
+				#eletCode#
+			</isNotNull>
+			<isNotNull prepend="," property="leftValue" >
+				#leftValue#
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				#accountId#
+			</isNotNull>
+			<isNotNull prepend="," property="accountName" >
+				#accountName#
+			</isNotNull>
+			<isNotNull prepend="," property="loginId" >
+				#loginId#
+			</isNotNull>
+			<isNotNull prepend="," property="loginName" >
+				#loginName#
+			</isNotNull>
+			<isNotNull prepend="," property="orderNo" >
+				#orderNo#
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				#remark#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="electronicCoupOrderAlias" >
+		update ELECTRONIC_COUP_ORDER
+		set 
+		ELET_NAME = #eletName#,
+		ELET_CODE = #eletCode#,
+		LEFT_VALUE = #leftValue#,
+		ACCOUNT_ID = #accountId#,
+		ACCOUNT_NAME = #accountName#,
+		LOGIN_ID = #loginId#,
+		LOGIN_NAME = #loginName#,
+		ORDER_NO = #orderNo#,
+		REMARK = #remark#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_ELECTRONIC_COUP_ORDER.nextval from dual
+	</select>
+</sqlMap>

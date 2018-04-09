@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="TRADENOTIFYHISTORY" >
+	<typeAlias alias="tradeNotifyHistoryAlias" type="com.mall.butler.account.model.TradeNotifyHistory"/>
+	<resultMap id="tradeNotifyHistoryResultMap" class="tradeNotifyHistoryAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="SYNC_ID" property="syncId"/>
+    	<result column="SERIAL_NO" property="serialNo"/>
+    	<result column="SYNC_CON" property="syncCon"/>
+    	<result column="SYNC_NUM" property="syncNum"/>
+    	<result column="SYNC_STATUS" property="syncStatus"/>
+    	<result column="OP_TYPE" property="opType"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="syncId" >
+			SYNC_ID = #syncId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="serialNo" >
+			SERIAL_NO = #serialNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="syncCon" >
+			SYNC_CON = #syncCon#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="syncNum" >
+			SYNC_NUM = #syncNum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="syncStatus" >
+			SYNC_STATUS = #syncStatus#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opType" >
+			OP_TYPE = #opType#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="tradeNotifyHistoryResultMap">
+		select * from TRADE_NOTIFY_HISTORY where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="tradeNotifyHistoryAlias" resultClass="Integer">
+		select count(*) as totalCount from TRADE_NOTIFY_HISTORY where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="tradeNotifyHistoryResultMap" parameterClass="tradeNotifyHistoryAlias">
+  	select * from TRADE_NOTIFY_HISTORY
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="tradeNotifyHistoryResultMap" parameterClass="tradeNotifyHistoryAlias" >
+		select *
+		from TRADE_NOTIFY_HISTORY
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="tradeNotifyHistoryAlias" >
+		delete from TRADE_NOTIFY_HISTORY
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="tradeNotifyHistoryAlias" >
+		insert into TRADE_NOTIFY_HISTORY
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="syncId" >
+				SYNC_ID
+			</isNotNull>
+			<isNotNull prepend="," property="serialNo" >
+				SERIAL_NO
+			</isNotNull>
+			<isNotNull prepend="," property="syncCon" >
+				SYNC_CON
+			</isNotNull>
+			<isNotNull prepend="," property="syncNum" >
+				SYNC_NUM
+			</isNotNull>
+			<isNotNull prepend="," property="syncStatus" >
+				SYNC_STATUS
+			</isNotNull>
+			<isNotNull prepend="," property="opType" >
+				OP_TYPE
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="syncId" >
+				#syncId#
+			</isNotNull>
+			<isNotNull prepend="," property="serialNo" >
+				#serialNo#
+			</isNotNull>
+			<isNotNull prepend="," property="syncCon" >
+				#syncCon#
+			</isNotNull>
+			<isNotNull prepend="," property="syncNum" >
+				#syncNum#
+			</isNotNull>
+			<isNotNull prepend="," property="syncStatus" >
+				#syncStatus#
+			</isNotNull>
+			<isNotNull prepend="," property="opType" >
+				#opType#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="tradeNotifyHistoryAlias" >
+		update TRADE_NOTIFY_HISTORY
+		set 
+		SYNC_ID = #syncId#,
+		SERIAL_NO = #serialNo#,
+		SYNC_CON = #syncCon#,
+		SYNC_NUM = #syncNum#,
+		SYNC_STATUS = #syncStatus#,
+		OP_TYPE = #opType#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_TRADE_NOTIFY_HISTORY.nextval from dual
+	</select>
+</sqlMap>

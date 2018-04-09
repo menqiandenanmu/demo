@@ -1,0 +1,44 @@
+<!DOCTYPE struts PUBLIC	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "struts-2.3.dtd">
+<struts>
+	<package name="manage.store" extends="manage" namespace="/manage/store">
+		<default-interceptor-ref name="authStack" />
+		<!--商品-->
+		<action name="goods" class="com.mall.butler.store.m.action.GoodsInfoAction">
+			<result name="list" type="freemarker">/template/b/store/m/goodsInfoList.ftl</result>
+			<result name="add" type="freemarker">/template/b/store/m/goodsInfoAdd.ftl</result>
+			<result name="edit" type="freemarker">/template/b/store/m/goodsInfoEdit.ftl</result>
+			<result name="info" type="freemarker">/template/b/store/m/goodsInfo.ftl</result>
+		</action>
+		<!--库存-->
+		<action name="stock" class="com.mall.butler.store.m.action.GoodsStockAction">
+			<result name="success" type="freemarker">/template/b/store/m/goodsStockList.ftl</result>
+			<result name="info" type="freemarker">/template/b/store/m/goodsStockInfo.ftl</result>
+		</action>
+		<!-- 商品入库记录 -->
+		<action name="goodsPurchase" class="com.mall.butler.store.m.action.GoodsPurchaseAction">
+			<result name="success" type="freemarker">/template/b/store/m/goodsPurchaseList.ftl</result>
+			<result name="info" type="freemarker">/template/b/store/m/goodsPurchaseInfo.ftl</result>
+			<result name="add" type="freemarker">/template/b/store/m/goodsPurchaseAdd.ftl</result>
+		</action>
+		<!-- 商品出库 -->
+		<action name="goodsSell" class="com.mall.butler.store.m.action.GoodsSellAction">
+			<result name="success" type="freemarker">/template/b/store/m/goodsSellList.ftl</result>
+			<result name="info" type="freemarker">/template/b/store/m/goodsSellInfo.ftl</result>
+			<result name="add" type="freemarker">/template/b/store/m/goodsSellAdd.ftl</result>
+		</action>
+		<!-- 商品出库统计 -->
+		<action name="sellCount" class="com.mall.butler.store.m.action.SellCountAction">
+			<result name="success" type="freemarker">/template/b/store/m/goodsSellCount.ftl</result>
+		</action>
+		<!-- 商品入库统计 -->
+		<action name="purchaseCount" class="com.mall.butler.store.m.action.PurchaseCountAction">
+			<result name="success" type="freemarker">/template/b/store/m/purchaseCount.ftl</result>
+		</action>
+		<!-- 首页 -->
+		<action name="index" class="com.mall.butler.store.m.action.StoreIndexAction">
+			<result name="success" type="freemarker">/template/b/account/m/storeIndex.ftl</result>
+		</action>
+		
+		
+	</package>
+</struts>

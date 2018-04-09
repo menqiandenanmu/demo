@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SYSPARAM" >
+	<typeAlias alias="sysParamAlias" type="com.mall.butler.sys.model.SysParam"/>
+	<resultMap id="sysParamResultMap" class="sysParamAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="PARAM_CODE" property="paramCode"/>
+    	<result column="PARAM_NAME" property="paramName"/>
+    	<result column="PARAM_VALUE" property="paramValue"/>
+    	<result column="PARAM_REGEX" property="paramRegex"/>
+    	<result column="OPERATOR_ID" property="operatorId"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="id" >
+			ID = #id#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="paramCode" >
+			PARAM_CODE = #paramCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="paramName" >
+			PARAM_NAME = #paramName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="paramValue" >
+			PARAM_VALUE = #paramValue#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="paramRegex" >
+			PARAM_REGEX = #paramRegex#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="operatorId" >
+			OPERATOR_ID = #operatorId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="sysParamResultMap">
+		select * from SYS_PARAM where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="sysParamAlias" resultClass="Integer">
+		select count(*) as totalCount from SYS_PARAM where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="sysParamResultMap" parameterClass="sysParamAlias">
+  	select * from SYS_PARAM
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="sysParamResultMap" parameterClass="sysParamAlias" >
+		select *
+		from SYS_PARAM
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="sysParamAlias" >
+		delete from SYS_PARAM
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="sysParamAlias" >
+		insert into SYS_PARAM
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="paramCode" >
+				PARAM_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="paramName" >
+				PARAM_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="paramValue" >
+				PARAM_VALUE
+			</isNotNull>
+			<isNotNull prepend="," property="paramRegex" >
+				PARAM_REGEX
+			</isNotNull>
+			<isNotNull prepend="," property="operatorId" >
+				OPERATOR_ID
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="paramCode" >
+				#paramCode#
+			</isNotNull>
+			<isNotNull prepend="," property="paramName" >
+				#paramName#
+			</isNotNull>
+			<isNotNull prepend="," property="paramValue" >
+				#paramValue#
+			</isNotNull>
+			<isNotNull prepend="," property="paramRegex" >
+				#paramRegex#
+			</isNotNull>
+			<isNotNull prepend="," property="operatorId" >
+				#operatorId#
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				#remark#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="sysParamAlias" >
+		update SYS_PARAM
+		set 
+		PARAM_CODE = #paramCode#,
+		PARAM_NAME = #paramName#,
+		PARAM_VALUE = #paramValue#,
+		PARAM_REGEX = #paramRegex#,
+		OPERATOR_ID = #operatorId#,
+		REMARK = #remark#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_SYS_PARAM.nextval from dual
+	</select>
+</sqlMap>

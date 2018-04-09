@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SYSDICTDETAIL" >
+	<typeAlias alias="sysDictDetailAlias" type="com.mall.butler.sys.model.SysDictDetail"/>
+	<resultMap id="sysDictDetailResultMap" class="sysDictDetailAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="DICT_ID" property="dictId"/>
+    	<result column="DICT_DETAIL_CODE" property="dictDetailCode"/>
+    	<result column="DICT_DETAIL_NAME" property="dictDetailName"/>
+    	<result column="DICT_DETAIL_VALUE" property="dictDetailValue"/>
+    	<result column="PYJM" property="pyjm"/>
+    	<result column="LIST_SORT" property="listSort"/>
+    	<result column="USE_FLAG" property="useFlag"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="id" >
+			ID = #id#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="dictId" >
+			DICT_ID = #dictId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="dictDetailCode" >
+			DICT_DETAIL_CODE = #dictDetailCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="dictDetailName" >
+			DICT_DETAIL_NAME = #dictDetailName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="dictDetailValue" >
+			DICT_DETAIL_VALUE = #dictDetailValue#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="pyjm" >
+			PYJM = #pyjm#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="listSort" >
+			LIST_SORT = #listSort#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="useFlag" >
+			USE_FLAG = #useFlag#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="sysDictDetailResultMap">
+		select * from SYS_DICT_DETAIL where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="sysDictDetailAlias" resultClass="Integer">
+		select count(*) as totalCount from SYS_DICT_DETAIL where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="sysDictDetailResultMap" parameterClass="sysDictDetailAlias">
+  	select * from SYS_DICT_DETAIL
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by LIST_SORT
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="sysDictDetailResultMap" parameterClass="sysDictDetailAlias" >
+		select *
+		from SYS_DICT_DETAIL
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="sysDictDetailAlias" >
+		delete from SYS_DICT_DETAIL
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="sysDictDetailAlias" >
+		insert into SYS_DICT_DETAIL
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="dictId" >
+				DICT_ID
+			</isNotNull>
+			<isNotNull prepend="," property="dictDetailCode" >
+				DICT_DETAIL_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="dictDetailName" >
+				DICT_DETAIL_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="dictDetailValue" >
+				DICT_DETAIL_VALUE
+			</isNotNull>
+			<isNotNull prepend="," property="pyjm" >
+				PYJM
+			</isNotNull>
+			<isNotNull prepend="," property="listSort" >
+				LIST_SORT
+			</isNotNull>
+			<isNotNull prepend="," property="useFlag" >
+				USE_FLAG
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="dictId" >
+				#dictId#
+			</isNotNull>
+			<isNotNull prepend="," property="dictDetailCode" >
+				#dictDetailCode#
+			</isNotNull>
+			<isNotNull prepend="," property="dictDetailName" >
+				#dictDetailName#
+			</isNotNull>
+			<isNotNull prepend="," property="dictDetailValue" >
+				#dictDetailValue#
+			</isNotNull>
+			<isNotNull prepend="," property="pyjm" >
+				#pyjm#
+			</isNotNull>
+			<isNotNull prepend="," property="listSort" >
+				#listSort#
+			</isNotNull>
+			<isNotNull prepend="," property="useFlag" >
+				#useFlag#
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				#remark#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="sysDictDetailAlias" >
+		update SYS_DICT_DETAIL
+		set 
+		DICT_ID = #dictId#,
+		DICT_DETAIL_CODE = #dictDetailCode#,
+		DICT_DETAIL_NAME = #dictDetailName#,
+		DICT_DETAIL_VALUE = #dictDetailValue#,
+		PYJM = #pyjm#,
+		LIST_SORT = #listSort#,
+		USE_FLAG = #useFlag#,
+		REMARK = #remark#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_SYS_DICT_DETAIL.nextval from dual
+	</select>
+</sqlMap>

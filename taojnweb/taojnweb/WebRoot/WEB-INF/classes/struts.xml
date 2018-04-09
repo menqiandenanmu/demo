@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"conf/struts-2.3.dtd">
+<struts>
+
+	<constant name="struts.action.extension" value="htm,do" />
+	<constant name="struts.devMode" value="false" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+	<constant name="struts.objectFactory" value="spring" />
+	<constant name="struts.freemarker.wrapper.altMap" value="false"/>   
+	
+	<!-- 管理后台基本框架 -->
+	<include file="conf/xwork-base-m.xml"/>
+	<include file="conf/xwork-common-m.xml"/>
+	
+	<!-- 前台基本框架 -->
+	<include file="conf/xwork-base-w.xml"/>
+	<include file="conf/xwork-common-w.xml"/>
+	<include file="conf/xwork-base-wx.xml"/>
+	<include file="conf/xwork-common-wx.xml"/>
+	<!-- 系统管理 -->	
+	<include file="conf/sys/xwork-sys.xml"/>
+	<!-- 系统静态信息 -->
+	<include file="conf/web/xwork-web.xml"/>
+	<!-- 用户业务 -->
+	<include file="conf/account/xwork-account.xml"/>
+	<!-- 商城业务 -->
+	<include file="conf/store/xwork-store.xml"/>
+	<!-- 订单业务 -->
+	<include file="conf/order/xwork-order.xml"/>
+	<!-- 接口业务 -->
+	<include file="conf/port/xwork-port.xml"/>
+	<!-- 积分业务 -->
+	<include file="conf/point/xwork-point.xml"/>
+</struts>

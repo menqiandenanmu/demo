@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SYSROLEPLUGS" >
+	<typeAlias alias="sysRoleplugsAlias" type="com.mall.butler.sys.model.SysRoleplugs"/>
+	<resultMap id="sysRoleplugsResultMap" class="sysRoleplugsAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="ROLE_ID" property="roleId"/>
+    	<result column="FUNC_ID" property="funcId"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="id" >
+			ID = #id#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="roleId" >
+			ROLE_ID = #roleId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="funcId" >
+			FUNC_ID = #funcId#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="sysRoleplugsResultMap">
+		select * from SYS_ROLEPLUGS where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="sysRoleplugsAlias" resultClass="Integer">
+		select count(*) as totalCount from SYS_ROLEPLUGS where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="sysRoleplugsResultMap" parameterClass="sysRoleplugsAlias">
+  	select * from SYS_ROLEPLUGS
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="sysRoleplugsResultMap" parameterClass="sysRoleplugsAlias" >
+		select *
+		from SYS_ROLEPLUGS
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="sysRoleplugsAlias" >
+		delete from SYS_ROLEPLUGS
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="sysRoleplugsAlias" >
+		insert into SYS_ROLEPLUGS
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="roleId" >
+				ROLE_ID
+			</isNotNull>
+			<isNotNull prepend="," property="funcId" >
+				FUNC_ID
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="roleId" >
+				#roleId#
+			</isNotNull>
+			<isNotNull prepend="," property="funcId" >
+				#funcId#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="sysRoleplugsAlias" >
+		update SYS_ROLEPLUGS
+		set 
+		ROLE_ID = #roleId#,
+		FUNC_ID = #funcId#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_SYS_ROLEPLUGS.nextval from dual
+	</select>
+</sqlMap>

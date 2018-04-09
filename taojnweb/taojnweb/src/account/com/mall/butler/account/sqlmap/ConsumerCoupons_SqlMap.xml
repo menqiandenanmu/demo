@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="CONSUMERCOUPONS" >
+	<typeAlias alias="consumerCouponsAlias" type="com.mall.butler.account.model.ConsumerCoupons"/>
+	<resultMap id="consumerCouponsResultMap" class="consumerCouponsAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="SEND_NAME" property="sendName"/>
+    	<result column="RULE_ID" property="ruleId"/>
+    	<result column="COUPON_NAME" property="couponName"/>
+    	<result column="COUPON_CODE" property="couponCode"/>
+    	<result column="COUPON_NUM" property="couponNum"/>
+    	<result column="PRICE" property="price"/>
+    	<result column="EXPIRAT_DATE" property="expiratDate"/>
+    	<result column="COUPON_STATUS" property="couponStatus"/>
+    	<result column="REMARK2" property="remark2"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="sendName" >
+			SEND_NAME = #sendName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="ruleId" >
+			RULE_ID = #ruleId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="couponName" >
+			COUPON_NAME = #couponName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="couponCode" >
+			COUPON_CODE = #couponCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="couponNum" >
+			COUPON_NUM = #couponNum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="price" >
+			PRICE = #price#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="expiratDate" >
+			to_char(EXPIRAT_DATE,'yyyy-mm-dd') = to_char(#expiratDate#,'yyyy-mm-dd')
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="couponStatus" >
+			COUPON_STATUS = #couponStatus#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark2" >
+			REMARK2 = #remark2#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="consumerCouponsResultMap">
+		select * from CONSUMER_COUPONS where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="consumerCouponsAlias" resultClass="Integer">
+		select count(*) as totalCount from CONSUMER_COUPONS where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="consumerCouponsResultMap" parameterClass="consumerCouponsAlias">
+  	select * from CONSUMER_COUPONS
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="consumerCouponsResultMap" parameterClass="consumerCouponsAlias" >
+		select *
+		from CONSUMER_COUPONS
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="consumerCouponsAlias" >
+		delete from CONSUMER_COUPONS
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="consumerCouponsAlias" >
+		insert into CONSUMER_COUPONS
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="sendName" >
+				SEND_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="ruleId" >
+				RULE_ID
+			</isNotNull>
+			<isNotNull prepend="," property="couponName" >
+				COUPON_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="couponCode" >
+				COUPON_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="couponNum" >
+				COUPON_NUM
+			</isNotNull>
+			<isNotNull prepend="," property="price" >
+				PRICE
+			</isNotNull>
+			<isNotNull prepend="," property="expiratDate" >
+				EXPIRAT_DATE
+			</isNotNull>
+			<isNotNull prepend="," property="couponStatus" >
+				COUPON_STATUS
+			</isNotNull>
+			<isNotNull prepend="," property="remark2" >
+				REMARK2
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="sendName" >
+				#sendName#
+			</isNotNull>
+			<isNotNull prepend="," property="ruleId" >
+				#ruleId#
+			</isNotNull>
+			<isNotNull prepend="," property="couponName" >
+				#couponName#
+			</isNotNull>
+			<isNotNull prepend="," property="couponCode" >
+				#couponCode#
+			</isNotNull>
+			<isNotNull prepend="," property="couponNum" >
+				#couponNum#
+			</isNotNull>
+			<isNotNull prepend="," property="price" >
+				#price#
+			</isNotNull>
+			<isNotNull prepend="," property="expiratDate" >
+				#expiratDate#
+			</isNotNull>
+			<isNotNull prepend="," property="couponStatus" >
+				#couponStatus#
+			</isNotNull>
+			<isNotNull prepend="," property="remark2" >
+				#remark2#
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				#remark#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="consumerCouponsAlias" >
+		update CONSUMER_COUPONS
+		set 
+		SEND_NAME = #sendName#,
+		RULE_ID = #ruleId#,
+		COUPON_NAME = #couponName#,
+		COUPON_CODE = #couponCode#,
+		COUPON_NUM = #couponNum#,
+		PRICE = #price#,
+		EXPIRAT_DATE = #expiratDate#,
+		COUPON_STATUS = #couponStatus#,
+		REMARK2 = #remark2#,
+		REMARK = #remark#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_CONSUMER_COUPONS.nextval from dual
+	</select>
+</sqlMap>

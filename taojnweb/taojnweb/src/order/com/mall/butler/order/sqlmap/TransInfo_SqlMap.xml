@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="TRANSINFO" >
+	<typeAlias alias="transInfoAlias" type="com.mall.butler.order.model.TransInfo"/>
+	<resultMap id="transInfoResultMap" class="transInfoAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="ACCOUNT_ID" property="accountId"/>
+    	<result column="LOGIN_ID" property="loginId"/>
+    	<result column="GATEWAY" property="gateway"/>
+    	<result column="GATEWAY_TRANS_NO" property="gatewayTransNo"/>
+    	<result column="BUSINESS_TYPE" property="businessType"/>
+    	<result column="BUSINESS_ID" property="businessId"/>
+    	<result column="BUSINESS_NO" property="businessNo"/>
+    	<result column="TRANS_NO" property="transNo"/>
+    	<result column="AMOUNT" property="amount"/>
+    	<result column="STATUS" property="status"/>
+    	<result column="REPORT_INFO" property="reportInfo"/>
+    	<result column="REPORT_TIME" property="reportTime"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+    	<result column="TRANS_TYPE" property="transType"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="accountId" >
+			ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="loginId" >
+			LOGIN_ID = #loginId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="gateway" >
+			GATEWAY = #gateway#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="gatewayTransNo" >
+			GATEWAY_TRANS_NO = #gatewayTransNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="businessType" >
+			BUSINESS_TYPE = #businessType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="businessId" >
+			BUSINESS_ID = #businessId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="businessNo" >
+			BUSINESS_NO = #businessNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="transNo" >
+			TRANS_NO = #transNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="amount" >
+			AMOUNT = #amount#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="status" >
+			STATUS = #status#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="reportInfo" >
+			REPORT_INFO = #reportInfo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="transType" >
+			TRANS_TYPE = #transType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="reportTime" >
+		to_char(REPORT_TIME,'yyyy-mm-dd') = to_char(#reportTime#,'yyyy-mm-dd')
+		</isNotEmpty>
+	</sql>
+	
+	<sql id="PAGE_SQL">
+		<isNotEmpty prepend="and" property="gateway" >
+			GATEWAY = #gateway#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="gatewayTransNo" >
+			GATEWAY_TRANS_NO = #gatewayTransNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="businessType" >
+			BUSINESS_TYPE = #businessType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="businessId" >
+			BUSINESS_ID = #businessId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="businessNo" >
+			BUSINESS_NO = #businessNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="transNo" >
+			TRANS_NO = #transNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="transType" >
+			TRANS_TYPE = #transType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="status" >
+			STATUS = #status#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="begCreateDate" >
+		<![CDATA[
+			create_time > #begCreateDate#
+			]]> 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endCreateDate" >
+		<![CDATA[
+			create_time < #endCreateDate#+1
+			]]>
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="transInfoResultMap">
+		select * from TRANS_INFO where 1=1 and deleted=0
+		<include refid="PAGE_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="transInfoAlias" resultClass="Integer">
+		select count(*) as totalCount from TRANS_INFO where 1=1 and deleted=0
+		<include refid="PAGE_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="transInfoResultMap" parameterClass="transInfoAlias">
+  	select * from TRANS_INFO
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="transInfoResultMap" parameterClass="transInfoAlias" >
+		select *
+		from TRANS_INFO
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="transInfoAlias" >
+		delete from TRANS_INFO
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="transInfoAlias" >
+		insert into TRANS_INFO
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				ACCOUNT_ID
+			</isNotNull>
+			<isNotNull prepend="," property="loginId" >
+				LOGIN_ID
+			</isNotNull>
+			<isNotNull prepend="," property="gateway" >
+				GATEWAY
+			</isNotNull>
+			<isNotNull prepend="," property="gatewayTransNo" >
+				GATEWAY_TRANS_NO
+			</isNotNull>
+			<isNotNull prepend="," property="businessType" >
+				BUSINESS_TYPE
+			</isNotNull>
+			<isNotNull prepend="," property="businessId" >
+				BUSINESS_ID
+			</isNotNull>
+			<isNotNull prepend="," property="businessNo" >
+				BUSINESS_NO
+			</isNotNull>
+			<isNotNull prepend="," property="transNo" >
+				TRANS_NO
+			</isNotNull>
+			<isNotNull prepend="," property="transType" >
+				TRANS_TYPE
+			</isNotNull>
+			<isNotNull prepend="," property="amount" >
+				AMOUNT
+			</isNotNull>
+			<isNotNull prepend="," property="status" >
+				STATUS
+			</isNotNull>
+			<isNotNull prepend="," property="reportInfo" >
+				REPORT_INFO
+			</isNotNull>
+			<isNotNull prepend="," property="reportTime" >
+				REPORT_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				#accountId#
+			</isNotNull>
+			<isNotNull prepend="," property="loginId" >
+				#loginId#
+			</isNotNull>
+			<isNotNull prepend="," property="gateway" >
+				#gateway#
+			</isNotNull>
+			<isNotNull prepend="," property="gatewayTransNo" >
+				#gatewayTransNo#
+			</isNotNull>
+			<isNotNull prepend="," property="businessType" >
+				#businessType#
+			</isNotNull>
+			<isNotNull prepend="," property="businessId" >
+				#businessId#
+			</isNotNull>
+			<isNotNull prepend="," property="businessNo" >
+				#businessNo#
+			</isNotNull>
+			<isNotNull prepend="," property="transNo" >
+				#transNo#
+			</isNotNull>
+			<isNotNull prepend="," property="transType" >
+				#transType#
+			</isNotNull>
+			<isNotNull prepend="," property="amount" >
+				#amount#
+			</isNotNull>
+			<isNotNull prepend="," property="status" >
+				#status#
+			</isNotNull>
+			<isNotNull prepend="," property="reportInfo" >
+				#reportInfo#
+			</isNotNull>
+			<isNotNull prepend="," property="reportTime" >
+				#reportTime#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="transInfoAlias" >
+		update TRANS_INFO
+		set 
+		ACCOUNT_ID = #accountId#,
+		LOGIN_ID = #loginId#,
+		GATEWAY = #gateway#,
+		GATEWAY_TRANS_NO = #gatewayTransNo#,
+		BUSINESS_TYPE = #businessType#,
+		BUSINESS_ID = #businessId#,
+		BUSINESS_NO = #businessNo#,
+		TRANS_NO = #transNo#,
+		TRANS_TYPE = #transType#,
+		AMOUNT = #amount#,
+		STATUS = #status#,
+		REPORT_INFO = #reportInfo#,
+		REPORT_TIME = #reportTime#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_TRANS_INFO.nextval from dual
+	</select>
+</sqlMap>

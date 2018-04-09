@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ORDERINFO" >
+	<sql id="SQL_ORDER_LIST">
+		<isNotEmpty prepend="and" property="buyerId" >
+			BUYER_ID = #buyerId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="buyerName" >
+			BUYER_NAME = #buyerName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="loginId" >
+			LOGIN_ID = #loginId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="loginName" >
+			LOGIN_NAME = #loginName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="buyerAccType" >
+			BUYER_ACC_TYPE = #buyerAccType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="orderNo" >
+			ORDER_NO = #orderNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="orderType" >
+			ORDER_TYPE = #orderType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="wayType" >
+			WAY_TYPE = #wayType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="payType" >
+			PAY_TYPE = #payType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="payStatus" >
+			PAY_STATUS = #payStatus#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="paySum" >
+			PAY_SUM = #paySum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="payTime" >
+			convert(varchar(10),PAY_TIME,121) = convert(varchar(10),#payTime#,121)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="finalSum" >
+			FINAL_SUM = #finalSum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="orderStatus" >
+			ORDER_STATUS = #orderStatus#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="auditFlag" >
+			AUDIT_FLAG = #auditFlag#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="hungFlag" >
+			HUNG_FLAG = #hungFlag#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="closeTime" >
+			convert(varchar(10),CLOSE_TIME,121) = convert(varchar(10),#closeTime#,121)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="closed" >
+			CLOSED = #closed#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="linkName" >
+			LINK_NAME = #linkName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="linkIdcard" >
+			LINK_IDCARD = #linkIdcard#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="linkMobile" >
+			LINK_MOBILE = #linkMobile#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="linkAddr" >
+			LINK_ADDR = #linkAddr#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="areaCode" >
+			AREA_CODE = #areaCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="areaName" >
+			AREA_NAME = #areaName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="version" >
+			VERSION = #version#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="info" >
+			INFO = #info#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="begCreateDate" >
+		<![CDATA[
+			create_time > #begCreateDate#
+			]]> 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endCreateDate" >
+		<![CDATA[
+			create_time < dateadd(d,1,#endCreateDate#)
+			]]>
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE_M" parameterClass="java.util.Map" resultMap="orderInfoResultMap">
+		select * from ORDER_INFO where 1=1 and deleted=0
+		<include refid="SQL_ORDER_LIST"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE_M" parameterClass="java.util.Map" resultClass="Integer">
+		select count(*) as totalCount from ORDER_INFO where 1=1 and deleted=0
+		<include refid="SQL_ORDER_LIST"/>
+	</select>
+	
+</sqlMap>

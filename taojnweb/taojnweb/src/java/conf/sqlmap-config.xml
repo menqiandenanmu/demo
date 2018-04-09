@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE sqlMapConfig       
+     PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"       
+     "sql-map-config-2.dtd">
+<sqlMapConfig>
+	<settings useStatementNamespaces="true" />
+
+	<typeHandler javaType="java.lang.Boolean" callback="com.mall.util.ibatis.andler.oracle.BooleanHandlerCallback"/>
+	<typeHandler javaType="java.io.Serializable" callback="com.mall.util.ibatis.pk.longs.PkLongTypeHandlerCallback" />
+	<typeHandler javaType="java.lang.Long" callback="com.mall.util.ibatis.pk.longs.PkLongTypeHandlerCallback" />
+
+	<sqlMap resource="com/mall/util/ibatis/sqlmap/xspringPaging.xml" />
+</sqlMapConfig>

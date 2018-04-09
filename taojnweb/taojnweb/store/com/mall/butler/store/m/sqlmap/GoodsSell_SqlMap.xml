@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="GOODSSELL">
+<resultMap id="goodsSellResultMapCount" class="goodsSellAlias" >
+    	<result column="GOODS_NAME" property="goodsName"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="NUM" property="num"/>
+	</resultMap>
+	<sql id="ALL_SQL_M">
+		<isNotEmpty prepend="and" property="stockId" >
+			STOCK_ID = #stockId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="goodsName" >
+			GOODS_NAME = #goodsName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="num" >
+			NUM = #num#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="loginId" >
+			LOGIN_ID = #loginId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="loginName" >
+			LOGIN_NAME = #loginName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+			<isNotEmpty prepend="and" property="begCreateDate" >
+		<![CDATA[
+			create_time > #begCreateDate#
+			]]> 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endCreateDate" >
+		<![CDATA[
+			create_time < dateadd(d,1,#endCreateDate#)
+			]]>
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE_M" parameterClass="java.util.Map" resultMap="goodsSellResultMap">
+		select * from GOODS_SELL where 1=1 and deleted=0
+		<include refid="ALL_SQL_M"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE_M" parameterClass="java.util.Map" resultClass="Integer">
+		select count(*) as totalCount from GOODS_SELL where 1=1 and deleted=0
+		<include refid="ALL_SQL_M"/>
+	</select>
+  	<select id="SELECT_PAGE_COUNT" parameterClass="java.util.Map" resultMap="goodsSellResultMapCount">
+		select GOODS_NAME,convert(varchar(10), CREATE_TIME,121) CREATE_TIME,
+		SUM(NUM) NUM
+		from GOODS_SELL
+		WHERE 1=1 AND DELETED=0
+		<include refid="ALL_SQL_M" />
+		GROUP BY convert(varchar(10), CREATE_TIME,121),GOODS_NAME
+		ORDER BY convert(varchar(10), CREATE_TIME,121) DESC
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE_COUNT" parameterClass="java.util.Map" resultClass="Integer">
+		select count(*) as totalCount from (
+		select GOODS_NAME from
+		GOODS_SELL
+		WHERE 1=1 AND DELETED=0
+		<include refid="ALL_SQL_M" />
+		group by 
+		convert(varchar(10), CREATE_TIME,121),GOODS_NAME
+		)T
+	</select>
+</sqlMap>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="TRADEORDER" >
+	<typeAlias alias="tradeOrderAlias" type="com.mall.butler.account.model.TradeOrder"/>
+	<resultMap id="tradeOrderResultMap" class="tradeOrderAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="ACCOUNT_ID" property="accountId"/>
+    	<result column="TRADE_ACC_ID" property="tradeAccId"/>
+    	<result column="TRADE_ACC_NAME" property="tradeAccName"/>
+    	<result column="ORDER_NO" property="orderNo"/>
+    	<result column="PAY_STATUS" property="payStatus"/>
+    	<result column="OP_TYPE" property="opType"/>
+    	<result column="NETPAY_NO" property="netpayNo"/>
+    	<result column="OP_VALUE" property="opValue"/>
+    	<result column="OP_LOGIN_NAME" property="opLoginName"/>
+    	<result column="OP_LOGIN_ID" property="opLoginId"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="accountId" >
+			ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="tradeAccId" >
+			TRADE_ACC_ID = #tradeAccId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="tradeAccName" >
+			TRADE_ACC_NAME = #tradeAccName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="orderNo" >
+			ORDER_NO = #orderNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="payStatus" >
+			PAY_STATUS = #payStatus#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opType" >
+			OP_TYPE = #opType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="netpayNo" >
+			NETPAY_NO = #netpayNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opValue" >
+			OP_VALUE = #opValue#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opLoginName" >
+			OP_LOGIN_NAME = #opLoginName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opLoginId" >
+			OP_LOGIN_ID = #opLoginId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="tradeOrderResultMap">
+		select * from TRADE_ORDER where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="tradeOrderAlias" resultClass="Integer">
+		select count(*) as totalCount from TRADE_ORDER where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="tradeOrderResultMap" parameterClass="tradeOrderAlias">
+  	select * from TRADE_ORDER
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="tradeOrderResultMap" parameterClass="tradeOrderAlias" >
+		select *
+		from TRADE_ORDER
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="tradeOrderAlias" >
+		delete from TRADE_ORDER
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="tradeOrderAlias" >
+		insert into TRADE_ORDER
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				ACCOUNT_ID
+			</isNotNull>
+			<isNotNull prepend="," property="tradeAccId" >
+				TRADE_ACC_ID
+			</isNotNull>
+			<isNotNull prepend="," property="tradeAccName" >
+				TRADE_ACC_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="orderNo" >
+				ORDER_NO
+			</isNotNull>
+			<isNotNull prepend="," property="payStatus" >
+				PAY_STATUS
+			</isNotNull>
+			<isNotNull prepend="," property="opType" >
+				OP_TYPE
+			</isNotNull>
+			<isNotNull prepend="," property="netpayNo" >
+				NETPAY_NO
+			</isNotNull>
+			<isNotNull prepend="," property="opValue" >
+				OP_VALUE
+			</isNotNull>
+			<isNotNull prepend="," property="opLoginName" >
+				OP_LOGIN_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="opLoginId" >
+				OP_LOGIN_ID
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				#accountId#
+			</isNotNull>
+			<isNotNull prepend="," property="tradeAccId" >
+				#tradeAccId#
+			</isNotNull>
+			<isNotNull prepend="," property="tradeAccName" >
+				#tradeAccName#
+			</isNotNull>
+			<isNotNull prepend="," property="orderNo" >
+				#orderNo#
+			</isNotNull>
+			<isNotNull prepend="," property="payStatus" >
+				#payStatus#
+			</isNotNull>
+			<isNotNull prepend="," property="opType" >
+				#opType#
+			</isNotNull>
+			<isNotNull prepend="," property="netpayNo" >
+				#netpayNo#
+			</isNotNull>
+			<isNotNull prepend="," property="opValue" >
+				#opValue#
+			</isNotNull>
+			<isNotNull prepend="," property="opLoginName" >
+				#opLoginName#
+			</isNotNull>
+			<isNotNull prepend="," property="opLoginId" >
+				#opLoginId#
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				#remark#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="tradeOrderAlias" >
+		update TRADE_ORDER
+		set 
+		ACCOUNT_ID = #accountId#,
+		TRADE_ACC_ID = #tradeAccId#,
+		TRADE_ACC_NAME = #tradeAccName#,
+		ORDER_NO = #orderNo#,
+		PAY_STATUS = #payStatus#,
+		OP_TYPE = #opType#,
+		NETPAY_NO = #netpayNo#,
+		OP_VALUE = #opValue#,
+		OP_LOGIN_NAME = #opLoginName#,
+		OP_LOGIN_ID = #opLoginId#,
+		REMARK = #remark#,
+		DELETED = #deleted#,
+		CREATE_TIME = #createTime#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_TRADE_ORDER.nextval from dual
+	</select>
+</sqlMap>

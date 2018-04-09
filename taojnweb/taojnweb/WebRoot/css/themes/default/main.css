@@ -1,0 +1,50 @@
+window,body {
+	overflow: hidden;
+	margin: 0px;
+	padding: 0px;
+}
+
+body {
+	font-size: 12px;
+	font-family: arial;
+}
+
+#loginForm input {
+	border: 1px solid #ccc;
+}
+
+#loginForm td {
+	padding: 2px;
+	height: 22px;
+}
+
+#leftmenu {
+	width: 200px;
+	overflow: hidden;
+}
+
+.menulist {
+	margin: 0px;
+	padding: 0px;
+}
+
+.menulist dl {
+	margin: 0px;
+	padding: 0px;
+}
+
+.menulist dd {
+	margin: 0px;
+	padding: 4px 10px;
+	background-color: #FBFBFB;
+	border-bottom: 1px solid #C0BFC0;
+}
+
+.menulist img {
+	vertical-align: bottom;
+	padding-right: 5px;
+}
+
+.menulist dd:hover {
+	background-color: #F2F2F2;
+}

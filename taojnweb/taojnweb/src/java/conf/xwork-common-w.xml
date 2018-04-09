@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"struts-2.3.dtd">
+<struts>
+	<package name="web.common" extends="web" namespace="/">
+		
+<!--		<action name="sendCheckCode" class="com.mall.butler.account.w.action.AuthAction" method="sendCheckCode">-->
+<!--		</action>-->
+		
+		<action name="login" class="com.mall.butler.account.w.action.AuthAction">
+		<interceptor-ref name="annoyStack" />
+			<result type="redirect" name="success">
+				<param name="location">/index.htm</param>
+				<param name="parse">true</param>
+			</result>
+			<result type="redirect" name="returnUrl">
+				<param name="location">${returnUrl}</param>
+				<param name="parse">true</param>
+			</result>
+			<result type="freemarker" name="input">/template/w/login.ftl</result>
+		</action>
+		<action name="checkCode" class="com.mall.butler.action.w.CheckCodeAction">
+		<interceptor-ref name="annoyStack" />
+		</action>
+		<action name="sendCheckCode" class="com.mall.butler.account.w.action.AuthAction" method="sendCheckCode" >
+		<interceptor-ref name="annoyStack" />
+		</action>
+		<action name="sendPassCode" class="com.mall.butler.account.w.action.AuthAction" method="sendPassCode" >
+		<interceptor-ref name="annoyStack" />
+		</action>
+		<action name="sendTransPassCode" class="com.mall.butler.account.w.action.AuthAction" method="sendTransPassCode">
+		<interceptor-ref name="annoyStack" />
+		</action>
+		
+		<action name="toCodeReg" class="com.mall.butler.account.w.action.AuthAction" method="toCodeReg">
+			<interceptor-ref name="annoyStack" />
+			<result type="freemarker" name="reg">/template/w/register1.ftl</result>
+		</action>
+		<action name="registerNext" class="com.mall.butler.account.w.action.AuthAction" method="registerNext">
+		<interceptor-ref name="annoyStack" />
+			<result type="freemarker" name="register">/template/w/register.ftl</result>
+				<result type="freemarker" name="reg">/template/w/register1.ftl</result>
+		</action>
+		<action name="doReg" class="com.mall.butler.account.w.action.AuthAction" method="doReg">
+			<interceptor-ref name="annoyStack" />
+			<interceptor-ref name="token"></interceptor-ref>
+		</action>
+		<!-- 首页 -->
+		<action name="index" class="com.mall.butler.action.w.WindexAction">
+			<interceptor-ref name="authStack" />
+			<result name="success" type="freemarker">/template/w/index.ftl</result>
+			<result name="fill" type="freemarker">/template/w/worderFill.ftl</result>
+			<result name="topay" type="freemarker">/template/w/orderPay.ftl</result>
+			<result name="showtopay" type="freemarker">/template/w/orderPaySuccess.ftl</result>
+		</action>
+			<!-- 手机去找回密码 -->
+		<action name="toFindByMobile" class="com.mall.butler.account.w.action.AuthAction" method="toFindByMobile">
+			<interceptor-ref name="annoyStack" />
+			<result type="freemarker" name="success">/template/w/passMobile.ftl</result>
+		</action>
+		<action name="findpassCheckCode" class="com.mall.butler.account.w.action.AuthAction" method="findpassCheckCode">
+		<interceptor-ref name="annoyStack" />
+		</action>
+		<!-- 填写手机 验证码修改密码-->
+		<action name="mobileResetPassword" class="com.mall.butler.account.w.action.AuthAction" method="mobileResetPass">
+		<interceptor-ref name="annoyStack" />
+			<result type="freemarker" name="input">/template/w/passMobile.ftl</result>
+			<result type="freemarker" name="success">/template/w/passSuccess.ftl</result>
+		</action>
+	</package>
+</struts>

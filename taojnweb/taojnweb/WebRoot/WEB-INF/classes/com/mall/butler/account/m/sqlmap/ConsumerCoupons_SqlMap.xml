@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="CONSUMERCOUPONS" >
+	<sql id="ALL_SQL_M">
+		<isNotEmpty prepend="and" property="ruleId" >
+			RULE_ID = #ruleId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="couponName" >
+			COUPON_NAME = #couponName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="couponCode" >
+			COUPON_CODE = #couponCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="couponNum" >
+			COUPON_NUM = #couponNum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="price" >
+			PRICE = #price#
+		</isNotEmpty>
+		
+		<isNotEmpty prepend="and" property="couponStatus" >
+			COUPON_STATUS = #couponStatus#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark2" >
+			REMARK2 = #remark2#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+	</sql>
+	
+  
+	<select id="SELECT_BY_EXPIRA" resultMap="consumerCouponsResultMap" parameterClass="consumerCouponsAlias">
+  	select * from CONSUMER_COUPONS
+	where deleted=0
+		<include refid="ALL_SQL_M"/>
+		<isNotEmpty prepend="and" property="expiratDate" >
+		<![CDATA[
+			to_char(EXPIRAT_DATE,'yyyy-mm-dd') < to_char(#expiratDate#,'yyyy-mm-dd')
+		]]>
+		</isNotEmpty>
+		order by create_time desc
+	</select>
+	
+</sqlMap>

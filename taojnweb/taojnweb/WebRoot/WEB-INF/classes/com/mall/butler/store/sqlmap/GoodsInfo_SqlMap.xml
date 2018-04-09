@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="GOODSINFO" >
+	<typeAlias alias="goodsInfoAlias" type="com.mall.butler.store.model.GoodsInfo"/>
+	<resultMap id="goodsInfoResultMap" class="goodsInfoAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="GOODS_NAME" property="goodsName"/>
+    	<result column="STYLE_CLASS_CODE" property="styleClassCode"/>
+    	<result column="STYLE_CLASS_NAME" property="styleClassName"/>
+    	<result column="COLOR_CLASS_CODE" property="colorClassCode"/>
+    	<result column="COLOR_CLASS_NAME" property="colorClassName"/>
+    	<result column="GOODS_CODE" property="goodsCode"/>
+    	<result column="SIZE_CLASS_CODE" property="sizeClassCode"/>
+    	<result column="SIZE_CLASS_NAME" property="sizeClassName"/>
+    	<result column="SEASON" property="season"/>
+    	<result column="PURCHASE_PRICE" property="purchasePrice"/>
+    	<result column="SELL_PRICE" property="sellPrice"/>
+    	<result column="SUMMARIZE" property="summarize"/>
+    	<result column="TITLE_IMG_ID" property="titleImgId"/>
+    	<result column="CONTENT_ID" property="contentId"/>
+    	<result column="INFO_ID" property="infoId"/>
+    	<result column="MAX_AMOUNT" property="maxAmount"/>
+    	<result column="MIN_AMOUNT" property="minAmount"/>
+    	<result column="TAG_NAMES" property="tagNames"/>
+    	<result column="TAG_CODES" property="tagCodes"/>
+    	<result column="USE_FLAG" property="useFlag"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="ORDERID" property="orderid"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="goodsName" >
+			GOODS_NAME = #goodsName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="styleClassCode" >
+			STYLE_CLASS_CODE = #styleClassCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="styleClassName" >
+			STYLE_CLASS_NAME = #styleClassName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="colorClassCode" >
+			COLOR_CLASS_CODE = #colorClassCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="colorClassName" >
+			COLOR_CLASS_NAME = #colorClassName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="goodsCode" >
+			GOODS_CODE = #goodsCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="sizeClassCode" >
+			SIZE_CLASS_CODE = #sizeClassCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="sizeClassName" >
+			SIZE_CLASS_NAME = #sizeClassName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="season" >
+			SEASON = #season#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="purchasePrice" >
+			PURCHASE_PRICE = #purchasePrice#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="sellPrice" >
+			SELL_PRICE = #sellPrice#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="summarize" >
+			SUMMARIZE = #summarize#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="titleImgId" >
+			TITLE_IMG_ID = #titleImgId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="contentId" >
+			CONTENT_ID = #contentId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="infoId" >
+			INFO_ID = #infoId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="maxAmount" >
+			MAX_AMOUNT = #maxAmount#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="minAmount" >
+			MIN_AMOUNT = #minAmount#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="tagNames" >
+			TAG_NAMES = #tagNames#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="tagCodes" >
+			TAG_CODES = #tagCodes#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="useFlag" >
+			USE_FLAG = #useFlag#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="orderid" >
+			ORDERID = #orderid#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="goodsInfoResultMap">
+		select * from GOODS_INFO where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="goodsInfoAlias" resultClass="Integer">
+		select count(*) as totalCount from GOODS_INFO where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="goodsInfoResultMap" parameterClass="goodsInfoAlias">
+  	select * from GOODS_INFO
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="goodsInfoResultMap" parameterClass="goodsInfoAlias" >
+		select *
+		from GOODS_INFO
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETED_BY_PK" parameterClass="goodsInfoAlias" >
+		delete from GOODS_INFO
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="goodsInfoAlias" >
+		insert into GOODS_INFO
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="goodsName" >
+				GOODS_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="styleClassCode" >
+				STYLE_CLASS_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="styleClassName" >
+				STYLE_CLASS_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="colorClassCode" >
+				COLOR_CLASS_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="colorClassName" >
+				COLOR_CLASS_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="goodsCode" >
+				GOODS_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="sizeClassCode" >
+				SIZE_CLASS_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="sizeClassName" >
+				SIZE_CLASS_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="season" >
+				SEASON
+			</isNotNull>
+			<isNotNull prepend="," property="purchasePrice" >
+				PURCHASE_PRICE
+			</isNotNull>
+			<isNotNull prepend="," property="sellPrice" >
+				SELL_PRICE
+			</isNotNull>
+			<isNotNull prepend="," property="summarize" >
+				SUMMARIZE
+			</isNotNull>
+			<isNotNull prepend="," property="titleImgId" >
+				TITLE_IMG_ID
+			</isNotNull>
+			<isNotNull prepend="," property="contentId" >
+				CONTENT_ID
+			</isNotNull>
+			<isNotNull prepend="," property="infoId" >
+				INFO_ID
+			</isNotNull>
+			<isNotNull prepend="," property="maxAmount" >
+				MAX_AMOUNT
+			</isNotNull>
+			<isNotNull prepend="," property="minAmount" >
+				MIN_AMOUNT
+			</isNotNull>
+			<isNotNull prepend="," property="tagNames" >
+				TAG_NAMES
+			</isNotNull>
+			<isNotNull prepend="," property="tagCodes" >
+				TAG_CODES
+			</isNotNull>
+			<isNotNull prepend="," property="useFlag" >
+				USE_FLAG
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="orderid" >
+				ORDERID
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="goodsName" >
+				#goodsName#
+			</isNotNull>
+			<isNotNull prepend="," property="styleClassCode" >
+				#styleClassCode#
+			</isNotNull>
+			<isNotNull prepend="," property="styleClassName" >
+				#styleClassName#
+			</isNotNull>
+			<isNotNull prepend="," property="colorClassCode" >
+				#colorClassCode#
+			</isNotNull>
+			<isNotNull prepend="," property="colorClassName" >
+				#colorClassName#
+			</isNotNull>
+			<isNotNull prepend="," property="goodsCode" >
+				#goodsCode#
+			</isNotNull>
+			<isNotNull prepend="," property="sizeClassCode" >
+				#sizeClassCode#
+			</isNotNull>
+			<isNotNull prepend="," property="sizeClassName" >
+				#sizeClassName#
+			</isNotNull>
+			<isNotNull prepend="," property="season" >
+				#season#
+			</isNotNull>
+			<isNotNull prepend="," property="purchasePrice" >
+				#purchasePrice#
+			</isNotNull>
+			<isNotNull prepend="," property="sellPrice" >
+				#sellPrice#
+			</isNotNull>
+			<isNotNull prepend="," property="summarize" >
+				#summarize#
+			</isNotNull>
+			<isNotNull prepend="," property="titleImgId" >
+				#titleImgId#
+			</isNotNull>
+			<isNotNull prepend="," property="contentId" >
+				#contentId#
+			</isNotNull>
+			<isNotNull prepend="," property="infoId" >
+				#infoId#
+			</isNotNull>
+			<isNotNull prepend="," property="maxAmount" >
+				#maxAmount#
+			</isNotNull>
+			<isNotNull prepend="," property="minAmount" >
+				#minAmount#
+			</isNotNull>
+			<isNotNull prepend="," property="tagNames" >
+				#tagNames#
+			</isNotNull>
+			<isNotNull prepend="," property="tagCodes" >
+				#tagCodes#
+			</isNotNull>
+			<isNotNull prepend="," property="useFlag" >
+				#useFlag#
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				#remark#
+			</isNotNull>
+			<isNotNull prepend="," property="orderid" >
+				#orderid#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="goodsInfoAlias" >
+		update GOODS_INFO
+		set 
+		GOODS_NAME = #goodsName#,
+		STYLE_CLASS_CODE = #styleClassCode#,
+		STYLE_CLASS_NAME = #styleClassName#,
+		COLOR_CLASS_CODE = #colorClassCode#,
+		COLOR_CLASS_NAME = #colorClassName#,
+		GOODS_CODE = #goodsCode#,
+		SIZE_CLASS_CODE = #sizeClassCode#,
+		SIZE_CLASS_NAME = #sizeClassName#,
+		SEASON = #season#,
+		PURCHASE_PRICE = #purchasePrice#,
+		SELL_PRICE = #sellPrice#,
+		SUMMARIZE = #summarize#,
+		TITLE_IMG_ID = #titleImgId#,
+		CONTENT_ID = #contentId#,
+		INFO_ID = #infoId#,
+		MAX_AMOUNT = #maxAmount#,
+		MIN_AMOUNT = #minAmount#,
+		TAG_NAMES = #tagNames#,
+		TAG_CODES = #tagCodes#,
+		USE_FLAG = #useFlag#,
+		REMARK = #remark#,
+		ORDERID = #orderid#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_GOODS_INFO.nextval from dual
+	</select>
+</sqlMap>

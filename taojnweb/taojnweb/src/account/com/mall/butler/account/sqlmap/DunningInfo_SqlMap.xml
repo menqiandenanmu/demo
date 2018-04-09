@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="DUNNINGINFO" >
+	<typeAlias alias="dunningInfoAlias" type="com.mall.butler.account.model.DunningInfo"/>
+	<resultMap id="dunningInfoResultMap" class="dunningInfoAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="ACCOUNT_ID" property="accountId"/>
+    	<result column="ACCOUNT_NAME" property="accountName"/>
+    	<result column="CONTENT_INFO" property="contentInfo"/>
+    	<result column="REPAYMENT_FLAG" property="repaymentFlag"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="accountId" >
+			ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountName" >
+			ACCOUNT_NAME = #accountName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="contentInfo" >
+			CONTENT_INFO = #contentInfo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="repaymentFlag" >
+			REPAYMENT_FLAG = #repaymentFlag#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="dunningInfoResultMap">
+		select * from DUNNING_INFO where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="dunningInfoAlias" resultClass="Integer">
+		select count(*) as totalCount from DUNNING_INFO where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="dunningInfoResultMap" parameterClass="dunningInfoAlias">
+  	select * from DUNNING_INFO
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="dunningInfoResultMap" parameterClass="dunningInfoAlias" >
+		select *
+		from DUNNING_INFO
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="dunningInfoAlias" >
+		delete from DUNNING_INFO
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="dunningInfoAlias" >
+		insert into DUNNING_INFO
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				ACCOUNT_ID
+			</isNotNull>
+			<isNotNull prepend="," property="accountName" >
+				ACCOUNT_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="contentInfo" >
+				CONTENT_INFO
+			</isNotNull>
+			<isNotNull prepend="," property="repaymentFlag" >
+				REPAYMENT_FLAG
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				#accountId#
+			</isNotNull>
+			<isNotNull prepend="," property="accountName" >
+				#accountName#
+			</isNotNull>
+			<isNotNull prepend="," property="contentInfo" >
+				#contentInfo#
+			</isNotNull>
+			<isNotNull prepend="," property="repaymentFlag" >
+				#repaymentFlag#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="dunningInfoAlias" >
+		update DUNNING_INFO
+		set 
+		ACCOUNT_ID = #accountId#,
+		ACCOUNT_NAME = #accountName#,
+		CONTENT_INFO = #contentInfo#,
+		REPAYMENT_FLAG = #repaymentFlag#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_DUNNING_INFO.nextval from dual
+	</select>
+</sqlMap>

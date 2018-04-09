@@ -1,0 +1,21 @@
+<!DOCTYPE struts PUBLIC	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "struts-2.3.dtd">
+<struts>
+	<package name="web.help" extends="web" namespace="/help">
+		<!-- 系统静态信息管理 (帮助中心) -->
+		<action name="index" class="com.mall.butler.web.w.action.HelpAction">
+			<result name="success" type="freemarker">/template/b/web/w/help.ftl</result>
+		</action>
+		<!-- 系统静态信息管理 (常见问题) -->
+		<action name="commonProblem" class="com.mall.butler.web.w.action.HelpAction" method="commonProblem">
+			<result name="success" type="freemarker">/template/b/web/w/commonProblem.ftl</result>
+		</action>
+		<!-- 系统静态信息管理 (法律申明) -->
+		<action name="legalNotices" class="com.mall.butler.web.w.action.HelpAction" method="legalNotices">
+			<result name="success" type="freemarker">/template/b/web/w/legalNotices.ftl</result>
+		</action>
+		<!-- 系统静态信息管理 (条款服务) -->
+		<action name="service" class="com.mall.butler.web.w.action.HelpAction" method="service">
+			<result name="success" type="freemarker">/template/b/web/w/service.ftl</result>
+		</action>
+	</package>
+</struts>

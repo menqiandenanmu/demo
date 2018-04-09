@@ -1,0 +1,44 @@
+.logo-body{ background: url("../images/login-bg.jpg") center bottom no-repeat; background-size: 100% auto;}
+
+.logo-panel{ padding: 3rem 0;}
+.logo{ width: 5.55rem; height: 4.55rem; background: url("../images/logo.png") no-repeat; background-size: 80%; margin: -25px auto;}
+
+.login-form{ padding: 0 1.35rem;}
+.login-form li{ margin-bottom: 0.6rem; height: 1.85rem;}
+.login-text{ height: 1.75rem; line-height: 1.75rem; text-align: center; border: 1px solid #ccc; font-size: 0.6rem; color: #333; width: 100%;}
+.card-text{ width: 60%;}
+.login-link{ text-align: right; padding: 0 1.35rem; font-size: 0.55rem;  }
+.login-link a{color: #868686; text-decoration: underline;}
+.login-handle{padding: 1rem 1.35rem;}
+.login-btn{ background-color: #da003d; color: #fff; border: none;}
+.login-bottom{ padding-top: 0rem; text-align: center;}
+.login-bottom a{ height: 0.8rem; display: block; width: 7.5rem; background: url("../images/login-bottom-bg.png") left center no-repeat; background-size: 100% auto; font-size: 0.75rem; color: #da003d; margin: 0 auto;}
+.register-body{background: url("../images/register-bg.png") #f3f3f3 center bottom no-repeat; background-size: 100% auto;}
+.register-panel{ padding: 2.5rem 0;}
+.passw-panel{ padding: 1.5rem 0;}
+.register-icon{ width: 2.75rem; height: 2.75rem; border-radius: 100%; border: 1px solid #ccc; text-align: center; line-height: 2.75rem; margin: 0 auto;}
+.register-icon i{ display: inline-block;}
+.icon-tel{ width: 0.95rem; height: 1.65rem; background: url("../images/register-icon1.png") no-repeat; background-size: cover; vertical-align: middle;}
+.icon-suo{width: 1.15rem; height: 1.35rem; background: url("../images/suo.png") no-repeat; background-size: cover; vertical-align: middle;}
+.icon-text{ width: 1rem; height: 1.15rem; background: url("../images/register-icon2.png") no-repeat; background-size: cover; vertical-align: middle;}
+.register-form{padding: 0 1.35rem;}
+.register-form li{margin-bottom: 0.6rem; position: relative;}
+.register-item{ border: 1px solid #ccc; height: 1.9rem; line-height: 1.9rem;}
+.register-item span{ display: inline-block; font-size: 0.65rem; width: 3.5rem; border-right: 1px solid #ccc; height: 1.35rem; line-height: 1.35rem; vertical-align: middle; text-align: center; color: #868686;}
+.register-text{ height: 1.35rem; background: none; border: none; vertical-align: middle;}
+.register-card{ width: 6rem; display: inline-block; padding-left: 0.6rem;}
+.card-btn{ width: 6rem; background-color: #da003d; color: #fff; font-size: 0.65rem; vertical-align: top; border: none; display: inline-block;  height: 1.9rem; line-height: 1.9rem;}
+.register-handle{padding: 8rem 1.35rem 0;}
+.register2-handle{ padding-top: 3rem;}
+.register-btn{ background-color: rgba(255,255,255,.9); font-size: 0.7rem; color: #868686;}
+
+.top-info{ width: 9.25rem; margin: 0.5rem auto; text-align: center; font-size: 0.65rem; color: #666; line-height: 180%;}
+.passw-handle{ padding-top: 4rem;}
+
+
+
+.scan-img{ width: 14.75rem; height: 18.25rem; background: url("../images/scan-bg.png") no-repeat; background-size: cover; margin: 3rem auto; padding: 1.5rem 1.35rem; box-sizing: border-box;}
+/*.scan-img img{ width:100%;height:35%;}*/
+.scan-imgcode{ width: 100%;height: 20%;}
+/*.scan-qrcode{ padding-top:30px;padding-left:25px;}*/
+.scan-qrcode{ display:block; margin:0 auto;width:75%;position:relative;bottom:-19px;}

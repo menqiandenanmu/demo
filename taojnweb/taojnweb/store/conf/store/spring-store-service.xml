@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+	default-autowire="byName" default-lazy-init="false">
+	<!-- 业务公用 -->
+	<bean id="goodsOrderService" class="com.mall.butler.store.service._impl.GoodsOrderServiceImpl"></bean>
+	<!-- 后台 -->
+	<!-- 商品 -->
+	<bean id="mGoodsInfoService" class="com.mall.butler.store.m.service._impl.MGoodsInfoServiceImpl"></bean>
+	<!--  商品入库记录-->
+	<bean id="mGoodsStockService" class="com.mall.butler.store.m.service._impl.MGoodsStockServiceImpl"></bean>
+	<!--  商品订单-->
+	<bean id="mGoodsOrderService" class="com.mall.butler.store.m.service._impl.MGoodsOrderServiceImpl"></bean>
+	<!-- 商品入库记录 -->
+	<bean id="GoodsPurchaseService" class="com.mall.butler.store.m.service._impl.GoodsPurchaseServiceImpl"/>
+	<!-- 商品出库 -->
+	<bean id="GoodsSellService" class="com.mall.butler.store.m.service._impl.GoodsSellServiceImpl"/>
+	<!-- 前台 -->
+	<!-- 商品 -->
+	<bean id="wGoodsInfoService" class="com.mall.butler.store.w.service.impl.WGoodsInfoServiceImpl"></bean>
+
+</beans>
+

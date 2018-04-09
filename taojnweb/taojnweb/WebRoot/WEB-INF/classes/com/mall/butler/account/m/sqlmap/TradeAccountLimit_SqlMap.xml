@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="TRADEACCOUNTLIMIT" >
+	<select id="SELECT_BY_TRADEACCOUNTID" resultMap="tradeAccountLimitResultMap" parameterClass="java.util.Map" >
+		select *
+		from TRADE_ACCOUNT_LIMIT
+		where TRADE_ACCOUNT_ID = #tradeAccountId#
+		AND SUPPLY_ID = #supplyId#
+	</select>
+	
+	<update id="UPDATE_ACCOUNTUSEFLAG" parameterClass="tradeAccountLimitAlias" >
+		update TRADE_ACCOUNT_LIMIT
+		set 
+		USE_FLAG = #useFlag#,
+		MODIFIED_TIME = #now#
+		where ID = #id# 
+	</update>
+</sqlMap>

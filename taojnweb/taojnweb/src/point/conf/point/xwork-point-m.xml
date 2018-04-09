@@ -1,0 +1,25 @@
+<!DOCTYPE struts PUBLIC	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "struts-2.3.dtd">
+<struts>
+	<package name="point" extends="manage" namespace="/manage/point">
+		<default-interceptor-ref name="authStack" />
+		<!-- 用户积分列表 -->
+		<action name="userPoint" class="com.mall.butler.point.m.action.UserPointAction">
+			<result name="success" type="freemarker">/template/b/point/m/userPointList.ftl</result>
+			<result name="add" type="freemarker">/template/b/point/m/userPointEdit.ftl</result>
+		</action>
+		<!-- 用户积分清单 -->
+		<action name="userPointDetail" class="com.mall.butler.point.m.action.UserPointAction" method="info">
+			<result name="info" type="freemarker">/template/b/point/m/userPointDetail.ftl</result>
+		</action>
+		<!-- 积分日统计 -->
+		<action name="pointDayCount" class="com.mall.butler.point.m.action.UserPointAction" method="count">
+			<result name="success" type="freemarker">/template/b/point/m/userPointDayCount.ftl</result>
+		</action>
+		<!-- 积分规则 -->
+		<action name="pointRule" class="com.mall.butler.point.m.action.PointRuleAction" >
+			<result name="success" type="freemarker">/template/b/point/m/pointRuleList.ftl</result>
+			<result name="add" type="freemarker">/template/b/point/m/pointRuleAdd.ftl</result>
+			<result name="edit" type="freemarker">/template/b/point/m/pointRuleEdit.ftl</result>
+		</action>
+	</package>
+</struts>

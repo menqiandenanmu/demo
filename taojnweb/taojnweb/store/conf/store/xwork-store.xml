@@ -1,0 +1,6 @@
+<!DOCTYPE struts PUBLIC	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "struts-2.3.dtd">
+<struts>
+	<include file="conf/store/xwork-store-m.xml"></include>
+	<include file="conf/store/xwork-store-s.xml"></include>
+	<include file="conf/store/xwork-store-w.xml"></include>
+</struts>

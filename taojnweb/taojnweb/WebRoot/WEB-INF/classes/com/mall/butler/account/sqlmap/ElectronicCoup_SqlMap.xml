@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ELECTRONICCOUP" >
+	<typeAlias alias="electronicCoupAlias" type="com.mall.butler.account.model.ElectronicCoup"/>
+	<resultMap id="electronicCoupResultMap" class="electronicCoupAlias" >
+    	<result column="ACCOUNT_NAME" property="accountName"/>
+    	<result column="AUDIT_ID" property="auditId"/>
+    	<result column="AUDIT_NAME" property="auditName"/>
+    	<result column="AUDIT_SYATUS" property="auditSyatus"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="AUDIT_REMARK" property="auditRemark"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+    	<result column="ID" property="id"/>
+    	<result column="ELET_NAME" property="eletName"/>
+    	<result column="ELET_CODE" property="eletCode"/>
+    	<result column="LEFT_VALUE" property="leftValue"/>
+    	<result column="STATUS" property="status"/>
+    	<result column="RECHGE_TIME" property="rechgeTime"/>
+    	<result column="RESOURCE" property="resource"/>
+    	<result column="ACCOUNT_ID" property="accountId"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="accountName" >
+				ACCOUNT_NAME like 
+			'%$accountName$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="auditId" >
+			AUDIT_ID = #auditId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="auditName" >
+			AUDIT_NAME like 
+			'%$auditName$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="auditSyatus" >
+			AUDIT_SYATUS = #auditSyatus#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="auditRemark" >
+			AUDIT_REMARK = #auditRemark#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="eletName" >
+			ELET_NAME like 
+			'%$eletName$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="eletCode" >
+			ELET_CODE = #eletCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="leftValue" >
+			LEFT_VALUE = #leftValue#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="status" >
+			STATUS = #status#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="rechgeTime" >
+			to_char(RECHGE_TIME,'yyyy-mm-dd') = to_char(#rechgeTime#,'yyyy-mm-dd')
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="resource" >
+			"RESOURCE" = #resource#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountId" >
+			ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="electronicCoupResultMap">
+		select * from ELECTRONIC_COUP where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="electronicCoupAlias" resultClass="Integer">
+		select count(*) as totalCount from ELECTRONIC_COUP where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+  <sql id="ALL_SQL_M">
+		<isNotEmpty prepend="and" property="accountName" >
+				ACCOUNT_NAME like 
+			'%$accountName$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="auditId" >
+			AUDIT_ID = #auditId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="auditName" >
+			AUDIT_NAME like 
+			'%$auditName$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="auditSyatus" >
+			AUDIT_SYATUS = #auditSyatus#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="auditRemark" >
+			AUDIT_REMARK = #auditRemark#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="eletName" >
+			ELET_NAME like 
+			'%$eletName$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="eletCode" >
+			ELET_CODE = #eletCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="leftValue" >
+			LEFT_VALUE = #leftValue#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="status" >
+			STATUS = #status#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="rechgeTime" >
+			to_char(RECHGE_TIME,'yyyy-mm-dd') = to_char(#rechgeTime#,'yyyy-mm-dd')
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="resource" >
+			"RESOURCE" = #resource#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountId" >
+			ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_BY_PAGE_M" parameterClass="electronicCoupAlias" resultMap="electronicCoupResultMap">
+		select * from ELECTRONIC_COUP where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_BY_PAGE_M" parameterClass="electronicCoupAlias" resultClass="Integer">
+		select count(*) as totalCount from ELECTRONIC_COUP where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+  
+	<select id="SELECT_BY_ALL" resultMap="electronicCoupResultMap" parameterClass="electronicCoupAlias">
+  	select * from ELECTRONIC_COUP
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="electronicCoupResultMap" parameterClass="electronicCoupAlias" >
+		select *
+		from ELECTRONIC_COUP
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="electronicCoupAlias" >
+		delete from ELECTRONIC_COUP
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="electronicCoupAlias" >
+		insert into ELECTRONIC_COUP
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="accountName" >
+				ACCOUNT_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="auditId" >
+				AUDIT_ID
+			</isNotNull>
+			<isNotNull prepend="," property="auditName" >
+				AUDIT_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="auditSyatus" >
+				AUDIT_SYATUS
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="auditRemark" >
+				AUDIT_REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="eletName" >
+				ELET_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="eletCode" >
+				ELET_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="leftValue" >
+				LEFT_VALUE
+			</isNotNull>
+			<isNotNull prepend="," property="status" >
+				STATUS
+			</isNotNull>
+			<isNotNull prepend="," property="rechgeTime" >
+				RECHGE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="resource" >
+				"RESOURCE"
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				ACCOUNT_ID
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="accountName" >
+				#accountName#
+			</isNotNull>
+			<isNotNull prepend="," property="auditId" >
+				#auditId#
+			</isNotNull>
+			<isNotNull prepend="," property="auditName" >
+				#auditName#
+			</isNotNull>
+			<isNotNull prepend="," property="auditSyatus" >
+				#auditSyatus#
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				#remark#
+			</isNotNull>
+			<isNotNull prepend="," property="auditRemark" >
+				#auditRemark#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="eletName" >
+				#eletName#
+			</isNotNull>
+			<isNotNull prepend="," property="eletCode" >
+				#eletCode#
+			</isNotNull>
+			<isNotNull prepend="," property="leftValue" >
+				#leftValue#
+			</isNotNull>
+			<isNotNull prepend="," property="status" >
+				#status#
+			</isNotNull>
+			<isNotNull prepend="," property="rechgeTime" >
+				#rechgeTime#
+			</isNotNull>
+			<isNotNull prepend="," property="resource" >
+				#resource#
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				#accountId#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="electronicCoupAlias" >
+		update ELECTRONIC_COUP
+		set 
+		ACCOUNT_NAME = #accountName#,
+		AUDIT_ID = #auditId#,
+		AUDIT_NAME = #auditName#,
+		AUDIT_SYATUS = #auditSyatus#,
+		REMARK = #remark#,
+		AUDIT_REMARK = #auditRemark#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		ELET_NAME = #eletName#,
+		ELET_CODE = #eletCode#,
+		LEFT_VALUE = #leftValue#,
+		STATUS = #status#,
+		RECHGE_TIME = #rechgeTime#,
+		"RESOURCE" = #resource#,
+		ACCOUNT_ID = #accountId#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_ELECTRONIC_COUP.nextval from dual
+	</select>
+
+</sqlMap>

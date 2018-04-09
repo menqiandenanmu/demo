@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="PAGEAREAINFO" >
+	<typeAlias alias="pageAreaInfoAlias" type="com.mall.butler.web.model.PageAreaInfo"/>
+	<resultMap id="pageAreaInfoResultMap" class="pageAreaInfoAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="NAME" property="name"/>
+    	<result column="CODE" property="code"/>
+    	<result column="INFO" property="info"/>
+    	<result column="SHOW_FLAG" property="showFlag"/>
+    	<result column="LEN" property="len"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="name" >
+			NAME like #name#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="code" >
+			CODE = #code#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="info" >
+			INFO = #info#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="showFlag" >
+			SHOW_FLAG = #showFlag#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="len" >
+			LEN = #len#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="pageAreaInfoResultMap">
+		select * from PAGE_AREA_INFO where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="pageAreaInfoAlias" resultClass="Integer">
+		select count(*) as totalCount from PAGE_AREA_INFO where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="pageAreaInfoResultMap" parameterClass="pageAreaInfoAlias">
+  	select * from PAGE_AREA_INFO
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="pageAreaInfoResultMap" parameterClass="pageAreaInfoAlias" >
+		select *
+		from PAGE_AREA_INFO
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="pageAreaInfoAlias" >
+		delete from PAGE_AREA_INFO
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="pageAreaInfoAlias" >
+		insert into PAGE_AREA_INFO
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="name" >
+				NAME
+			</isNotNull>
+			<isNotNull prepend="," property="code" >
+				CODE
+			</isNotNull>
+			<isNotNull prepend="," property="info" >
+				INFO
+			</isNotNull>
+			<isNotNull prepend="," property="showFlag" >
+				SHOW_FLAG
+			</isNotNull>
+			<isNotNull prepend="," property="len" >
+				LEN
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="name" >
+				#name#
+			</isNotNull>
+			<isNotNull prepend="," property="code" >
+				#code#
+			</isNotNull>
+			<isNotNull prepend="," property="info" >
+				#info#
+			</isNotNull>
+			<isNotNull prepend="," property="showFlag" >
+				#showFlag#
+			</isNotNull>
+			<isNotNull prepend="," property="len" >
+				#len#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="pageAreaInfoAlias" >
+		update PAGE_AREA_INFO
+		set 
+		NAME = #name#,
+		CODE = #code#,
+		INFO = #info#,
+		SHOW_FLAG = #showFlag#,
+		LEN = #len#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_PAGE_AREA_INFO.nextval from dual
+	</select>
+</sqlMap>

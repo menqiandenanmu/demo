@@ -1,0 +1,76 @@
+<!DOCTYPE struts PUBLIC	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "struts-2.3.dtd">
+<struts>
+	<package name="web.account" extends="web" namespace="/user">
+		<default-interceptor-ref name="authStack" />
+		<!-- 个人中心 -->
+		<action name="index" class="com.mall.butler.account.w.action.ConsumerAction">
+			<result name="success" type="freemarker">/template/b/account/w/userCenter.ftl</result>
+		</action>
+		<!-- 个人信息 -->
+		<action name="userInfo" class="com.mall.butler.account.w.action.ConsumerAction" method="userInfo">
+			<result name="success" type="freemarker">/template/b/account/w/userInfo.ftl</result>
+		</action>
+		<!-- 条形码信息 -->
+		<action name="userBarCode" class="com.mall.butler.account.w.action.ConsumerAction" method="userBarCode">
+			<result name="success" type="freemarker">/template/b/account/w/barcode.ftl</result>
+		</action>
+		<!-- 条形码信息 -->
+		<action name="barcode" class="com.mall.butler.account.w.action.ConsumerAction" method="barcode">
+		</action>
+		<!--设置交易密码-->
+		<action name="tranPassword" class="com.mall.butler.account.w.action.ConsumerAction" method="tranPassword">
+			<result name="success" type="freemarker">/template/b/account/w/password.ftl</result>
+		</action>
+		<!--设置交易密码-->
+		<action name="logPassword" class="com.mall.butler.account.w.action.ConsumerAction" method="logPassword">
+			<result name="success" type="freemarker">/template/b/account/w/logPassword.ftl</result>
+		</action>
+		<!--交易记录 -->
+		<action name="transInfo" class="com.mall.butler.account.w.action.ConsumerAction" method="transInfo">
+			<result name="success" type="freemarker">/template/b/account/w/transInfo.ftl</result>
+		</action>
+		<!--充值 -->
+		<action name="toRecharge" class="com.mall.butler.account.w.action.ConsumerAction" method="toRecharge">
+			<result name="success" type="freemarker">/template/b/account/w/recharge.ftl</result>
+		</action>
+		<!--支付宝充值 -->
+		<action name="alipayRecharge" class="com.mall.butler.account.w.action.ConsumerAction" method="alipayRecharge">
+			<result name="success" type="freemarker">/template/b/account/w/alipayRecharge.ftl</result>
+		</action>
+		<!--充值卡充值 -->
+		<action name="rechargeCard" class="com.mall.butler.account.w.action.ConsumerAction" method="rechargeCard">
+			<result name="success" type="freemarker">/template/b/account/w/rechargeCard.ftl</result>
+		</action>
+		<!--充值卡确认充值 -->
+		<action name="doRecharge" class="com.mall.butler.account.w.action.ConsumerAction" method="doRecharge">
+		</action>
+		<!--我的赠券 -->
+		<action name="waccountCoupon" class="com.mall.butler.account.w.action.AccountCouponAction">
+			<result name="success" type="freemarker">/template/b/account/w/couponInfo.ftl</result>
+		</action>
+		<!--我的赠券 -->
+		<action name="couponPay" class="com.mall.butler.account.w.action.AccountCouponAction" method="couponPay">
+			<result name="success" type="freemarker">/template/b/account/w/couponCode.ftl</result>
+		</action>
+		<!--我的赠券 -->
+		<action name="couponCode" class="com.mall.butler.account.w.action.AccountCouponAction" method="couponCode">
+		</action>
+		<!--扫码去支付 -->
+		<action name="qrToPay" class="com.mall.butler.account.w.action.ConsumerAction" method="qrToPay">
+			<result name="success" type="freemarker">/template/b/account/w/qrToPay.ftl</result>
+		</action>
+		<!--扫码支付 -->
+		<action name="qrPay" class="com.mall.butler.account.w.action.ConsumerAction" method="qrPay">
+			<result name="success" type="freemarker">/template/b/account/w/qrPayResult.ftl</result>
+		</action>
+		<!--转账 -->
+		<action name="payToPay" class="com.mall.butler.account.w.action.ConsumerAction" method="payToPay">
+			<result name="success" type="freemarker">/template/b/account/w/payToPay.ftl</result>
+		</action>
+		<action name="giroAccount" class="com.mall.butler.account.w.action.ConsumerAction" method="giroAccount">
+		</action>
+		<action name="queryGiro" class="com.mall.butler.account.w.action.ConsumerAction" method="queryGiro">
+		<result name="success" type="freemarker">/template/b/account/w/giroAccount.ftl</result>
+		</action>
+	</package>
+</struts>

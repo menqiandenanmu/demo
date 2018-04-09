@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="TRADEACCOUNTDETAILVO">
+	<typeAlias alias="tradeAccountDetailVoAlias"
+		type="com.mall.butler.account.m.model.TradeAccountDetailVo" />
+
+	<sql id="DETAILCOUNT_SQL">
+		<isNotEmpty prepend="and" property="ownerSupplyId">
+			a.OWNER_SUPPLY_ID =
+			#ownerSupplyId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="supplyName">
+			b.SUPPLY_NAME =
+			#supplyName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="begDate">
+			convert(varchar(10),a.CREATE_TIME,121) &gt;=
+			convert(varchar(10),#begDate#,121)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endDate">
+			convert(varchar(10),a.CREATE_TIME,121) &lt;=
+			convert(varchar(10),#endDate#,121)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opType">
+			a.OP_TYPE =
+			#opType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountName">
+			b.ACCOUNT_NAME =
+			#accountName#
+		</isNotEmpty>
+	</sql>
+
+	<resultMap id="tradeAccountDetailCountResultMap" class="tradeAccountDetailVoAlias">
+		<result column="OWNER_NAME" property="ownerName" />
+		<result column="ACCOUNT_NAME" property="accountName" />
+		<result column="SUPPLY_NAME" property="supplyName" />
+		<result column="ORDER_COUNT" property="orderCount" />
+		<result column="FAN_LI" property="fanLi" />
+		<result column="HE_JI" property="heJi" />
+		<result column="ACCOUNT_ID" property="accountId" />
+		<result column="OWNER_SUPPLY_ID" property="ownerSupplyId" />
+	</resultMap>
+	
+	<resultMap id="tradeAccountCountResultMap" class="com.mall.butler.account.model.TradeAccountDetail">
+	 <result column="ACCOUNT_ID" property="accountId"/>
+	 <result column="ACCOUNT_NAME" property="accountName"/>
+	 <result column="TRADE_ACC_ID" property="tradeAccId"/>
+	 <result column="TRADE_ACC_NAME" property="tradeAccName"/>
+	 <result column="TRADE_ACC_NAME" property="tradeAccName"/>
+	 <result column="OP_TYPE" property="opType"/>
+	  <result column="OP_VALUE" property="opValue"/>
+	</resultMap>
+	
+	<select id="SELECT_ACCOUNT_PAGE_M" parameterClass="tradeAccountDetailVoAlias"
+		resultMap="tradeAccountCountResultMap">
+		SELECT ACCOUNT_ID,TRADE_ACC_ID,ACCOUNT_NAME,OP_TYPE,TRADE_ACC_NAME,sum(OP_VALUE) as opValue
+		FROM TRADE_ACCOUNT_DETAIL 
+ 		WHERE 
+		DELETED=0
+		AND CREATE_TIME >= #begDate#
+		AND <![CDATA[ 
+		CREATE_TIME <= #endDate# 
+		]]>
+		<isNotEmpty prepend="and" property="accountId">
+			ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+		GROUP BY ACCOUNT_ID ,OP_TYPE,TRADE_ACC_ID,ACCOUNT_NAME,TRADE_ACC_NAME
+	</select>
+	
+	<select id="SELECT_COUNT_ACCOUNT_PAGE_M" parameterClass="tradeAccountDetailVoAlias"
+		resultClass="java.lang.Integer">
+		SELECT count(id) 
+		FROM TRADE_ACCOUNT_DETAIL 
+ 		WHERE 
+		DELETED=0
+		AND CREATE_TIME >= #begDate#
+		AND <![CDATA[ 
+		CREATE_TIME <= #endDate# 
+		]]>
+		<isNotEmpty prepend="and" property="accountId">
+			ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+		GROUP BY ACCOUNT_ID ,OP_TYPE,TRADE_ACC_ID,ACCOUNT_NAME,TRADE_ACC_NAME
+	</select>
+	
+	<select id="SELECT_PAGE_M" parameterClass="java.util.Map"
+		resultMap="tradeAccountDetailCountResultMap">
+		select b.OWNER_NAME,b.ACCOUNT_NAME ,b.SUPPLY_NAME
+		,a.ACCOUNT_ID,a.OWNER_SUPPLY_ID,
+		(select COUNT(d.ID) from
+		TRADE_ACCOUNT_DETAIL d
+		where a.ACCOUNT_ID=d.ACCOUNT_ID and
+		a.OWNER_SUPPLY_ID=d.OWNER_SUPPLY_ID and
+		(d.OP_TYPE=2 or d.OP_TYPE=4)
+
+		<isNotEmpty prepend="and" property="begDate">
+			convert(varchar(10),CREATE_TIME,121) &gt;=
+			convert(varchar(10),#begDate#,121)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endDate">
+			convert(varchar(10),CREATE_TIME,121) &lt;=
+			convert(varchar(10),#endDate#,121)
+		</isNotEmpty>
+
+		)
+		as ORDER_COUNT,
+		(select isnull(SUM(OP_VALUE),0) from
+		TRADE_ACCOUNT_DETAIL c
+		where c.OP_TYPE=4 and a.ACCOUNT_ID=c.ACCOUNT_ID
+		and
+		a.OWNER_SUPPLY_ID=c.OWNER_SUPPLY_ID
+		<isNotEmpty prepend="and" property="begDate">
+			convert(varchar(10),CREATE_TIME,121) &gt;=
+			convert(varchar(10),#begDate#,121)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endDate">
+			convert(varchar(10),CREATE_TIME,121) &lt;=
+			convert(varchar(10),#endDate#,121)
+		</isNotEmpty>
+
+		) as FAN_LI,
+
+		(select
+		isnull(SUM(OP_VALUE),0) from TRADE_ACCOUNT_DETAIL c
+		where c.OP_TYPE=2
+		and a.ACCOUNT_ID=c.ACCOUNT_ID and
+		a.OWNER_SUPPLY_ID=c.OWNER_SUPPLY_ID
+
+		<isNotEmpty prepend="and" property="begDate">
+			convert(varchar(10),CREATE_TIME,121) &gt;=
+			convert(varchar(10),#begDate#,121)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endDate">
+			convert(varchar(10),CREATE_TIME,121) &lt;=
+			convert(varchar(10),#endDate#,121)
+		</isNotEmpty>
+
+
+		)
+		as HE_JI
+
+		from TRADE_ACCOUNT_DETAIL a
+		left join TRADE_ACCOUNT b on
+		a.ACCOUNT_ID=b.ACCOUNT_ID
+		where a.DELETED=0 and a.OWNER_ID=1 and
+		b.OWNER_ID=1 and
+		a.OWNER_SUPPLY_ID=b.SUPPLY_ID
+		<include refid="DETAILCOUNT_SQL" />
+		group by
+		b.ACCOUNT_NAME,b.SUPPLY_NAME,a.ACCOUNT_ID,a.OWNER_SUPPLY_ID,b.OWNER_NAME
+		order by ACCOUNT_NAME
+	</select>
+
+	<select id="SELECT_COUNT_PAGE_M" parameterClass="tradeAccountDetailVoAlias"
+		resultClass="Integer">
+		select count(id) as totalCount from(select a.ACCOUNT_ID as id
+		from
+		TRADE_ACCOUNT_DETAIL a
+		left join TRADE_ACCOUNT b on
+		a.ACCOUNT_ID=b.ACCOUNT_ID
+		where a.DELETED=0 and a.OWNER_ID=1 and
+		b.OWNER_ID=1 and
+		a.OWNER_SUPPLY_ID=b.SUPPLY_ID
+		<include refid="DETAILCOUNT_SQL" />
+		group by
+		b.ACCOUNT_NAME,b.SUPPLY_NAME,a.ACCOUNT_ID,a.OWNER_SUPPLY_ID,b.OWNER_NAME)t;
+	</select>
+
+
+
+	<select id="SELECT_PAGE_DISM" parameterClass="java.util.Map"
+		resultMap="tradeAccountDetailCountResultMap">
+		select b.OWNER_NAME,b.ACCOUNT_NAME ,b.SUPPLY_NAME
+		,a.ACCOUNT_ID,a.OWNER_SUPPLY_ID,
+		(select COUNT(d.ID) from
+		TRADE_ACCOUNT_DETAIL d
+		where a.ACCOUNT_ID=d.ACCOUNT_ID and
+		a.OWNER_SUPPLY_ID=d.OWNER_SUPPLY_ID and
+		(d.OP_TYPE=2 or d.OP_TYPE=4)
+		<isNotEmpty prepend="and" property="begDate">
+			convert(varchar(10),CREATE_TIME,121) &gt;=
+			convert(varchar(10),#begDate#,121)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endDate">
+			convert(varchar(10),CREATE_TIME,121) &lt;=
+			convert(varchar(10),#endDate#,121)
+		</isNotEmpty>
+		)
+		as ORDER_COUNT,
+		(select isnull(SUM(OP_VALUE),0) from
+		TRADE_ACCOUNT_DETAIL c
+		where c.OP_TYPE=4 and a.ACCOUNT_ID=c.ACCOUNT_ID
+		and
+		a.OWNER_SUPPLY_ID=c.OWNER_SUPPLY_ID
+
+		<isNotEmpty prepend="and" property="begDate">
+			convert(varchar(10),CREATE_TIME,121) &gt;=
+			convert(varchar(10),#begDate#,121)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endDate">
+			convert(varchar(10),CREATE_TIME,121) &lt;=
+			convert(varchar(10),#endDate#,121)
+		</isNotEmpty>
+
+		) as FAN_LI,
+
+		(select
+		isnull(SUM(OP_VALUE),0) from TRADE_ACCOUNT_DETAIL c
+		where c.OP_TYPE=2
+		and a.ACCOUNT_ID=c.ACCOUNT_ID and
+		a.OWNER_SUPPLY_ID=c.OWNER_SUPPLY_ID
+
+		<isNotEmpty prepend="and" property="begDate">
+			convert(varchar(10),CREATE_TIME,121) &gt;=
+			convert(varchar(10),#begDate#,121)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endDate">
+			convert(varchar(10),CREATE_TIME,121) &lt;=
+			convert(varchar(10),#endDate#,121)
+		</isNotEmpty>
+
+		)
+		as HE_JI
+
+		from TRADE_ACCOUNT_DETAIL a
+		left join TRADE_ACCOUNT b on
+		a.ACCOUNT_ID=b.ACCOUNT_ID
+		where a.DELETED=0 and a.OWNER_ID!=1 and
+		b.OWNER_ID!=1 and
+		a.OWNER_SUPPLY_ID=b.SUPPLY_ID
+		and a.op_type in (2,4)
+		<include refid="DETAILCOUNT_SQL" />
+		group by
+		b.ACCOUNT_NAME,b.SUPPLY_NAME,a.ACCOUNT_ID,a.OWNER_SUPPLY_ID,b.OWNER_NAME
+		order by ACCOUNT_NAME
+	</select>
+
+	<select id="SELECT_COUNT_PAGE_DISM" parameterClass="tradeAccountDetailVoAlias"
+		resultClass="Integer">
+		select count(a.ID)
+		from TRADE_ACCOUNT_DETAIL a
+		left join TRADE_ACCOUNT b
+		on a.ACCOUNT_ID=b.ACCOUNT_ID
+		where a.DELETED=0 and a.OWNER_ID!=1 and
+		b.OWNER_ID!=1 and
+		a.OWNER_SUPPLY_ID=b.SUPPLY_ID
+		and a.op_type in (2,4)
+		<include refid="DETAILCOUNT_SQL" />
+	</select>
+
+
+	<select id="SELECT_PAGE_DISA" parameterClass="java.util.Map"
+		resultMap="tradeAccountDetailCountResultMap">
+		select b.OWNER_NAME,b.ACCOUNT_NAME ,b.SUPPLY_NAME
+		,a.ACCOUNT_ID,a.OWNER_SUPPLY_ID,
+		(select COUNT(d.ID) from
+		TRADE_ACCOUNT_DETAIL d
+		where a.ACCOUNT_ID=d.ACCOUNT_ID and
+		a.OWNER_SUPPLY_ID=d.OWNER_SUPPLY_ID and
+		(d.OP_TYPE=2 or d.OP_TYPE=4)
+		<isNotEmpty prepend="and" property="begDate">
+			convert(varchar(10),CREATE_TIME,121) &gt;=
+			convert(varchar(10),#begDate#,121)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endDate">
+			convert(varchar(10),CREATE_TIME,121) &lt;=
+			convert(varchar(10),#endDate#,121)
+		</isNotEmpty>
+		)
+		as ORDER_COUNT,
+		(select isnull(SUM(OP_VALUE),0) from
+		TRADE_ACCOUNT_DETAIL c
+		where c.OP_TYPE=4 and a.ACCOUNT_ID=c.ACCOUNT_ID
+		and
+		a.OWNER_SUPPLY_ID=c.OWNER_SUPPLY_ID
+
+		<isNotEmpty prepend="and" property="begDate">
+			convert(varchar(10),CREATE_TIME,121) &gt;=
+			convert(varchar(10),#begDate#,121)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endDate">
+			convert(varchar(10),CREATE_TIME,121) &lt;=
+			convert(varchar(10),#endDate#,121)
+		</isNotEmpty>
+		) as FAN_LI,
+
+		(select
+		isnull(SUM(OP_VALUE),0) from TRADE_ACCOUNT_DETAIL c
+		where c.OP_TYPE=2
+		and a.ACCOUNT_ID=c.ACCOUNT_ID and
+		a.OWNER_SUPPLY_ID=c.OWNER_SUPPLY_ID
+
+		<isNotEmpty prepend="and" property="begDate">
+			convert(varchar(10),CREATE_TIME,121) &gt;=
+			convert(varchar(10),#begDate#,121)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endDate">
+			convert(varchar(10),CREATE_TIME,121) &lt;=
+			convert(varchar(10),#endDate#,121)
+		</isNotEmpty>
+
+		)
+		as HE_JI
+
+		from TRADE_ACCOUNT_DETAIL a
+		left join TRADE_ACCOUNT b on
+		a.ACCOUNT_ID=b.ACCOUNT_ID
+		where a.DELETED=0 and a.OWNER_ID!=1 and
+		b.OWNER_ID!=1 and
+		a.OWNER_SUPPLY_ID=b.SUPPLY_ID
+		and
+		b.OWNER_ID=#accountId#
+		<include refid="DETAILCOUNT_SQL" />
+		group by
+		b.ACCOUNT_NAME,b.SUPPLY_NAME,a.ACCOUNT_ID,a.OWNER_SUPPLY_ID,b.OWNER_NAME
+		order by ACCOUNT_NAME
+	</select>
+
+	<select id="SELECT_COUNT_PAGE_DISA" parameterClass="tradeAccountDetailVoAlias"
+		resultClass="Integer">
+		select count(a.ID)
+		from TRADE_ACCOUNT_DETAIL a
+		left join TRADE_ACCOUNT b
+		on a.ACCOUNT_ID=b.ACCOUNT_ID
+		where a.DELETED=0 and a.OWNER_ID!=1 and
+		b.OWNER_ID!=1 and
+		a.OWNER_SUPPLY_ID=b.SUPPLY_ID
+		and
+		b.OWNER_ID=#accountId#
+		<include refid="DETAILCOUNT_SQL" />
+	</select>
+
+</sqlMap>

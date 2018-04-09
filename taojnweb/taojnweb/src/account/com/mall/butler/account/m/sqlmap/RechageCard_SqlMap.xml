@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="RECHAGECARD">
+	<sql id="SQL_BULK_DELETE">
+		<isNotEmpty prepend="and" property="messageIds">
+			ID IN
+			<iterate property="messageIds" open="(" close=")"
+				conjunction=",">
+				<![CDATA[
+                    	#messageIds[]#   
+            		]]>
+			</iterate>
+		</isNotEmpty>
+	</sql>
+	
+	
+	 <!-- 批量删除 -->
+	<delete id="DELETE_BY_BULK_PK" parameterClass="java.util.Map">
+		delete from ELECTRONIC_COUP
+		where 1=1 and audit_Syatus=1
+		<include refid="SQL_BULK_DELETE" />
+	</delete>
+		
+	 <!-- 批量启用 -->
+	<update id="UPDATE_BY_BULK_PK" parameterClass="java.util.Map">
+		update  RECHAGE_CARD 
+		
+		set 	MODIFIED_TIME = SYSDATE
+		<dynamic>
+			<isNotNull prepend="," property="status" >
+					status=#status#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+					deleted=#deleted#
+			</isNotNull>
+			<isNotNull prepend="," property="auditStatus" >
+					audit_syatus=#auditStatus#
+			</isNotNull>
+			<isNotNull prepend="," property="auditRemark" >
+					audit_remark=#auditRemark#
+			</isNotNull>
+			<isNotNull prepend="," property="auditPerson" >
+					AUDIT_PERSON=#auditPerson#
+			</isNotNull>
+		</dynamic>
+		where 1=1
+		<include refid="SQL_BULK_DELETE" />
+	</update>
+	
+</sqlMap>

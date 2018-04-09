@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SYSROLE" >
+	<typeAlias alias="sysRoleAlias" type="com.mall.butler.sys.model.SysRole"/>
+	<resultMap id="sysRoleResultMap" class="sysRoleAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="ROLE_NAME" property="roleName"/>
+    	<result column="ROLE_ACC_TYPE" property="roleAccType"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="USE_FLAG" property="useFlag"/>
+    	<result column="ACCOUNT_ID" property="accountId"/>
+    	<result column="CREATE_LOGIN_ID" property="createLoginId"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="id" >
+			ID = #id#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="roleName" >
+			ROLE_NAME = #roleName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="roleAccType" >
+			ROLE_ACC_TYPE = #roleAccType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="useFlag" >
+			USE_FLAG = #useFlag#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountId" >
+			ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createLoginId" >
+			CREATE_LOGIN_ID = #createLoginId#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="sysRoleResultMap">
+		select * from SYS_ROLE where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="sysRoleAlias" resultClass="Integer">
+		select count(*) as totalCount from SYS_ROLE where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="sysRoleResultMap" parameterClass="sysRoleAlias">
+  	select * from SYS_ROLE
+	where deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="sysRoleResultMap" parameterClass="sysRoleAlias" >
+		select *
+		from SYS_ROLE
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="sysRoleAlias" >
+		delete from SYS_ROLE
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="sysRoleAlias" >
+		insert into SYS_ROLE
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="roleName" >
+				ROLE_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="roleAccType" >
+				ROLE_ACC_TYPE
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="useFlag" >
+				USE_FLAG
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				ACCOUNT_ID
+			</isNotNull>
+			<isNotNull prepend="," property="createLoginId" >
+				CREATE_LOGIN_ID
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="roleName" >
+				#roleName#
+			</isNotNull>
+			<isNotNull prepend="," property="roleAccType" >
+				#roleAccType#
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				#remark#
+			</isNotNull>
+			<isNotNull prepend="," property="useFlag" >
+				#useFlag#
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				#accountId#
+			</isNotNull>
+			<isNotNull prepend="," property="createLoginId" >
+				#createLoginId#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="sysRoleAlias" >
+		update SYS_ROLE
+		set 
+		ROLE_NAME = #roleName#,
+		ROLE_ACC_TYPE = #roleAccType#,
+		REMARK = #remark#,
+		USE_FLAG = #useFlag#,
+		ACCOUNT_ID = #accountId#,
+		CREATE_LOGIN_ID = #createLoginId#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_SYS_ROLE.nextval from dual
+	</select>
+</sqlMap>

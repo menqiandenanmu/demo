@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="GOODSINFO">
+	<resultMap id="goodsInfoResultMapVo"
+		class="com.mall.butler.store.w.model.GoodsExtendInfo">
+		<result column="ID" property="id"/>
+    	<result column="GOODS_NAME" property="goodsName"/>
+    	<result column="COLOR_CLASS_CODE" property="colorClassCode"/>
+    	<result column="COLOR_CLASS_NAME" property="colorClassName"/>
+    	<result column="GOODS_CODE" property="goodsCode"/>
+    	<result column="STYLE_CLASS_CODE" property="styleClassCode"/>
+    	<result column="STYLE_CLASS_NAME" property="styleClassName"/>
+    	<result column="SIZE_CLASS_CODE" property="sizeClassCode"/>
+    	<result column="SIZE_CLASS_NAME" property="sizeClassName"/>
+    	<result column="SEASON" property="season"/>
+   		 <result column="PURCHASE_PRICE" property="purchasePrice"/>
+    	<result column="SELL_PRICE" property="sellPrice"/>
+    	<result column="SUMMARIZE" property="summarize"/>
+    	<result column="TITLE_IMG_ID" property="titleImgId"/>
+    	<result column="CONTENT_ID" property="contentId"/>
+    	<result column="INFO_ID" property="infoId"/>
+    	<result column="MAX_AMOUNT" property="maxAmount"/>
+    	<result column="MIN_AMOUNT" property="minAmount"/>
+    	<result column="TAG_NAMES" property="tagNames"/>
+    	<result column="TAG_CODES" property="tagCodes"/>
+    	<result column="USE_FLAG" property="useFlag"/>
+    	<result column="REMARK" property="remark"/>
+		<result column="ORDERID" property="orderid" />
+		<result column="IMAGE_URL" property="imageUrl" />
+		<result column="IMAGE_URL_MID" property="imageUrlMid" />
+		<result column="IMAGE_URL_SMALL" property="imageUrlSmall" />
+	</resultMap>
+		<sql id="ALL_SQL_W">
+		<isNotEmpty prepend="and" property="goodsName" >
+			GOODS_NAME like #goodsName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="goodsCode" >
+			GOODS_CODE = #goodsCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="summarize" >
+			SUMMARIZE = #summarize#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="titleImgId" >
+			TITLE_IMG_ID = #titleImgId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="contentId" >
+			CONTENT_ID = #contentId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="infoId" >
+			INFO_ID = #infoId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="maxAmount" >
+			MAX_AMOUNT = #maxAmount#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="minAmount" >
+			MIN_AMOUNT = #minAmount#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="tagNames" >
+			TAG_NAMES = #tagNames#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="tagCodes" >
+			TAG_CODES = #tagCodes#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="useFlag" >
+			USE_FLAG = #useFlag#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="sellTotal" >
+			SELL_TOTAL = #sellTotal#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="leftNum" >
+			LEFT_NUM = #leftNum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="orderid" >
+			ORDERID = #orderid#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="styleClassCode" >
+			STYLE_CLASS_CODE = #styleClassCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="styleClassName" >
+			STYLE_CLASS_NAME = #styleClassName#
+		</isNotEmpty>
+	</sql>
+	<select id="SELECT_PAGE_W" parameterClass="java.util.Map"
+		resultMap="goodsInfoResultMapVo">
+		select * from
+		(
+		select good.*,IMAGE_URL as IMAGE_URL,IMAGE_URL_MID AS
+		IMAGE_URL_MID,IMAGE_URL_SMALL AS IMAGE_URL_SMALL from GOODS_INFO
+		good,SYS_IMAGE_LIBRARY img
+		where
+		img.ID=good.TITLE_IMG_ID
+		)temp
+		where 1=1 and deleted=0
+		<include refid="ALL_SQL_W" />
+		order by create_time desc
+	</select>
+
+	<select id="SELECT_COUNT_PAGE_W" parameterClass="java.util.Map"
+		resultClass="Integer">
+		select count(*) as totalCount from GOODS_INFO where 1=1 and deleted=0
+		<include refid="ALL_SQL_W" />
+	</select>
+	<select id="SELECT_BY_USEABLED_W" parameterClass="java.util.Map" resultMap="goodsInfoResultMap">
+		select * from GOODS_INFO where deleted=0
+			<isNotEmpty property="date" prepend="and">
+				#date# between BEG_TIME and END_TIME
+			</isNotEmpty>
+	</select>
+</sqlMap>

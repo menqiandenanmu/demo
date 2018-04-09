@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="NEWSINFO" >
+	<typeAlias alias="newsInfoAlias" type="com.mall.butler.web.model.NewsInfo"/>
+	<resultMap id="newsInfoResultMap" class="newsInfoAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="LOGIN_ID" property="loginId"/>
+    	<result column="TITLE" property="title"/>
+    	<result column="TITLE_IMAGE_ID" property="titleImageId"/>
+    	<result column="SOURCE" property="source"/>
+    	<result column="AUTH" property="auth"/>
+    	<result column="CONTENT_ID" property="contentId"/>
+    	<result column="KEY_WORKS" property="keyWorks"/>
+    	<result column="CLASS_NAME" property="className"/>
+    	<result column="CLASS_CODE" property="classCode"/>
+    	<result column="READ_NUM" property="readNum"/>
+    	<result column="SUMMARY" property="summary"/>
+    	<result column="ORDERID" property="orderid"/>
+    	<result column="DESCRIPTION" property="description"/>
+    	<result column="KEYWORDS" property="keywords"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="loginId" >
+			LOGIN_ID = #loginId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="title" >
+			TITLE = #title#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="titleImageId" >
+			TITLE_IMAGE_ID = #titleImageId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="source" >
+			SOURCE = #source#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="auth" >
+			AUTH = #auth#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="contentId" >
+			CONTENT_ID = #contentId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="keyWorks" >
+			KEY_WORKS = #keyWorks#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="className" >
+			CLASS_NAME = #className#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="classCode" >
+			CLASS_CODE = #classCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="readNum" >
+			READ_NUM = #readNum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="summary" >
+			SUMMARY = #summary#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="orderid" >
+			ORDERID = #orderid#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="description" >
+			DESCRIPTION = #description#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="keywords" >
+			KEYWORDS = #keywords#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="newsInfoResultMap">
+		select * from NEWS_INFO where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="newsInfoAlias" resultClass="Integer">
+		select count(*) as totalCount from NEWS_INFO where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="newsInfoResultMap" parameterClass="newsInfoAlias">
+  	select * from NEWS_INFO
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="newsInfoResultMap" parameterClass="newsInfoAlias" >
+		select *
+		from NEWS_INFO
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="newsInfoAlias" >
+		delete from NEWS_INFO
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="newsInfoAlias" >
+		insert into NEWS_INFO
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="loginId" >
+				LOGIN_ID
+			</isNotNull>
+			<isNotNull prepend="," property="title" >
+				TITLE
+			</isNotNull>
+			<isNotNull prepend="," property="titleImageId" >
+				TITLE_IMAGE_ID
+			</isNotNull>
+			<isNotNull prepend="," property="source" >
+				SOURCE
+			</isNotNull>
+			<isNotNull prepend="," property="auth" >
+				AUTH
+			</isNotNull>
+			<isNotNull prepend="," property="contentId" >
+				CONTENT_ID
+			</isNotNull>
+			<isNotNull prepend="," property="keyWorks" >
+				KEY_WORKS
+			</isNotNull>
+			<isNotNull prepend="," property="className" >
+				CLASS_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="classCode" >
+				CLASS_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="readNum" >
+				READ_NUM
+			</isNotNull>
+			<isNotNull prepend="," property="summary" >
+				SUMMARY
+			</isNotNull>
+			<isNotNull prepend="," property="orderid" >
+				ORDERID
+			</isNotNull>
+			<isNotNull prepend="," property="description" >
+				DESCRIPTION
+			</isNotNull>
+			<isNotNull prepend="," property="keywords" >
+				KEYWORDS
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="loginId" >
+				#loginId#
+			</isNotNull>
+			<isNotNull prepend="," property="title" >
+				#title#
+			</isNotNull>
+			<isNotNull prepend="," property="titleImageId" >
+				#titleImageId#
+			</isNotNull>
+			<isNotNull prepend="," property="source" >
+				#source#
+			</isNotNull>
+			<isNotNull prepend="," property="auth" >
+				#auth#
+			</isNotNull>
+			<isNotNull prepend="," property="contentId" >
+				#contentId#
+			</isNotNull>
+			<isNotNull prepend="," property="keyWorks" >
+				#keyWorks#
+			</isNotNull>
+			<isNotNull prepend="," property="className" >
+				#className#
+			</isNotNull>
+			<isNotNull prepend="," property="classCode" >
+				#classCode#
+			</isNotNull>
+			<isNotNull prepend="," property="readNum" >
+				#readNum#
+			</isNotNull>
+			<isNotNull prepend="," property="summary" >
+				#summary#
+			</isNotNull>
+			<isNotNull prepend="," property="orderid" >
+				#orderid#
+			</isNotNull>
+			<isNotNull prepend="," property="description" >
+				#description#
+			</isNotNull>
+			<isNotNull prepend="," property="keywords" >
+				#keywords#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="newsInfoAlias" >
+		update NEWS_INFO
+		set 
+		LOGIN_ID = #loginId#,
+		TITLE = #title#,
+		TITLE_IMAGE_ID = #titleImageId#,
+		SOURCE = #source#,
+		AUTH = #auth#,
+		CONTENT_ID = #contentId#,
+		KEY_WORKS = #keyWorks#,
+		CLASS_NAME = #className#,
+		CLASS_CODE = #classCode#,
+		READ_NUM = #readNum#,
+		SUMMARY = #summary#,
+		ORDERID = #orderid#,
+		DESCRIPTION = #description#,
+		KEYWORDS = #keywords#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_NEWS_INFO.nextval from dual
+	</select>
+</sqlMap>

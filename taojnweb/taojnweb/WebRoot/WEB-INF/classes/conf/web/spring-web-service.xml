@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+						default-autowire="byName" default-lazy-init="false">
+	<!-- 页面管理 -->
+	<bean id="mPageService" class="com.mall.butler.web.m.service._impl.MPageServiceImpl"></bean>
+	<!-- 系统静态信息 -->
+	<bean id="mStaticService" class="com.mall.butler.web.m.service._impl.MStaticServiceImpl"></bean>
+	<!-- 广告信息 -->
+	<bean id="wPageService" class="com.mall.butler.web.w.service._impl.WPageServiceImpl"></bean>
+		<!-- 资讯分类 -->
+	<bean id="mNewService" class="com.mall.butler.web.m.service._impl.MNewServiceImpl"/>
+		<!-- 前台帮助 -->
+	<bean id="WStaticService" class="com.mall.butler.web.w.service._impl.WStaticServiceImpl"/>
+</beans>

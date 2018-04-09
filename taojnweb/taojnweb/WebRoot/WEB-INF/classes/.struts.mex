@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Struts2Diagram version="2.0">
+  <include file="xwork-base-m.xml" location="0,0" size="0,0" />
+  <include file="xwork-common-m.xml" location="0,0" size="0,0" />
+  <include file="xwork-base-w.xml" location="0,0" size="0,0" />
+  <include file="xwork-common-w.xml" location="0,0" size="0,0" />
+  <include file="xwork-sys.xml" location="0,0" size="0,0" />
+  <include file="xwork-web.xml" location="0,0" size="0,0" />
+  <include file="xwork-account.xml" location="0,0" size="0,0" />
+  <include file="xwork-store.xml" location="0,0" size="0,0" />
+  <include file="xwork-order.xml" location="0,0" size="0,0" />
+  <include file="xwork-port.xml" location="0,0" size="0,0" />
+</Struts2Diagram>
+

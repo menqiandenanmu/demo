@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ACCOUNTLOGIN" >
+	<typeAlias alias="accountLoginAlias" type="com.mall.butler.account.model.AccountLogin"/>
+	<resultMap id="accountLoginResultMap" class="accountLoginAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="ACCOUNT_ID" property="accountId"/>
+    	<result column="LOGIN_NAME" property="loginName"/>
+    	<result column="LOGIN_PASS" property="loginPass"/>
+    	<result column="REALNAME" property="realname"/>
+    	<result column="EMAIL" property="email"/>
+    	<result column="STATUS" property="status"/>
+    	<result column="ADMIN_FLAG" property="adminFlag"/>
+    	<result column="BIRTHDAY" property="birthday"/>
+    	<result column="SEX" property="sex"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="LOGIN_COUNT" property="loginCount"/>
+    	<result column="LAST_IP" property="lastIp"/>
+    	<result column="LAST_LOGIN_TIME" property="lastLoginTime"/>
+    	<result column="MOBILE" property="mobile"/>
+    	<result column="ID_CARD" property="idCard"/>
+    	<result column="CREATE_LOGIN_ID" property="createLoginId"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotNull prepend="and" property="accountId" >
+			ACCOUNT_ID = #accountId#
+		</isNotNull>
+		<isNotNull prepend="and" property="loginName" >
+			LOGIN_NAME = #loginName#
+		</isNotNull>
+		<isNotNull prepend="and" property="loginPass" >
+			LOGIN_PASS = #loginPass#
+		</isNotNull>
+		<isNotNull prepend="and" property="realname" >
+			REALNAME like #realname#
+		</isNotNull>
+		<isNotNull prepend="and" property="email" >
+			EMAIL = #email#
+		</isNotNull>
+		<isNotNull prepend="and" property="status" >
+			STATUS = #status#
+		</isNotNull>
+		<isNotNull prepend="and" property="adminFlag" >
+			ADMIN_FLAG = #adminFlag#
+		</isNotNull>
+		<isNotNull prepend="and" property="birthday" >
+			BIRTHDAY = #birthday#
+		</isNotNull>
+		<isNotNull prepend="and" property="sex" >
+			SEX = #sex#
+		</isNotNull>
+		<isNotNull prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotNull>
+		<isNotNull prepend="and" property="loginCount" >
+			LOGIN_COUNT = #loginCount#
+		</isNotNull>
+		<isNotNull prepend="and" property="lastIp" >
+			LAST_IP = #lastIp#
+		</isNotNull>
+		<isNotNull prepend="and" property="lastLoginTime" >
+			convert(varchar(10),LAST_LOGIN_TIME,121) = convert(varchar(10),#lastLoginTime#,121)
+		</isNotNull>
+		<isNotNull prepend="and" property="mobile" >
+			MOBILE = #mobile#
+		</isNotNull>
+		<isNotNull prepend="and" property="idCard" >
+			ID_CARD = #idCard#
+		</isNotNull>
+		<isNotNull prepend="and" property="createLoginId" >
+			CREATE_LOGIN_ID = #createLoginId#
+		</isNotNull>
+	</sql>
+	
+	<sql id="ALL_SQL1">
+		<isNotNull prepend="and" property="accountId" >
+			ACCOUNT_ID = #accountId#
+		</isNotNull>
+		<isNotNull prepend="and" property="loginName" >
+			LOGIN_NAME like '%$loginName$%'
+		</isNotNull>
+		<isNotNull prepend="and" property="loginPass" >
+			LOGIN_PASS = #loginPass#
+		</isNotNull>
+		<isNotNull prepend="and" property="realname" >
+			REALNAME = #realname#
+		</isNotNull>
+		<isNotNull prepend="and" property="email" >
+			EMAIL = #email#
+		</isNotNull>
+		<isNotNull prepend="and" property="status" >
+			STATUS = #status#
+		</isNotNull>
+		<isNotNull prepend="and" property="adminFlag" >
+			ADMIN_FLAG = #adminFlag#
+		</isNotNull>
+		<isNotNull prepend="and" property="birthday" >
+			BIRTHDAY = #birthday#
+		</isNotNull>
+		<isNotNull prepend="and" property="sex" >
+			SEX = #sex#
+		</isNotNull>
+		<isNotNull prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotNull>
+		<isNotNull prepend="and" property="loginCount" >
+			LOGIN_COUNT = #loginCount#
+		</isNotNull>
+		<isNotNull prepend="and" property="lastIp" >
+			LAST_IP = #lastIp#
+		</isNotNull>
+		<isNotNull prepend="and" property="lastLoginTime" >
+			convert(varchar(10),LAST_LOGIN_TIME,121) = convert(varchar(10),#lastLoginTime#,121)
+		</isNotNull>
+		<isNotNull prepend="and" property="mobile" >
+			MOBILE = #mobile#
+		</isNotNull>
+		<isNotNull prepend="and" property="idCard" >
+			ID_CARD = #idCard#
+		</isNotNull>
+		<isNotNull prepend="and" property="createLoginId" >
+			CREATE_LOGIN_ID = #createLoginId#
+		</isNotNull>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="accountLoginResultMap">
+		select * from ACCOUNT_LOGIN where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="accountLoginAlias" resultClass="Integer">
+		select count(*) as totalCount from ACCOUNT_LOGIN where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="accountLoginResultMap" parameterClass="accountLoginAlias">
+  	select * from ACCOUNT_LOGIN
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	<select id="SELECT_BY_ALL1" resultMap="accountLoginResultMap" parameterClass="accountLoginAlias">
+  	select * from ACCOUNT_LOGIN
+	where deleted=0
+		<include refid="ALL_SQL1"/>
+		order by create_time desc
+	</select>
+	<select id="SELECT_BY_PK" resultMap="accountLoginResultMap" parameterClass="accountLoginAlias" >
+		select *
+		from ACCOUNT_LOGIN
+		where ID = #id# and DELETED=0
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="accountLoginAlias" >
+		delete from ACCOUNT_LOGIN
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="accountLoginAlias" >
+		insert into ACCOUNT_LOGIN
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				ACCOUNT_ID
+			</isNotNull>
+			<isNotNull prepend="," property="loginName" >
+				LOGIN_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="loginPass" >
+				LOGIN_PASS
+			</isNotNull>
+			<isNotNull prepend="," property="realname" >
+				REALNAME
+			</isNotNull>
+			<isNotNull prepend="," property="email" >
+				EMAIL
+			</isNotNull>
+			<isNotNull prepend="," property="status" >
+				STATUS
+			</isNotNull>
+			<isNotNull prepend="," property="adminFlag" >
+				ADMIN_FLAG
+			</isNotNull>
+			<isNotNull prepend="," property="birthday" >
+				BIRTHDAY
+			</isNotNull>
+			<isNotNull prepend="," property="sex" >
+				SEX
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="loginCount" >
+				LOGIN_COUNT
+			</isNotNull>
+			<isNotNull prepend="," property="lastIp" >
+				LAST_IP
+			</isNotNull>
+			<isNotNull prepend="," property="lastLoginTime" >
+				LAST_LOGIN_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="mobile" >
+				MOBILE
+			</isNotNull>
+			<isNotNull prepend="," property="idCard" >
+				ID_CARD
+			</isNotNull>
+			<isNotNull prepend="," property="createLoginId" >
+				CREATE_LOGIN_ID
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				#accountId#
+			</isNotNull>
+			<isNotNull prepend="," property="loginName" >
+				#loginName#
+			</isNotNull>
+			<isNotNull prepend="," property="loginPass" >
+				#loginPass#
+			</isNotNull>
+			<isNotNull prepend="," property="realname" >
+				#realname#
+			</isNotNull>
+			<isNotNull prepend="," property="email" >
+				#email#
+			</isNotNull>
+			<isNotNull prepend="," property="status" >
+				#status#
+			</isNotNull>
+			<isNotNull prepend="," property="adminFlag" >
+				#adminFlag#
+			</isNotNull>
+			<isNotNull prepend="," property="birthday" >
+				#birthday#
+			</isNotNull>
+			<isNotNull prepend="," property="sex" >
+				#sex#
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				#remark#
+			</isNotNull>
+			<isNotNull prepend="," property="loginCount" >
+				#loginCount#
+			</isNotNull>
+			<isNotNull prepend="," property="lastIp" >
+				#lastIp#
+			</isNotNull>
+			<isNotNull prepend="," property="lastLoginTime" >
+				#lastLoginTime#
+			</isNotNull>
+			<isNotNull prepend="," property="mobile" >
+				#mobile#
+			</isNotNull>
+			<isNotNull prepend="," property="idCard" >
+				#idCard#
+			</isNotNull>
+			<isNotNull prepend="," property="createLoginId" >
+				#createLoginId#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="accountLoginAlias" >
+		update ACCOUNT_LOGIN
+		set 
+		ACCOUNT_ID = #accountId#,
+		LOGIN_NAME = #loginName#,
+		LOGIN_PASS = #loginPass#,
+		REALNAME = #realname#,
+		EMAIL = #email#,
+		STATUS = #status#,
+		ADMIN_FLAG = #adminFlag#,
+		BIRTHDAY = #birthday#,
+		SEX = #sex#,
+		REMARK = #remark#,
+		LOGIN_COUNT = #loginCount#,
+		LAST_IP = #lastIp#,
+		LAST_LOGIN_TIME = #lastLoginTime#,
+		MOBILE = #mobile#,
+		ID_CARD = #idCard#,
+		CREATE_LOGIN_ID = #createLoginId#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		declare @a int exec NEXT_VAL 'ACCOUNT_LOGIN',@a output select @a
+	</select>
+</sqlMap>

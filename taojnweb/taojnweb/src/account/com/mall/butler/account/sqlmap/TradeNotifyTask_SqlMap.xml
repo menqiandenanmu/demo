@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="TRADENOTIFYTASK" >
+	<typeAlias alias="tradeNotifyTaskAlias" type="com.mall.butler.account.model.TradeNotifyTask"/>
+	<resultMap id="tradeNotifyTaskResultMap" class="tradeNotifyTaskAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="SERIAL_NO" property="serialNo"/>
+    	<result column="SYNC_TIME" property="syncTime"/>
+    	<result column="SYNC_NUM" property="syncNum"/>
+    	<result column="SYNC_STATUS" property="syncStatus"/>
+    	<result column="OP_TYPE" property="opType"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="serialNo" >
+			SERIAL_NO = #serialNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="syncTime" >
+			to_char(SYNC_TIME,'yyyy-mm-dd') = to_char(#syncTime#,'yyyy-mm-dd')
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="syncNum" >
+			SYNC_NUM = #syncNum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="syncStatus" >
+			SYNC_STATUS = #syncStatus#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opType" >
+			OP_TYPE = #opType#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="tradeNotifyTaskResultMap">
+		select * from TRADE_NOTIFY_TASK where 1=1 
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="tradeNotifyTaskAlias" resultClass="Integer">
+		select count(*) as totalCount from TRADE_NOTIFY_TASK where 1=1 
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="tradeNotifyTaskResultMap" parameterClass="tradeNotifyTaskAlias">
+  	select * from TRADE_NOTIFY_TASK
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="tradeNotifyTaskResultMap" parameterClass="tradeNotifyTaskAlias" >
+		select *
+		from TRADE_NOTIFY_TASK
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="tradeNotifyTaskAlias" >
+		delete from TRADE_NOTIFY_TASK
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="tradeNotifyTaskAlias" >
+		insert into TRADE_NOTIFY_TASK
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="serialNo" >
+				SERIAL_NO
+			</isNotNull>
+			<isNotNull prepend="," property="syncTime" >
+				SYNC_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="syncNum" >
+				SYNC_NUM
+			</isNotNull>
+			<isNotNull prepend="," property="syncStatus" >
+				SYNC_STATUS
+			</isNotNull>
+			<isNotNull prepend="," property="opType" >
+				OP_TYPE
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="serialNo" >
+				#serialNo#
+			</isNotNull>
+			<isNotNull prepend="," property="syncTime" >
+				#syncTime#
+			</isNotNull>
+			<isNotNull prepend="," property="syncNum" >
+				#syncNum#
+			</isNotNull>
+			<isNotNull prepend="," property="syncStatus" >
+				#syncStatus#
+			</isNotNull>
+			<isNotNull prepend="," property="opType" >
+				#opType#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="tradeNotifyTaskAlias" >
+		update TRADE_NOTIFY_TASK
+		set 
+		SERIAL_NO = #serialNo#,
+		SYNC_TIME = #syncTime#,
+		SYNC_NUM = #syncNum#,
+		SYNC_STATUS = #syncStatus#,
+		OP_TYPE = #opType#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_TRADE_NOTIFY_TASK.nextval from dual
+	</select>
+</sqlMap>

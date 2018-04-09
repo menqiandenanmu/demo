@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+	default-autowire="byName">
+	<!-- org.springframework.orm.ibatis.SqlMapClientFactoryBean -->
+	<bean id="sqlMapClient"
+		class="com.mall.util.ibatis.spring.SqlMapClientFactoryBean">
+		<property name="configLocation">
+			<value>classpath:/conf/sqlmap-config.xml
+			</value>
+		</property>
+		<property name="mappingLocations">
+			<list>
+			<!-- 系统管理模块 -->
+				<value>classpath:com/mall/butler/sys/sqlmap/*SqlMap.xml</value>
+				<value>classpath:com/mall/butler/sys/m/sqlmap/*SqlMap.xml</value>
+				<!-- 用户模块 -->
+				<value>classpath:com/mall/butler/account/sqlmap/*SqlMap.xml</value>
+				<value>classpath:com/mall/butler/account/m/sqlmap/*SqlMap.xml</value>
+				<value>classpath:com/mall/butler/account/w/sqlmap/*SqlMap.xml</value>
+				<!-- 页面信息模块-->
+				<value>classpath:com/mall/butler/web/sqlmap/*SqlMap.xml</value>
+				<value>classpath:com/mall/butler/web/m/sqlmap/*SqlMap.xml</value>
+				<value>classpath:com/mall/butler/web/w/sqlmap/*SqlMap.xml</value>
+				<!-- 商铺模块-->
+				<value>classpath:com/mall/butler/store/sqlmap/*SqlMap.xml</value>
+				<value>classpath:com/mall/butler/store/m/sqlmap/*SqlMap.xml</value>
+				<value>classpath:com/mall/butler/store/w/sqlmap/*SqlMap.xml</value>
+				<!--订单模块-->
+				<value>classpath:com/mall/butler/order/sqlmap/*SqlMap.xml</value>
+				<value>classpath:com/mall/butler/order/w/sqlmap/*SqlMap.xml</value>
+				<value>classpath:com/mall/butler/order/m/sqlmap/*SqlMap.xml</value>
+				<!--积分模块-->
+				<value>classpath:com/mall/butler/point/sqlmap/*SqlMap.xml</value>
+				<value>classpath:com/mall/butler/point/w/sqlmap/*SqlMap.xml</value>
+				<value>classpath:com/mall/butler/point/m/sqlmap/*SqlMap.xml</value>
+			</list>
+		</property>
+		<property name="sqlExecutor">
+			<bean
+				class="com.mall.util.ibatis.sqlmap.engine.execution.LimitSqlExecutor">
+				<property name="dialect">
+						<bean class="com.mall.util.ibatis.jdbc.dialect.OracleDialect" />
+				</property>
+			</bean>
+		</property>
+		 <property name="dataSource" ref="dataSource" />
+	</bean>
+</beans>

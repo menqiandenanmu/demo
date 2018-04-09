@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ACCOUNTINFO" >
+	<typeAlias alias="accountInfoAlias" type="com.mall.butler.account.model.AccountInfo"/>
+	<resultMap id="accountInfoResultMap" class="accountInfoAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="ACC_NAME" property="accName"/>
+    	<result column="ACC_NO" property="accNo"/>
+    	<result column="ACC_TYPE" property="accType"/>
+    	<result column="ACC_STATUS" property="accStatus"/>
+    	<result column="ACC_LEVEL_ID" property="accLevelId"/>
+    	<result column="ACC_LEVEL_NAME" property="accLevelName"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotNull prepend="and" property="id" >
+			ID = #id#
+		</isNotNull>
+		<isNotNull prepend="and" property="accName" >
+			ACC_NAME = #accName#
+		</isNotNull>
+		<isNotNull prepend="and" property="accNo" >
+			ACC_NO = #accNo#
+		</isNotNull>
+		<isNotNull prepend="and" property="accType" >
+			ACC_TYPE = #accType#
+		</isNotNull>
+		<isNotNull prepend="and" property="accStatus" >
+			ACC_STATUS = #accStatus#
+		</isNotNull>
+		<isNotNull prepend="and" property="accLevelId" >
+			ACC_LEVEL_ID = #accLevelId#
+		</isNotNull>
+		<isNotNull prepend="and" property="accLevelName" >
+			ACC_LEVEL_NAME = #accLevelName#
+		</isNotNull>		
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="accountInfoResultMap">
+		select * from ACCOUNT_INFO where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="accountInfoAlias" resultClass="Integer">
+		select count(*) as totalCount from ACCOUNT_INFO where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="accountInfoResultMap" parameterClass="accountInfoAlias">
+  	select * from ACCOUNT_INFO
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="accountInfoResultMap" parameterClass="accountInfoAlias" >
+		select *
+		from ACCOUNT_INFO
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="accountInfoAlias" >
+		delete from ACCOUNT_INFO
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="accountInfoAlias" >
+		insert into ACCOUNT_INFO
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="accName" >
+				ACC_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="accNo" >
+				ACC_NO
+			</isNotNull>
+			<isNotNull prepend="," property="accType" >
+				ACC_TYPE
+			</isNotNull>
+			<isNotNull prepend="," property="accStatus" >
+				ACC_STATUS
+			</isNotNull>
+			<isNotNull prepend="," property="accLevelId" >
+				ACC_LEVEL_ID
+			</isNotNull>
+			<isNotNull prepend="," property="accLevelName" >
+				ACC_LEVEL_NAME
+			</isNotNull>			
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="accName" >
+				#accName#
+			</isNotNull>
+			<isNotNull prepend="," property="accNo" >
+				#accNo#
+			</isNotNull>
+			<isNotNull prepend="," property="accType" >
+				#accType#
+			</isNotNull>
+			<isNotNull prepend="," property="accStatus" >
+				#accStatus#
+			</isNotNull>
+			<isNotNull prepend="," property="accLevelId" >
+				#accLevelId#
+			</isNotNull>
+			<isNotNull prepend="," property="accLevelName" >
+				#accLevelName#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="accountInfoAlias" >
+		update ACCOUNT_INFO
+		set 
+		ACC_NAME = #accName#,
+		ACC_NO = #accNo#,
+		ACC_TYPE = #accType#,
+		ACC_STATUS = #accStatus#,
+		ACC_LEVEL_ID = #accLevelId#,
+		ACC_LEVEL_NAME = #accLevelName#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_ACCOUNT_INFO.nextval from dual
+	</select>
+</sqlMap>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:/conf/alipay.properties</value>
+				<value>classpath:/conf/app.properties</value>
+				<value>classpath:/conf/jdbc.properties</value>
+				<value>classpath:/conf/wap.properties</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 参数初始读入 -->
+	<bean class="com.mall.butler.CommonContext">
+		<property name="key" value="${service.key}"/>
+		<property name="partner" value="${service.partner}"/>
+		<property name="api_url_query" value="${service.queryurl}"/>
+		<property name="api_url_update" value="${service.updateurl}"/>
+	</bean>
+	
+	<!-- 支付宝配置 -->
+	<bean class="com.mall.butler.alipay.AlipayContext">
+		<property name="partner" value="${alipay.partner}" />
+		<property name="key" value="${alipay.key}"></property>
+		<property name="payment_type" value="${alipay.payment_type}" />
+		<property name="seller_email" value="${alipay.seller_email}" />
+		<property name="service_url" value="${alipay.service.url}" />
+		<property name="service_pay" value="${alipay.service.pay}" />
+		<property name="pay_return" value="${alipay.service.pay.returnUrl}" />
+		<property name="pay_notify" value="${alipay.service.pay.notifyUrl}" />
+		<property name="subject" value="${alipay.subject}" />
+		<property name="sign_type" value="${alipay.sign_type}" />
+		<property name="body" value="${alipay.body}" />
+		<property name="paymethod" value="${alipay.paymethod}" />
+		<property name="input_charset" value="${alipay.input_charset}" />
+		<property name="notify_query_url" value="${alipay.check_notify_url}" />
+		<property name="lt_b_pay" value="${alipay.ltBpay}" />
+		<!--  关闭交易参数 -->
+		<property name="service_close_trade" value="${alipay.service.closePay}" />
+		<!-- 支付宝查询交易 -->
+		<property name="query_input_charset" value="${alipay.query_pay.input_charset}" />
+
+	</bean>
+	<!-- 微信支付配置 -->
+	<bean id="wxPayConfig" class="com.mall.butler.weixin.WxPayConfig">
+		<property name="prePayUrl" value="${weixin.pay.prepay.url}" />
+		<property name="mchId" value="${weixin.pay.mch_id}" />
+		<property name="appSecret" value="${weixin.appsecret}" />
+		<property name="appId" value="${weixin.appid}" />
+		<property name="key" value="${weixin.pay.key}" />
+		<property name="notifyUrl" value="${weixin.pay.notify_url}" />
+		<property name="qrcodeNotifyUrl" value="${weixin.pay.qrcode_notify_url}" />
+		<property name="refundUrl" value="${weixin.pay.refund_url}" />
+		<property name="certPath" value="${weixin.pay.certpath}" />
+	</bean>
+</beans>

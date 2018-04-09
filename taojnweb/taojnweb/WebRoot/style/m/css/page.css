@@ -1,0 +1,53 @@
+.page-main{ margin-bottom: 5px;}
+.page-item{ border: 1px solid #ddd; background-color: #fff;}
+.page-title{ padding: 20px 30px; font-size: 18px; color: #666; font-weight: bold;}
+.search-panel{ border-top: none;}
+.list-panel{ padding: 0 30px;}
+
+.list-handle{padding: 20px 30px; border-bottom: none; margin-top: 5px;}
+.list-handle a.btn{ margin-right: 15px;}
+
+/*搜索*/
+.search-list{ padding: 10px 15px;}
+.search-list li{ width: 270px; float: left; margin: 10px 15px; font-size: 0; height: 30px;}
+.lab-title{ width: 90px; display: inline-block; text-align: left; font-size: 14px; color: #666;}
+.search-list li.search-handle{ width: 200px; line-height: 30px;}
+.search-more{ font-size: 14px; color: #666; text-decoration: underline; margin-left: 20px; display: inline-block; vertical-align: middle;}
+.search-more-list{ background-color: #f8f8f8; border-top: 1px solid #ddd; display: none;}
+
+/*列表表格布局*/
+.list-table{ width: 100%;}
+.list-table th,.list-table td{ line-height: 24px; padding: 15px 8px; text-align: left; border-bottom: 1px solid #eee;}
+.list-table th{ font-size: 14px; color: #333;}
+.list-table td{ font-size: 12px; color: #666;}
+.list-table tbody tr:hover{ background-color: #f8f8f8;}
+.list-table td a{ color: #028dd2; margin-right: 10px; text-decoration: underline;}
+.list-table td a:hover{ color: #4eafe0;}
+.list-table tr.igrid-sep{ display: none;}
+.list-table tr.igrid-bar td{ padding: 0;}
+
+.list-bottom{ padding: 20px 0; color: #666; line-height: 30px;}
+
+
+.user-img{ width: 62px; height: 62px; float: left; background: url("../images/list-user.png") no-repeat;}
+.user-info{ margin-left: 25px; float: left;}
+.user-info em{ display: block; font-size: 14px; color: #333;}
+
+/*列表标签*/
+.list-mark{ width: 50px; height: 16px; line-height: 16px; display: inline-block; border-radius: 3px; text-align: center; color: #fff;}
+
+/*表单*/
+.form-panel{ padding:10px 30px; background-color: #fff; border-top: none;}
+.form-panel li{ margin-top: 20px;}
+.form-panel li .lab-title{ float: left; height: 30px; line-height: 30px; color: #000;}
+.form-panel li .lab-title1{ float: left; line-height: 30px; color: #000;}
+.form-item{ margin-left: 100px; min-height: 30px; height: auto; line-height: 30px; font-size: 14px; color: #666;}
+.form-item .custom-checkbox,.form-item .custom-radio{ margin-right: 15px;}
+
+.form-handle{ text-align: left; padding: 20px 0 20px 100px; width: 600px;}
+
+
+@media (max-width: 1250px){
+   .user-img{ display: none;}
+    .user-info{ margin-left: 0;}
+}

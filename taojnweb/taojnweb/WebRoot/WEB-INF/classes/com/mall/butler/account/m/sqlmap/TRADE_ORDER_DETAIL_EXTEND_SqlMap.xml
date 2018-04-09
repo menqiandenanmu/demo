@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="TRADEORDERDETAILEXTEND">
+	<typeAlias alias="tradeOrderDetailExtend"
+		type="com.mall.butler.account.m.model.TradeOrderDetailExtend" />
+	
+	<resultMap class="tradeOrderDetailExtend" id="tradeOrderDetailExtendMap">
+	 <result column="ORDER_NO" property="orderNo"/>
+	 <result column="ACCOUNT_ID" property="accountId"/>
+	 <result column="ACCOUNT_NAME" property="accountName"/>
+	 <result column="TRADE_ACC_ID" property="tradeAccId"/>
+	 <result column="TRADE_ACC_NAME" property="tradeAccName"/>
+	 <result column="OP_VALUE" property="opValue"/>
+	 <result column="PAY_STATUS" property="payStatus"/>
+	 <result column="ORDER_OP_TYPE" property="orderOpType"/>
+	 <result column="LEFT_VALUE" property="leftValue"/>
+	 <result column="CREATE_TIME" property="createTime"/>
+	</resultMap>
+	
+	<select id="SELECT_ACCOUNT_DETAIL_PAGE_M" parameterClass="java.util.Map"
+	resultMap="tradeOrderDetailExtendMap">
+	SELECT  * FROM
+	(SELECT 
+	d.ORDER_NO ORDER_NO,d.ACCOUNT_ID ACCOUNT_ID,d.ACCOUNT_NAME ACCOUNT_NAME,
+	o.TRADE_ACC_ID TRADE_ACC_ID,o.TRADE_ACC_NAME TRADE_ACC_NAME,d.OP_VALUE OP_VALUE,
+	o.PAY_STATUS PAY_STATUS,o.OP_TYPE ORDER_OP_TYPE,d.LEFT_VALUE  LEFT_VALUE ,o.CREATE_TIME CREATE_TIME
+	FROM TRADE_ORDER o,TRADE_ACCOUNT_DETAIL d
+	WHERE o.ORDER_NO = d.ORDER_NO
+	AND o.DELETED = d.DELETED
+	AND o.DELETED = 0 
+	<isNotEmpty prepend="and" property="opValue" >
+	 d.OP_TYPE = #opValue#
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="payStatus" >
+	 o.PAY_STATUS = #payStatus#
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="id" >
+	 o.OP_TYPE = 0
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="orderOpType" >
+	 d.OP_TYPE = #orderOpType#
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="accountId" >
+	 d.ACCOUNT_ID = #accountId#
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="tradeAccId" >
+	 d.TRADE_ACC_ID = #tradeAccId#
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="begDate" >
+	 d.CREATE_TIME >= #begDate#
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="orderNo" >
+	 o.ORDER_NO >= #orderNo#
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="endDate" >
+	 <![CDATA[ 
+		d.CREATE_TIME <= #endDate# 
+		]]>
+	</isNotEmpty>
+	) m 
+	 ORDER BY ORDER_NO
+	</select>
+	
+	<select id="SELECT_COUNT_ACCOUNT_DETAIL_PAGE_M" 
+	resultClass="Integer">
+	SELECT  count(*) FROM 
+	(SELECT 
+	d.ORDER_NO,d.ACCOUNT_ID,d.ACCOUNT_NAME,d.TRADE_ACC_ID,d.TRADE_ACC_NAME,d.OP_VALUE,
+	o.PAY_STATUS,o.OP_TYPE,d.LEFT_VALUE 
+	FROM TRADE_ORDER o,TRADE_ACCOUNT_DETAIL d
+	WHERE o.ORDER_NO = d.ORDER_NO
+	AND o.DELETED = d.DELETED
+	AND o.DELETED = 0 
+	<isNotEmpty prepend="and" property="opValue" >
+	 d.OP_TYPE = #opValue#
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="payStatus" >
+	 o.PAY_STATUS = #payStatus#
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="id" >
+	 o.OP_TYPE = 0
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="orderOpType" >
+	 d.OP_TYPE = #orderOpType#
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="accountId" >
+	 d.ACCOUNT_ID = #accountId#
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="tradeAccId" >
+	 d.TRADE_ACC_ID = #tradeAccId#
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="begDate" >
+	 d.CREATE_TIME >= #begDate#
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="endDate" >
+	 <![CDATA[ 
+		d.CREATE_TIME <= #endDate# 
+		]]>
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="orderNo" >
+	 o.ORDER_NO >= #orderNo#
+	</isNotEmpty>
+	) m 
+	</select>
+</sqlMap>

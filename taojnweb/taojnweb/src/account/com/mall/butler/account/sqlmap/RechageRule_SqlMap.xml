@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="RECHAGERULE" >
+	<typeAlias alias="rechageRuleAlias" type="com.mall.butler.account.model.RechageRule"/>
+	<resultMap id="rechageRuleResultMap" class="rechageRuleAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="SERIAL_NO" property="serialNo"/>
+    	<result column="START_TIME" property="startTime"/>
+    	<result column="END_TIME" property="endTime"/>
+    	<result column="REALNAME2" property="realname2"/>
+    	<result column="REALNAME" property="realname"/>
+    	<result column="MAX_NUM" property="maxNum"/>
+    	<result column="ACCOUNT_ID" property="accountId"/>
+    	<result column="ACCOUNT_NAME" property="accountName"/>
+    	<result column="TRADE_ACC_ID" property="tradeAccId"/>
+    	<result column="TRADE_ACC_NAME" property="tradeAccName"/>
+    	<result column="OP_TYPE" property="opType"/>
+    	<result column="ORDER_NO" property="orderNo"/>
+    	<result column="CUR_RECHAGE_TIME" property="curRechageTime"/>
+    	<result column="TODAY_NUM" property="todayNum"/>
+    	<result column="OP_LOGIN_NAME" property="opLoginName"/>
+    	<result column="OP_LOGIN_ID" property="opLoginId"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="serialNo" >
+			SERIAL_NO = #serialNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="startTime" >
+			START_TIME = #startTime#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endTime" >
+			END_TIME = #endTime#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="realname2" >
+			REALNAME2 = #realname2#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="realname" >
+			REALNAME = #realname#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="maxNum" >
+			MAX_NUM = #maxNum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountId" >
+			ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountName" >
+			ACCOUNT_NAME = #accountName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="tradeAccId" >
+			TRADE_ACC_ID = #tradeAccId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="tradeAccName" >
+			TRADE_ACC_NAME = #tradeAccName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opType" >
+			OP_TYPE = #opType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="orderNo" >
+			ORDER_NO = #orderNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="curRechageTime" >
+			CUR_RECHAGE_TIME = #curRechageTime#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="todayNum" >
+			TODAY_NUM = #todayNum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opLoginName" >
+			OP_LOGIN_NAME = #opLoginName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opLoginId" >
+			OP_LOGIN_ID = #opLoginId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="rechageRuleResultMap">
+		select * from RECHAGE_RULE where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="rechageRuleAlias" resultClass="Integer">
+		select count(*) as totalCount from RECHAGE_RULE where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="rechageRuleResultMap" parameterClass="rechageRuleAlias">
+  	select * from RECHAGE_RULE
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="rechageRuleResultMap" parameterClass="rechageRuleAlias" >
+		select *
+		from RECHAGE_RULE
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="rechageRuleAlias" >
+		delete from RECHAGE_RULE
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="rechageRuleAlias" >
+		insert into RECHAGE_RULE
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="serialNo" >
+				SERIAL_NO
+			</isNotNull>
+			<isNotNull prepend="," property="startTime" >
+				START_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="endTime" >
+				END_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="realname2" >
+				REALNAME2
+			</isNotNull>
+			<isNotNull prepend="," property="realname" >
+				REALNAME
+			</isNotNull>
+			<isNotNull prepend="," property="maxNum" >
+				MAX_NUM
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				ACCOUNT_ID
+			</isNotNull>
+			<isNotNull prepend="," property="accountName" >
+				ACCOUNT_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="tradeAccId" >
+				TRADE_ACC_ID
+			</isNotNull>
+			<isNotNull prepend="," property="tradeAccName" >
+				TRADE_ACC_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="opType" >
+				OP_TYPE
+			</isNotNull>
+			<isNotNull prepend="," property="orderNo" >
+				ORDER_NO
+			</isNotNull>
+			<isNotNull prepend="," property="curRechageTime" >
+				CUR_RECHAGE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="todayNum" >
+				TODAY_NUM
+			</isNotNull>
+			<isNotNull prepend="," property="opLoginName" >
+				OP_LOGIN_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="opLoginId" >
+				OP_LOGIN_ID
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="serialNo" >
+				#serialNo#
+			</isNotNull>
+			<isNotNull prepend="," property="startTime" >
+				#startTime#
+			</isNotNull>
+			<isNotNull prepend="," property="endTime" >
+				#endTime#
+			</isNotNull>
+			<isNotNull prepend="," property="realname2" >
+				#realname2#
+			</isNotNull>
+			<isNotNull prepend="," property="realname" >
+				#realname#
+			</isNotNull>
+			<isNotNull prepend="," property="maxNum" >
+				#maxNum#
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				#accountId#
+			</isNotNull>
+			<isNotNull prepend="," property="accountName" >
+				#accountName#
+			</isNotNull>
+			<isNotNull prepend="," property="tradeAccId" >
+				#tradeAccId#
+			</isNotNull>
+			<isNotNull prepend="," property="tradeAccName" >
+				#tradeAccName#
+			</isNotNull>
+			<isNotNull prepend="," property="opType" >
+				#opType#
+			</isNotNull>
+			<isNotNull prepend="," property="orderNo" >
+				#orderNo#
+			</isNotNull>
+			<isNotNull prepend="," property="curRechageTime" >
+				#curRechageTime#
+			</isNotNull>
+			<isNotNull prepend="," property="todayNum" >
+				#todayNum#
+			</isNotNull>
+			<isNotNull prepend="," property="opLoginName" >
+				#opLoginName#
+			</isNotNull>
+			<isNotNull prepend="," property="opLoginId" >
+				#opLoginId#
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				#remark#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="rechageRuleAlias" >
+		update RECHAGE_RULE
+		set 
+		SERIAL_NO = #serialNo#,
+		START_TIME = #startTime#,
+		END_TIME = #endTime#,
+		REALNAME2 = #realname2#,
+		REALNAME = #realname#,
+		MAX_NUM = #maxNum#,
+		ACCOUNT_ID = #accountId#,
+		ACCOUNT_NAME = #accountName#,
+		TRADE_ACC_ID = #tradeAccId#,
+		TRADE_ACC_NAME = #tradeAccName#,
+		OP_TYPE = #opType#,
+		ORDER_NO = #orderNo#,
+		CUR_RECHAGE_TIME = #curRechageTime#,
+		TODAY_NUM = #todayNum#,
+		OP_LOGIN_NAME = #opLoginName#,
+		OP_LOGIN_ID = #opLoginId#,
+		REMARK = #remark#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_RECHAGE_RULE.nextval from dual
+	</select>
+</sqlMap>

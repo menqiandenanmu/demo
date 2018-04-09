@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="AGENTEXTENDINFO" >
+	<typeAlias alias="agentInfoMAlias" type="com.mall.butler.account.m.model.AgentExtendInfo"/>
+	<resultMap id="agentInfoResultMMap" class="agentInfoMAlias">
+		<result column="ID" property="id"/>
+    	<result column="CORP_NAME" property="corpName"/>
+    	<result column="CODE" property="code"/>
+    	<result column="URL" property="url"/>
+    	<result column="LINKMAN" property="linkman"/>
+    	<result column="LINKMAN_TEL" property="linkmanTel"/>
+    	<result column="TELPHONE" property="telphone"/>
+    	<result column="FAX" property="fax"/>
+    	<result column="ADDRESS" property="address"/>
+    	<result column="ACC_STATUS" property="accStatus"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+		<result column="BEG_DATE" property="begDate"/>
+    	<result column="END_DATE" property="endDate"/>
+    	<result column="PARENT_AGENT_ID" property="parentAgentId"/>
+    	<result column="PARENT_AGENT_NAME" property="parentAgentName"/>
+    	<result column="AGENT_TYPE" property="agentType"/> 
+    	<result column="BANK_CODE" property="bankCode"/>
+    	<result column="BANK_NAME" property="bankName"/>
+    	<result column="BANK_OPEN_INFO" property="bankOpenInfo"/>
+  	 	<result column="AGENT_NO" property="agentNo"/>
+    	<result column="AGENT_ACCOUNT_TYPE" property="agentAccountType"/>	
+	</resultMap>
+	
+	<sql id="ALL_SQL_M">
+		<isNotEmpty prepend="and" property="corpName" >
+			CORP_NAME like '%$corpName$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="code" >
+			CODE = #code#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="url" >
+			URL = #url#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="linkman" >
+			LINKMAN = #linkman#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="linkmanTel" >
+			LINKMAN_TEL = #linkmanTel#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="telphone" >
+			TELPHONE = #telphone#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="fax" >
+			FAX = #fax#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="address" >
+			ADDRESS = #address#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accStatus" >
+			ACC_STATUS = #accStatus#
+		</isNotEmpty>   	
+		<isNotEmpty prepend="and" property="bankName" >
+			BANK_NAME = #bankName#
+		</isNotEmpty>
+		
+	</sql>
+	
+	
+	<select id="SELECT_BY_PAGE_M" parameterClass="java.util.Map" resultMap="agentInfoResultMMap">
+		select * from (select ag.*,ai.ACC_STATUS from AGENT_INFO ag ,ACCOUNT_INFO ai where ag.ID = ai.id ) tb 
+	    where 1=1 and deleted=0
+		<include refid="ALL_SQL_M"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_BY_PAGE_M" parameterClass="agentInfoMAlias" resultClass="Integer">
+		select count(*) as totalCount from 
+		(select ag.*,ai.ACC_STATUS from AGENT_INFO ag ,ACCOUNT_INFO ai where ag.ID = ai.id ) tb
+		 where 1=1 and deleted=0
+		<include refid="ALL_SQL_M"/>
+	</select>
+	
+ 	<select id="SELECT_BY_ALL_M" parameterClass="agentInfoMAlias" resultMap="agentInfoResultMMap">
+		select * from 
+		(select ag.*,ai.ACC_STATUS from AGENT_INFO ag ,ACCOUNT_INFO ai where ag.ID = ai.id ) tb
+		 where 1=1 and deleted=0
+		<include refid="ALL_SQL_M"/>
+	</select>
+	
+	<select id="SELECT_BY_ID_M" resultMap="agentInfoResultMMap" parameterClass="Long" >
+		select * from (select ag.*,ai.ACC_STATUS from AGENT_INFO ag ,ACCOUNT_INFO ai 
+		where ag.ID = ai.id  ) tb
+		where  ID = #id#
+	</select>
+	
+</sqlMap>

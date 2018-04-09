@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="RECHARGEINFO" >
+	<typeAlias alias="rechargeInfoAlias" type="com.mall.butler.account.model.RechargeInfo"/>
+	<resultMap id="rechargeInfoResultMap" class="rechargeInfoAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="NAME" property="name"/>
+    	<result column="CONTENT_INFO" property="contentInfo"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="name" >
+			NAME = #name#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="contentInfo" >
+			CONTENT_INFO = #contentInfo#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="rechargeInfoResultMap">
+		select * from RECHARGE_INFO where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="rechargeInfoAlias" resultClass="Integer">
+		select count(*) as totalCount from RECHARGE_INFO where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="rechargeInfoResultMap" parameterClass="rechargeInfoAlias">
+  	select * from RECHARGE_INFO
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="rechargeInfoResultMap" parameterClass="rechargeInfoAlias" >
+		select *
+		from RECHARGE_INFO
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="rechargeInfoAlias" >
+		delete from RECHARGE_INFO
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="rechargeInfoAlias" >
+		insert into RECHARGE_INFO
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="name" >
+				NAME
+			</isNotNull>
+			<isNotNull prepend="," property="contentInfo" >
+				CONTENT_INFO
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="name" >
+				#name#
+			</isNotNull>
+			<isNotNull prepend="," property="contentInfo" >
+				#contentInfo#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="rechargeInfoAlias" >
+		update RECHARGE_INFO
+		set 
+		NAME = #name#,
+		CONTENT_INFO = #contentInfo#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_RECHARGE_INFO.nextval from dual
+	</select>
+</sqlMap>

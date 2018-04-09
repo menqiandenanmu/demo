@@ -1,0 +1,22 @@
+<!DOCTYPE struts PUBLIC	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "struts-2.3.dtd">
+<struts>
+	<package name="web.point" extends="web" namespace="/point">
+		
+		<!-- 用户积分 -->
+		<action name="pointIn" class="com.mall.butler.point.w.action.WUserPointAction">
+			<interceptor-ref name="authStack" />
+			<result name="success" type="freemarker">/template/b/point/w/pointIn.ftl</result>
+		</action>
+		<!-- 用户积分使用清单 -->
+		<action name="pointOut" class="com.mall.butler.point.w.action.WUserPointAction" method="poionOut">
+			<interceptor-ref name="authStack" />
+			<result name="success" type="freemarker">/template/b/point/w/pointOut.ftl</result>
+		</action>
+		
+		<!-- 用户积分清单 -->
+		<action name="userPointDetail" class="com.mall.butler.point.w.action.WUserPointAction">
+			<interceptor-ref name="authStack" />
+			<result name="success" type="freemarker">/template/b/point/w/userPointDetail.ftl</result>
+		</action>
+	</package>
+</struts>

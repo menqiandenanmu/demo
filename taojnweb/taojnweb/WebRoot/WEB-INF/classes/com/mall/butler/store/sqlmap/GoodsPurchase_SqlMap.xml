@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="GOODSPURCHASE">
+	<typeAlias alias="goodsPurchaseAlias" type="com.mall.butler.store.model.GoodsPurchase"/>
+	<resultMap id="goodsPurchaseResultMap" class="goodsPurchaseAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="STOCK_ID" property="stockId"/>
+    	<result column="GOODS_NAME" property="goodsName"/>
+    	<result column="NUM" property="num"/>
+    	<result column="LOGIN_ID" property="loginId"/>
+    	<result column="LOGIN_NAME" property="loginName"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="stockId" >
+			STOCK_ID = #stockId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="goodsName" >
+			GOODS_NAME = #goodsName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="num" >
+			NUM = #num#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="loginId" >
+			LOGIN_ID = #loginId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="loginName" >
+			LOGIN_NAME = #loginName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="goodsPurchaseResultMap">
+		select * from GOODS_PURCHASE where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="goodsPurchaseAlias" resultClass="Integer">
+		select count(*) as totalCount from GOODS_PURCHASE where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="goodsPurchaseResultMap" parameterClass="goodsPurchaseAlias">
+  	select * from GOODS_PURCHASE
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="goodsPurchaseResultMap" parameterClass="goodsPurchaseAlias" >
+		select *
+		from GOODS_PURCHASE
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETED_BY_PK" parameterClass="goodsPurchaseAlias" >
+		delete from GOODS_PURCHASE
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="goodsPurchaseAlias" >
+		insert into GOODS_PURCHASE
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="stockId" >
+				STOCK_ID
+			</isNotNull>
+			<isNotNull prepend="," property="goodsName" >
+				GOODS_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="num" >
+				NUM
+			</isNotNull>
+			<isNotNull prepend="," property="loginId" >
+				LOGIN_ID
+			</isNotNull>
+			<isNotNull prepend="," property="loginName" >
+				LOGIN_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="stockId" >
+				#stockId#
+			</isNotNull>
+			<isNotNull prepend="," property="goodsName" >
+				#goodsName#
+			</isNotNull>
+			<isNotNull prepend="," property="num" >
+				#num#
+			</isNotNull>
+			<isNotNull prepend="," property="loginId" >
+				#loginId#
+			</isNotNull>
+			<isNotNull prepend="," property="loginName" >
+				#loginName#
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				#remark#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="goodsPurchaseAlias" >
+		update GOODS_PURCHASE
+		set 
+		STOCK_ID = #stockId#,
+		GOODS_NAME = #goodsName#,
+		NUM = #num#,
+		LOGIN_ID = #loginId#,
+		LOGIN_NAME = #loginName#,
+		REMARK = #remark#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_GOODS_PURCHASE.nextval from dual
+		</select>
+</sqlMap>

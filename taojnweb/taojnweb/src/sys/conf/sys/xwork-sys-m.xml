@@ -1,0 +1,52 @@
+<!DOCTYPE struts PUBLIC	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "struts-2.3.dtd">
+<struts>
+	<package name="sys" extends="manage" namespace="/manage/sys">
+	<default-interceptor-ref name="authStack" />
+		<!-- 角色 -->
+		<action name="role" class="com.mall.butler.sys.m.action.RoleAction">
+			<result name="list" type="freemarker">/template/b/sys/m/roleList.ftl</result>
+			<result name="edit" type="freemarker">/template/b/sys/m/roleEdit.ftl</result>
+			<result name="add" type="freemarker">/template/b/sys/m/roleAdd.ftl</result>
+			<result name="infoEdit" type="freemarker">/template/b/sys/m/roleInfo.ftl</result>
+		</action>
+		<!-- 操作员 -->
+		<action name="operator" class="com.mall.butler.sys.m.action.OperatorAction">
+			<result name="list" type="freemarker">/template/b/sys/m/operatorList.ftl</result>
+			<result name="edit" type="freemarker">/template/b/sys/m/operatorEdit.ftl</result>
+			<result name="add" type="freemarker">/template/b/sys/m/operatorAdd.ftl</result>
+			<result name="info" type="freemarker">/template/b/sys/m/operatorInfo.ftl</result>
+			<result name="roleEdit" type="freemarker">/template/b/sys/m/operatorRole.ftl</result>
+		</action>
+		<!-- 系统参数 -->
+		<action name="param" class="com.mall.butler.sys.m.action.ParamAction">
+			<result name="list" type="freemarker">/template/b/sys/m/paramList.ftl</result>
+			<result name="edit" type="freemarker">/template/b/sys/m/paramEdit.ftl</result>
+			<result name="add" type="freemarker">/template/b/sys/m/paramAdd.ftl</result>
+			
+		</action>
+		<!-- 数据字典 -->
+		<action name="dict" class="com.mall.butler.sys.m.action.DictAction">
+			<result name="list" type="freemarker">/template/b/sys/m/dictList.ftl</result>
+			<result name="detailList" type="freemarker">/template/b/sys/m/dictDetailList.ftl</result>
+			<result name="detailAdd" type="freemarker">/template/b/sys/m/dictDetailAdd.ftl</result>
+			<result name="detailEdit" type="freemarker">/template/b/sys/m/dictDetailEdit.ftl</result>
+		</action>
+		<!-- 系统日志 -->
+		<action name="sysOptLog" class="com.mall.butler.sys.m.action.SysOptLogAction">
+			<result name="success" type="freemarker">/template/b/sys/m/optLogList.ftl</result>	
+			<result name="info" type="freemarker">/template/b/sys/m/optLogInfo.ftl</result>	
+		</action>
+		<!-- 系统黑名单 -->
+		<action name="dataFilter" class="com.mall.butler.sys.m.action.DataFilterAction">
+			<result name="list" type="freemarker">/template/b/sys/m/dataFilterList.ftl</result>
+			<result name="edit" type="freemarker">/template/b/sys/m/dataFilterEdit.ftl</result>
+			<result name="add" type="freemarker">/template/b/sys/m/dataFilterAdd.ftl</result>
+		</action>
+		<!-- 用户消息管理 -->
+		<action name="message" class="com.mall.butler.sys.m.action.AccountMessageAction">
+			<result name="success" type="freemarker">/template/b/sys/m/messageList.ftl</result>
+			<result name="input" type="freemarker">/template/b/sys/m/messageSend.ftl</result>
+			<result name="info" type="freemarker">/template/b/sys/m/messageInfo.ftl</result>
+		</action>
+	</package>
+</struts>

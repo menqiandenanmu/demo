@@ -1,0 +1,59 @@
+/* Some formatting for the menu UL tags themselves; remove margins */
+ul.checktree, ul.checktree ul {
+ list-style-type: none;
+ padding: 0;
+ margin: 0;
+ font: 15px sans-serif;
+}
+
+/*
+LI tags have a different background depending if they're the last node, and padding
+The script will automatically assign these CSS classes to LI tags depending on their
+expanded state, so we style them appropriately here.
+*/
+ul.checktree li {
+ background: url(../images/tree/node.gif) no-repeat;
+ margin: 0;
+ padding: 0 0 0 16px;
+ cursor: default;
+}
+ul.checktree li.last {
+ background-image: url(../images/tree/node-last.gif);
+}
+ul.checktree li.plus {
+ background-image: url(../images/tree/plus.gif);
+}
+ul.checktree li.plus-last {
+ background-image: url(../images/tree/plus-last.gif);
+}
+ul.checktree li.minus {
+ background-image: url(../images/tree/minus.gif);
+}
+ul.checktree li.minus-last {
+ background-image: url(../images/tree/minus-last.gif);
+}
+
+ul.checktree li.minus-last div.delete{
+ background-image: url(../images/tree/delete.png);
+ float:right;
+ width:15px;
+ height:15px;
+ margin:0 5px;
+ cursor:pointer;
+}
+
+ul.checktree li.minus-last div.edit{
+ background-image: url(../images/tree/edit.png);
+ float:right;
+ width:15px;
+ height:15px;
+ margin:0 5px;
+ cursor:pointer;
+}
+
+/* The check-count SPANs. */
+ul.checktree span.count {
+ text-indent: 5pt;
+ color: #999;
+ font-style: italic;
+}

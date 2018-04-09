@@ -1,0 +1,5 @@
+<!DOCTYPE struts PUBLIC	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "struts-2.3.dtd">
+<struts>
+	<include file="conf/point/xwork-point-m.xml"></include>
+	<include file="conf/point/xwork-point-w.xml"></include>
+</struts>

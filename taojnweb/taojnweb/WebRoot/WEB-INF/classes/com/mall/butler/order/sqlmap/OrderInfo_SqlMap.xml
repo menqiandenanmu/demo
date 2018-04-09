@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ORDERINFO" >
+	<typeAlias alias="orderInfoAlias" type="com.mall.butler.order.model.OrderInfo"/>
+	<resultMap id="orderInfoResultMap" class="orderInfoAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="BUYER_ID" property="buyerId"/>
+    	<result column="BUYER_NAME" property="buyerName"/>
+    	<result column="LOGIN_ID" property="loginId"/>
+    	<result column="LOGIN_NAME" property="loginName"/>
+    	<result column="BUYER_ACC_TYPE" property="buyerAccType"/>
+    	<result column="ORDER_NO" property="orderNo"/>
+    	<result column="BOOK_TYPE" property="bookType"/>
+    	<result column="PAY_TYPE" property="payType"/>
+    	<result column="PAY_STATUS" property="payStatus"/>
+    	<result column="PAY_SUM" property="paySum"/>
+    	<result column="PAY_TIME" property="payTime"/>
+    	<result column="FINAL_SUM" property="finalSum"/>
+    	<result column="ORDER_STATUS" property="orderStatus"/>
+    	<result column="CLOSE_TIME" property="closeTime"/>
+    	<result column="HUNG_FLAG" property="hungFlag"/>
+    	<result column="CLOSED" property="closed"/>
+    	<result column="LINK_NAME" property="linkName"/>
+    	<result column="LINK_IDCARD" property="linkIdcard"/>
+    	<result column="LINK_MOBILE" property="linkMobile"/>
+    	<result column="LINK_ADDR" property="linkAddr"/>
+    	<result column="AREA_CODE" property="areaCode"/>
+    	<result column="AREA_NAME" property="areaName"/>
+    	<result column="DELIVERY_ID" property="deliveryId"/>
+    	<result column="DELIVERY_NO" property="deliveryNo"/>
+    	<result column="DELIVERY_DATE" property="deliveryDate"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="INFO" property="info"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="buyerId" >
+			BUYER_ID = #buyerId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="buyerName" >
+			BUYER_NAME = #buyerName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="loginId" >
+			LOGIN_ID = #loginId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="loginName" >
+			LOGIN_NAME = #loginName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="buyerAccType" >
+			BUYER_ACC_TYPE = #buyerAccType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="orderNo" >
+			ORDER_NO = #orderNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="bookType" >
+			BOOK_TYPE = #bookType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="payType" >
+			PAY_TYPE = #payType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="payStatus" >
+			PAY_STATUS = #payStatus#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="paySum" >
+			PAY_SUM = #paySum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="payTime" >
+			convert(varchar(10),PAY_TIME,121) = convert(varchar(10),#payTime#,121)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="finalSum" >
+			FINAL_SUM = #finalSum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="orderStatus" >
+			ORDER_STATUS = #orderStatus#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="closeTime" >
+			convert(varchar(10),CLOSE_TIME,121) = convert(varchar(10),#closeTime#,121)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="hungFlag" >
+			HUNG_FLAG = #hungFlag#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="closed" >
+			CLOSED = #closed#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="linkName" >
+			LINK_NAME = #linkName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="linkIdcard" >
+			LINK_IDCARD = #linkIdcard#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="linkMobile" >
+			LINK_MOBILE = #linkMobile#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="linkAddr" >
+			LINK_ADDR = #linkAddr#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="areaCode" >
+			AREA_CODE = #areaCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="areaName" >
+			AREA_NAME = #areaName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="deliveryId" >
+			DELIVERY_ID = #deliveryId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="deliveryNo" >
+			DELIVERY_NO = #deliveryNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="deliveryDate" >
+			convert(varchar(10),DELIVERY_DATE,121) = convert(varchar(10),#deliveryDate#,121)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="info" >
+			INFO = #info#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="orderInfoResultMap">
+		select * from ORDER_INFO where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="orderInfoAlias" resultClass="Integer">
+		select count(*) as totalCount from ORDER_INFO where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="orderInfoResultMap" parameterClass="orderInfoAlias">
+  	select * from ORDER_INFO
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="orderInfoResultMap" parameterClass="orderInfoAlias" >
+		select *
+		from ORDER_INFO
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETED_BY_PK" parameterClass="orderInfoAlias" >
+		delete from ORDER_INFO
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="orderInfoAlias" >
+		insert into ORDER_INFO
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="buyerId" >
+				BUYER_ID
+			</isNotNull>
+			<isNotNull prepend="," property="buyerName" >
+				BUYER_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="loginId" >
+				LOGIN_ID
+			</isNotNull>
+			<isNotNull prepend="," property="loginName" >
+				LOGIN_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="buyerAccType" >
+				BUYER_ACC_TYPE
+			</isNotNull>
+			<isNotNull prepend="," property="orderNo" >
+				ORDER_NO
+			</isNotNull>
+			<isNotNull prepend="," property="bookType" >
+				BOOK_TYPE
+			</isNotNull>
+			<isNotNull prepend="," property="payType" >
+				PAY_TYPE
+			</isNotNull>
+			<isNotNull prepend="," property="payStatus" >
+				PAY_STATUS
+			</isNotNull>
+			<isNotNull prepend="," property="paySum" >
+				PAY_SUM
+			</isNotNull>
+			<isNotNull prepend="," property="payTime" >
+				PAY_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="finalSum" >
+				FINAL_SUM
+			</isNotNull>
+			<isNotNull prepend="," property="orderStatus" >
+				ORDER_STATUS
+			</isNotNull>
+			<isNotNull prepend="," property="closeTime" >
+				CLOSE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="hungFlag" >
+				HUNG_FLAG
+			</isNotNull>
+			<isNotNull prepend="," property="closed" >
+				CLOSED
+			</isNotNull>
+			<isNotNull prepend="," property="linkName" >
+				LINK_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="linkIdcard" >
+				LINK_IDCARD
+			</isNotNull>
+			<isNotNull prepend="," property="linkMobile" >
+				LINK_MOBILE
+			</isNotNull>
+			<isNotNull prepend="," property="linkAddr" >
+				LINK_ADDR
+			</isNotNull>
+			<isNotNull prepend="," property="areaCode" >
+				AREA_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="areaName" >
+				AREA_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="deliveryId" >
+				DELIVERY_ID
+			</isNotNull>
+			<isNotNull prepend="," property="deliveryNo" >
+				DELIVERY_NO
+			</isNotNull>
+			<isNotNull prepend="," property="deliveryDate" >
+				DELIVERY_DATE
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="info" >
+				INFO
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="buyerId" >
+				#buyerId#
+			</isNotNull>
+			<isNotNull prepend="," property="buyerName" >
+				#buyerName#
+			</isNotNull>
+			<isNotNull prepend="," property="loginId" >
+				#loginId#
+			</isNotNull>
+			<isNotNull prepend="," property="loginName" >
+				#loginName#
+			</isNotNull>
+			<isNotNull prepend="," property="buyerAccType" >
+				#buyerAccType#
+			</isNotNull>
+			<isNotNull prepend="," property="orderNo" >
+				#orderNo#
+			</isNotNull>
+			<isNotNull prepend="," property="bookType" >
+				#bookType#
+			</isNotNull>
+			<isNotNull prepend="," property="payType" >
+				#payType#
+			</isNotNull>
+			<isNotNull prepend="," property="payStatus" >
+				#payStatus#
+			</isNotNull>
+			<isNotNull prepend="," property="paySum" >
+				#paySum#
+			</isNotNull>
+			<isNotNull prepend="," property="payTime" >
+				#payTime#
+			</isNotNull>
+			<isNotNull prepend="," property="finalSum" >
+				#finalSum#
+			</isNotNull>
+			<isNotNull prepend="," property="orderStatus" >
+				#orderStatus#
+			</isNotNull>
+			<isNotNull prepend="," property="closeTime" >
+				#closeTime#
+			</isNotNull>
+			<isNotNull prepend="," property="hungFlag" >
+				#hungFlag#
+			</isNotNull>
+			<isNotNull prepend="," property="closed" >
+				#closed#
+			</isNotNull>
+			<isNotNull prepend="," property="linkName" >
+				#linkName#
+			</isNotNull>
+			<isNotNull prepend="," property="linkIdcard" >
+				#linkIdcard#
+			</isNotNull>
+			<isNotNull prepend="," property="linkMobile" >
+				#linkMobile#
+			</isNotNull>
+			<isNotNull prepend="," property="linkAddr" >
+				#linkAddr#
+			</isNotNull>
+			<isNotNull prepend="," property="areaCode" >
+				#areaCode#
+			</isNotNull>
+			<isNotNull prepend="," property="areaName" >
+				#areaName#
+			</isNotNull>
+			<isNotNull prepend="," property="deliveryId" >
+				#deliveryId#
+			</isNotNull>
+			<isNotNull prepend="," property="deliveryNo" >
+				#deliveryNo#
+			</isNotNull>
+			<isNotNull prepend="," property="deliveryDate" >
+				#deliveryDate#
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				#remark#
+			</isNotNull>
+			<isNotNull prepend="," property="info" >
+				#info#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="orderInfoAlias" >
+		update ORDER_INFO
+		set 
+		BUYER_ID = #buyerId#,
+		BUYER_NAME = #buyerName#,
+		LOGIN_ID = #loginId#,
+		LOGIN_NAME = #loginName#,
+		BUYER_ACC_TYPE = #buyerAccType#,
+		ORDER_NO = #orderNo#,
+		BOOK_TYPE = #bookType#,
+		PAY_TYPE = #payType#,
+		PAY_STATUS = #payStatus#,
+		PAY_SUM = #paySum#,
+		PAY_TIME = #payTime#,
+		FINAL_SUM = #finalSum#,
+		ORDER_STATUS = #orderStatus#,
+		CLOSE_TIME = #closeTime#,
+		HUNG_FLAG = #hungFlag#,
+		CLOSED = #closed#,
+		LINK_NAME = #linkName#,
+		LINK_IDCARD = #linkIdcard#,
+		LINK_MOBILE = #linkMobile#,
+		LINK_ADDR = #linkAddr#,
+		AREA_CODE = #areaCode#,
+		AREA_NAME = #areaName#,
+		DELIVERY_ID = #deliveryId#,
+		DELIVERY_NO = #deliveryNo#,
+		DELIVERY_DATE = #deliveryDate#,
+		REMARK = #remark#,
+		INFO = #info#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+			select SEQ_ORDER_INFO.nextval from dual
+	</select>
+</sqlMap>

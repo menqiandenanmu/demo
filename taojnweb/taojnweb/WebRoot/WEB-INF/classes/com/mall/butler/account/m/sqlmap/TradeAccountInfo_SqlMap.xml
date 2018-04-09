@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="TRADEACCOUNTINFO" >
+	<select id="SELECT_TRADEACCOUNTINFO" resultMap="tradeAccountInfoResultMap" parameterClass="java.util.Map" >
+		select *
+		from TRADE_ACCOUNT_INFO
+		where ACC_CODE = #accCode#
+		 OR ACC_NAME = #accName#
+	</select>
+	<update id="UPDATE_ACCOUNTUSEFLAG" parameterClass="tradeAccountInfoAlias" >
+		update TRADE_ACCOUNT_INFO
+		set 
+		USE_FLAG = #useFlag#,
+		MODIFIED_TIME = #now#
+		where ID = #id# 
+	</update>
+</sqlMap>

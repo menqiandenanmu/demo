@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ORDEROPERATE" >
+	<typeAlias alias="orderOperateAlias" type="com.mall.butler.order.model.OrderOperate"/>
+	<resultMap id="orderOperateResultMap" class="orderOperateAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="ORDER_ID" property="orderId"/>
+    	<result column="OPERATE_TIME" property="operateTime"/>
+    	<result column="OPERATE_TYPE" property="operateType"/>
+    	<result column="PARAMS" property="params"/>
+    	<result column="HUNG_FLAG" property="hungFlag"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<!-- 得到订单执行任务 -->
+	<select id="SELECT_BY_EXECLIST" parameterClass="java.util.Date" resultMap="orderOperateResultMap">
+		<![CDATA[
+		select * from ORDER_OPERATE where deleted=0 and OPERATE_TIME < #value# and  HUNG_FLAG=0
+		]]> 
+	</select>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="orderId" >
+			ORDER_ID = #orderId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="operateTime" >
+			convert(varchar(10),OPERATE_TIME,121) = convert(varchar(10),#operateTime#,121)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="operateType" >
+			OPERATE_TYPE = #operateType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="params" >
+			PARAMS = #params#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="hungFlag" >
+			HUNG_FLAG = #hungFlag#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="orderOperateResultMap">
+		select * from ORDER_OPERATE where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="orderOperateAlias" resultClass="Integer">
+		select count(*) as totalCount from ORDER_OPERATE where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="orderOperateResultMap" parameterClass="orderOperateAlias">
+  	select * from ORDER_OPERATE
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="orderOperateResultMap" parameterClass="orderOperateAlias" >
+		select *
+		from ORDER_OPERATE
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="orderOperateAlias" >
+		delete from ORDER_OPERATE
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="orderOperateAlias" >
+		insert into ORDER_OPERATE
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="orderId" >
+				ORDER_ID
+			</isNotNull>
+			<isNotNull prepend="," property="operateTime" >
+				OPERATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="operateType" >
+				OPERATE_TYPE
+			</isNotNull>
+			<isNotNull prepend="," property="params" >
+				PARAMS
+			</isNotNull>
+			<isNotNull prepend="," property="hungFlag" >
+				HUNG_FLAG
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="orderId" >
+				#orderId#
+			</isNotNull>
+			<isNotNull prepend="," property="operateTime" >
+				#operateTime#
+			</isNotNull>
+			<isNotNull prepend="," property="operateType" >
+				#operateType#
+			</isNotNull>
+			<isNotNull prepend="," property="params" >
+				#params#
+			</isNotNull>
+			<isNotNull prepend="," property="hungFlag" >
+				#hungFlag#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="orderOperateAlias" >
+		update ORDER_OPERATE
+		set 
+		ORDER_ID = #orderId#,
+		OPERATE_TIME = #operateTime#,
+		OPERATE_TYPE = #operateType#,
+		PARAMS = #params#,
+		HUNG_FLAG = #hungFlag#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_ORDER_OPERATE.nextval from dual
+	</select>
+</sqlMap>

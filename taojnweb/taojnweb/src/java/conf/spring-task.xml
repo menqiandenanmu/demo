@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+	default-autowire="byName" default-lazy-init="false">
+	<!--  管理触发器的总设置,管理我们的触发器列表,可以在bean的list中放置多个触发器。 -->
+	<bean autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<!-- 支付通知     -->
+<!--				<ref bean="payNotifyTaskSchedule" />-->
+				<!-- CRM签到签退     -->
+				<!--赠券过期处理任务     -->
+				<ref bean="couponExpiredTaskSchedule" />
+				
+				<ref bean="crmTaskSchedule" />
+				<ref bean="accountCodeTaskSchedule" />
+			</list>
+		</property>
+		<property name="autoStartup" value="true" />
+		<property name="schedulerName" value="cronScheduler" />
+	</bean>
+
+	<!-- 支付通知 每隔十秒执行一次-->
+<!--	<bean id="payNotifyTask" class="com.mall.butler.sys.task.PayTask" />-->
+<!--	<bean id="payNotifyTaskProxy" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">-->
+<!--		<property name="targetObject">-->
+<!--			<ref bean="payNotifyTask" />-->
+<!--		</property>-->
+<!--		<property name="targetMethod" value="execute" />-->
+<!--		<property name="concurrent" value="false" />-->
+<!--	</bean>-->
+<!--	<bean id="payNotifyTaskSchedule" class="org.springframework.scheduling.quartz.CronTriggerBean">-->
+<!--		<property name="jobDetail">-->
+<!--			<ref bean="payNotifyTaskProxy" />-->
+<!--		</property>-->
+<!--		<property name="cronExpression" value="0/10 * * * * ?" />-->
+<!--	</bean>-->
+<!-- 条形码更新 每隔五小时执行一次-->
+	<bean id="accountCodeTask" class="com.mall.butler.sys.task.AccountCodeTask" />
+	<bean id="accountCodeTaskProxy" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="accountCodeTask" />
+		</property>
+		<property name="targetMethod" value="execute" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="accountCodeTaskSchedule" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="accountCodeTaskProxy" />
+		</property>
+		<property name="cronExpression" value="0 0 0/5 * * ?" />
+	</bean>
+
+	<!-- 签到任务每天下午16:21执行-->
+	<bean id="crmTask" class="com.mall.butler.sys.task.CrmTask" />
+	<bean id="crmTaskProxy" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="crmTask" />
+		</property>
+		<property name="targetMethod" value="execute" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="crmTaskSchedule" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="crmTaskProxy" />
+		</property>
+<!--			<property name="cronExpression" value="0/10 * * * * ?" />-->
+			<property name="cronExpression" value="0 38 16 * * ?" />
+	</bean>
+	<!-- 赠券过期任务每天早上1点执行-->
+	<bean id="couponExpiredTask" class="com.mall.butler.sys.task.CouponExpiredTask" />
+	<bean id="couponExpiredTaskProxy" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="couponExpiredTask" />
+		</property>
+		<property name="targetMethod" value="execute" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="couponExpiredTaskSchedule" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="couponExpiredTaskProxy" />
+		</property>
+<!--			<property name="cronExpression" value="0/10 * * * * ?" />-->
+			<property name="cronExpression" value="0 38 01 * * ?" />
+	</bean>
+</beans>
+
+

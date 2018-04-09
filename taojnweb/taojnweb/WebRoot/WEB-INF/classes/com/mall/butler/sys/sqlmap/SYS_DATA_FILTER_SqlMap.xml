@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SYSDATAFILTER" >
+	<typeAlias alias="sysDataFilterAlias" type="com.mall.butler.sys.model.SysDataFilter"/>
+	<resultMap id="sysDataFilterResultMap" class="sysDataFilterAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="FILTER_TYPE" property="filterType"/>
+    	<result column="FILTER_VALUE" property="filterValue"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="CREATE_USER" property="createUser"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="id" >
+			ID = #id#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="filterType" >
+			FILTER_TYPE = #filterType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="filterValue" >
+			FILTER_VALUE = #filterValue#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createUser" >
+			CREATE_USER = #createUser#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createTime" >
+			convert(varchar(10),CREATE_TIME,121) = convert(varchar(10),#createTime#,121)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="modifiedTime" >
+			convert(varchar(10),MODIFIED_TIME,121) = convert(varchar(10),#modifiedTime#,121)
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="sysDataFilterResultMap">
+		select * from SYS_DATA_FILTER where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="sysDataFilterAlias" resultClass="Integer">
+		select count(*) as totalCount from SYS_DATA_FILTER where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="sysDataFilterResultMap" parameterClass="sysDataFilterAlias">
+  	select * from SYS_DATA_FILTER
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="sysDataFilterResultMap" parameterClass="sysDataFilterAlias" >
+		select *
+		from SYS_DATA_FILTER
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="sysDataFilterAlias" >
+		delete from SYS_DATA_FILTER
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="sysDataFilterAlias" >
+		insert into SYS_DATA_FILTER
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="filterType" >
+				FILTER_TYPE
+			</isNotNull>
+			<isNotNull prepend="," property="filterValue" >
+				FILTER_VALUE
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="createUser" >
+				CREATE_USER
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="filterType" >
+				#filterType#
+			</isNotNull>
+			<isNotNull prepend="," property="filterValue" >
+				#filterValue#
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				#remark#
+			</isNotNull>
+			<isNotNull prepend="," property="createUser" >
+				#createUser#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="sysDataFilterAlias" >
+		update SYS_DATA_FILTER
+		set 
+		FILTER_TYPE = #filterType#,
+		FILTER_VALUE = #filterValue#,
+		REMARK = #remark#,
+		CREATE_USER = #createUser#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_SYS_DATA_FILTER.nextval from dual
+	</select>
+</sqlMap>

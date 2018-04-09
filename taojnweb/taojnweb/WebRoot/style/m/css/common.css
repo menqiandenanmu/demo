@@ -1,0 +1,196 @@
+﻿body{min-width: 1200px; width: auto;}
+
+/*********************页面icon**********************/
+.page-icon{ display: inline-block; background: url("../images/page-icon.png") no-repeat; vertical-align: middle;}
+.icon-news{ background-position: -16px 0;}
+.icon-right{ background-position: -57px 0;}
+.icon-user{ background-position: 0 -36px;}
+.icon-enterprise{ background-position: -20px -36px;}
+.icon-system{ background-position: -40px -36px;}
+.icon-email{ background-position: -60px -36px;}
+.icon-invoice{ background-position: -80px -36px;}
+.icon-logout{ background-position: -100px -36px;}
+
+
+/*********************头部**********************/
+.header{  position: relative; background-color: #fff; z-index: 10; border: 1px solid #eee; border-bottom: none;}
+.top{ height: 30px; line-height: 30px; border-bottom: 1px dotted #d6d6d6; padding: 0 20px;}
+.top-return{ font-size: 10px; color: #6e6e6e;}
+.top-return a{ margin: 0 20px; color: #028dd2; font-size: 12px;}
+.top-right{ margin-right: 10px; color: #adadad; position: relative; padding-right: 90px;}
+.top-right span{ margin: 0 10px; }
+.top-right i{ width: 16px; height: 16px; margin-right: 5px; margin-bottom: 3px;}
+.top-name{ color: #6e6e6e;   float: right;margin-right: 15px;}
+
+.top-news a{ color: #6e6e6e;float: right;margin-right: 15px;}
+.top-news em{ width: 25px; height: 15px; background-position: -32px 0; line-height: 16px; color: #fff; text-align: center; margin-left: 5px; margin-bottom: 3px;}
+.top-quit{position: absolute; top:5px; right: 0; width: 10px; height: 19px; line-height: 19px; background-color: #028dd2; text-align: right; margin: 0 10px; border-radius: 3px; transition:width 0.3s,height 0.3s; overflow: hidden;}
+.top-quit i{ margin-right: 28px; margin-top: 1px; transition:transform 0.3s;}
+.top-quit:hover{ width: 150px; height: 120px;}
+.top-quit:hover i{transform:rotate(90deg);}
+.quit-list{ padding:10px 5px;}
+.quit-list li{ height: 40px; line-height: 40px; border-top: 1px solid rgba(255,255,255,0.3);}
+.quit-list li a{ display: block; line-height: 40px; text-align: left; color: #fff; font-size: 12px; padding: 0 15px;}
+
+
+
+.header-main{ padding: 0px 0; background-color: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.2); border-bottom: 1px solid #eee;}
+.logo{ width: 31%; height: 84px; float: left; margin-left: 20px;}
+.logo a{ display: block; width: 100%; height: 100%; background: url("../images/logo.gif") no-repeat;}
+.main-nav{ float: right; padding-top: 5px; width: 65%;}
+.main-nav li{ float: left; font-size: 16px; width: 20%; text-align: center;}
+.main-nav li a{ color: #888; line-height: 40px; display: inline-block; width: 80%; border-radius: 3px;}
+.main-nav li a:hover{ color: #333;}
+.main-nav li a em{ font-size: 8px; display: block; color: #aaa;}
+.header-scroll{ position: fixed; top:0; left: 0; width: 100%;}
+.main-nav li a.cur{ font-size: 16px; color: #fff;}
+
+/*******************页面主体**********************/
+/**.content{ background: url("../images/A1.normal.gif") top left no-repeat; padding: 30px 10px;}**/
+.main{ border: 1px solid #ccc; position: relative; border-radius: 3px; box-shadow: 0 4px 4px rgba(0,0,0,.1); background-color: #eee;}
+.page-content{ margin-left: 220px; padding: 5px 5px 0 5px; position: relative; min-height: 1140px; height: auto;}
+
+/********************左边导航********************/
+.side{ position: absolute; top:0; left: 0; background-color: #283844; border-top-left-radius: 3px; border-bottom-left-radius: 3px; width: 220px; height: 100%; }
+.side-nav{ width: 220px; background-color: #283844;}
+.side-nav dt{ height: 55px; line-height: 53px; color: #fff; font-size: 14px; padding-left: 20px;}
+.side-nav dt i{ width: 20px; height: 20px; margin-right: 20px;}
+.side-nav dd{ height: 45px; margin-bottom: 1px;}
+.side-nav dd a{ display: block; line-height: 45px; background-color: #30404d; padding-left: 20px; font-size: 12px; color: #fff; transition:background-color 0.3s;}
+.side-nav dd a:hover{ background-color: #3bc0c3;}
+.side-nav dd a.cur{ background-color: #3bc0c3;}
+
+/******************表单元素*********************/
+.custom-icon{ display: inline-block; width: 20px; height: 20px; background: url("../images/form-icon.png") no-repeat; vertical-align: middle; margin-right: 5px;}
+.custom-label{position: relative; z-index: 1; height: 24px; display: block; cursor: pointer;}
+.custom-text{display: inline-block; height: 28px; line-height: 28px; border: 1px solid #ccc; border-radius: 3px; font-size: 0;}
+.custom-text input{height:28px;overflow: hidden; line-height: 28px; vertical-align: top; font-size: 14px; color:#999; border: none; border-radius: 3px;}
+.panel-box{position: absolute; border: 1px solid #ccc; background-color: #fff; border-radius: 3px; box-shadow: 2px 2px 3px rgba(0,0,0,.1); display: none;}
+/*表单验证*/
+input.user-text.error { border-bottom: 1px solid #f66; }
+input.text.error{ border: 1px solid #f66;}
+label.error {background:url("./demo/images/unchecked.gif") no-repeat 0px 0px;padding-left: 16px;padding-bottom: 2px;font-weight: bold;
+color: #EA5200;}
+label.checked {background:url("./demo/images/checked.gif") no-repeat 0px 0px;}
+/*按钮*/
+.btn{ width: 100px; height: 40px; line-height: 40px; display: inline-block; border: none; text-align: center; font-size: 14px; color: #fff; border-radius: 3px;}
+a.bg-orange:hover{ background-color: #ffb84d; color: #fff;}
+a.bg-green:hover{ background-color: #76d3d5; color: #fff;}
+a.bg-blue:hover{ background-color: #4eafe0; color: #fff;}
+.btn-big{ width: 180px;}
+.btn-small{ height: 30px; line-height: 30px;}
+.btn-small-s{ height: 30px; line-height: 30px;width:50px;}
+/*输入框*/
+.user-text,.text{ height: 30px; line-height: 30px; border: 1px solid #fff; border-bottom: 1px solid #ccc; width: 588px; padding: 0 5px; background: none;}
+.user-text:hover{ border-bottom-color: #999;}
+.text{ border: 1px solid #ccc; border-radius: 3px;}
+.text-small{ width: 168px;}
+.text:focus{ border: 1px solid #008bd3; box-shadow: 0 0 3px rgba(0,140,215,0.4);}
+.user-text:focus{ border-bottom-color: #008bd3;}
+.user-text:disabled,.text:disabled{border-bottom-color: #ccc; cursor: not-allowed;}
+.text:disabled{background-color: #f8f8f8;}
+/*文本域*/
+.textArea{ width: 600px; height: 120px; overflow:auto; border: 1px solid #ccc; border-radius: 3px; resize : none; outline:none}
+.textArea:focus{ border: 1px solid #008bd3; box-shadow: 0 0 3px rgba(0,140,215,0.4); }
+/*复选框*/
+.custom-checkbox,.custom-radio{ display: inline-block; height: 24px; line-height: 24px; position: relative; vertical-align: middle;}
+.custom-checkbox input,.custom-radio input{ position: absolute; top:3px; left: 3px; z-index: 0; width: 1px; height: 2px;}
+.checkbox-icon{background-position: 0 -20px; }
+.custom-checkbox .checked .checkbox-icon{ background-position: -40px -20px;}
+.custom-checkbox .disabled .checkbox-icon{ background-position: -20px -20px;}
+/*单选框*/
+.radio-icon{ background-position: 0 0;}
+.custom-radio .checked .radio-icon{ background-position: -40px 0;}
+.custom-radio .disabled .radio-icon{ background-position: -20px 0;}
+/*numSpinner*/
+.numSpinnerBox{  width: 180px; }
+.numSpinnerBox input{  width: 100px; text-align: center; }
+.numSpinnerBox a{ width: 39px; height: 28px; display: inline-block; vertical-align: top; text-align: center;}
+.icon-sub,.icon-add{ width: 10px; height: 10px; margin-right: 0;}
+.sub{ border-right: 1px solid #ccc;}
+.add{ border-left: 1px solid #ccc;}
+.icon-sub{ background-position: -10px -48px;}
+.icon-add{ background-position: -10px -58px;}
+.sub:hover .icon-sub{ background-position: -20px -48px;}
+.add:hover .icon-add{ background-position: -20px -58px;}
+.disabled .icon-sub,.disabled:hover .icon-sub{background-position: 0 -48px;}
+.disabled .icon-add,.disabled:hover .icon-add{background-position: 0 -58px;}
+/*下拉选择框select*/
+.select-box{ display: inline-block; height: 28px; line-height: 28px; border: 1px solid #ccc; cursor: pointer; border-radius: 3px;}
+.select-box input{  width: 140px; padding:0 10px; vertical-align: top;}
+.select-btn{ width: 39px; height: 28px; display: inline-block; border-left: 1px solid #ccc; text-align: center;}
+.icon-select-up,.icon-select-down{ width: 10px; height: 10px; background-position: -30px -48px; margin-right: 0;}
+.icon-select-down{ background-position: -30px -58px;}
+.dropDown-box{  width: 350px; }
+.dropDown-box li{ height: 30px; line-height: 30px; padding: 0 10px; cursor: pointer; color: #666; font-size: 14px;}
+.dropDown-box li:hover,.dropDown-box li.selected{ background-color: #008cd3; color: #fff;}
+.dropDown-box li:first-child{ border-top-left-radius: 3px; border-top-right-radius: 3px;}
+.dropDown-box li:last-child{ border-bottom-left-radius: 3px; border-bottom-right-radius: 3px;}
+
+/*****************弹出层***********************/
+.dialog-panel{ z-index: 1000;}
+.dialog-head{ height: 50px; line-height: 50px; background-color: #f9f9f9;border-bottom: 1px solid #ccc; padding: 0 20px; font-size: 14px; color: #666;}
+.dialog-close{ display: inline-block; float: right; width: 20px; height: 20px;}
+.icon-close{ background-position: -40px -48px; width: 20px; height: 20px;}
+.dialog-handle{ text-align: right; padding: 20px 0; height: 30px; line-height: 30px;}
+.dialog-handle a{ margin-right: 20px;}
+
+/****************遮罩************************/
+.mask{ width: 100%; height: 100%; position: absolute; top:0; left: 0; background-color: #000; opacity: .3;  filter:alpha(opacity=30); z-index: 9; display: none;}
+
+/***************提示信息**********************/
+.tip-msg{ height: 30px; line-height: 30px; color: #fff; font-size: 12px; width: 100%;}
+.tip-gray{ background-color: #a3a3a3;}
+
+/****************分页样式***************/
+.pages{ float: right; font-size: 0;margin-right: 120px;}
+.pages a{ display: inline-block; width: 28px; height: 28px; line-height: 28px; border: 1px solid #ccc; border-radius: 3px; margin: 0 2px; text-align: center; font-size: 14px; color: #666; vertical-align: middle;}
+.pages-icon{ width:16px; height: 16px; display: inline-block; vertical-align: top; background: url("../images/pages.png") no-repeat; margin-top:5px;}
+.icon-prev{ background-position: 0 0;}
+.icon-next{ background-position: -16px 0;}
+.pages a:hover{ color: #028dd2;}
+.pages a:hover .icon-prev{ background-position: 0 -16px;}
+.pages a:hover .icon-next{ background-position: -16px -16px;}
+.pages a.cur{ background-color: #028dd2; color: #fff;}
+.pages form{display: inline-block; vertical-align: middle;}
+.pages form input[type="text"]{ height:28px; line-height:28px; border:1px solid #ccc; margin:0 10px 0; vertical-align: middle;}
+.pages form .btn{vertical-align: middle;}
+
+/***************日历控件******************/
+.calendar-text{ width: 200px; height: 28px; line-height: 28px; border: 1px solid #ccc; border-radius: 3px;}
+.calendar-text a{ height: 28px; width: 39px; border-left: 1px solid #ccc; text-align: center; display: inline-block;}
+.icon-date{ background-position: -16px -68px; width: 16px; height: 16px; margin-right: 0;}
+.calendar-text input{ text-align: center; width: 160px;}
+.calendar-panel{ width: 245px; padding: 10px; z-index: 999;}
+.calendar-header{ border: 1px solid #eee;}
+.calendar-header a{ display: inline-block; width: 39px; height: 28px; text-align: center;}
+.calendar-header span{ width: 81px; display: inline-block; line-height: 28px; font-size: 14px; color: #666; text-align: center; vertical-align: middle; cursor: default;}
+.year-span{ border-right: 1px solid #eee;}
+.calendar-header span.f8{ background-color: #f8f8f8;}
+.calendar-header .add{ border-left: 1px solid #eee;}
+.calendar-header .sub{ border-right: 1px solid #eee;}
+.calendar-table{ width: 100%; margin-top: 5px; border: 1px solid #eee;}
+.calendar-table th,.calendar-table td{ width: 14%; height: 30px; line-height: 30px; border: 1px solid #eee; font-size: 14px; color: #333;  text-align: center;}
+.calendar-table th.rest{ color: #028dd2;}
+.calendar-table td{ color: #666; cursor: pointer;}
+.calendar-table td.old{ color: #ccc;}
+.calendar-table td.new{ color: #ccc;}
+.calendar-table td:hover{ color: #008ad4; background-color: #f8f8f8;}
+.calendar-table td.selected{ color: #fff; background-color: #008ad4;}
+.calendar-bottom{ padding-top: 6px;}
+.calendar-bottom a{ display: block; height: 28px; line-height: 28px; border: 1px solid #eee; border-radius: 3px; text-align: center; font-size: 14px; color: #008ad4;}
+.calendar-bottom a:hover{ background-color: #008ad4; color: #fff;}
+.month-panel{ width: 179px; z-index: 10; font-size: 0;}
+.month-panel a,.years a{ display: inline-block; width: 89px; height: 35px; line-height: 35px; font-size: 14px; color: #666; text-align: center; border-bottom: 1px solid #eee; }
+.month-panel a.br{border-right: 1px solid #eee;}
+.month-panel a:hover,.years a:hover{color: #008ad4; background-color: #f8f8f8;}
+.month-panel a.selected,.years a.selected{color: #fff; background-color: #008ad4;}
+.year-panel{ width: 240px; z-index: 0;}
+.year-prev,.year-next{ display: block; width: 30px; height: 179px; line-height: 179px; text-align: center; float: left;}
+.year-next{ float: right;}
+.year-prev:hover .icon-sub{ background-position: -20px -48px;}
+.year-next:hover .icon-add{ background-position: -20px -58px;}
+.years{ width: 178px; float: left; border: 1px solid #eee; border-top: none; border-bottom: none; font-size: 0;}
+.years a{  width: 89px; border-right: 1px solid #eee; }
+.years a.brnone{ border-right: none; width: 88px;}
+.years a.bbnone{ border-bottom: none;}

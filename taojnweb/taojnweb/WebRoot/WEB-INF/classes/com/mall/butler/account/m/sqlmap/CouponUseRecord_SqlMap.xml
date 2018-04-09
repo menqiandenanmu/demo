@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="COUPONUSERECORD" >
+	
+	<resultMap id="couponUseRecordResultMapVo" class="couponUseRecordAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="ACCOUNT_NAME" property="accountName"/>
+    	<result column="REAL_NAME" property="realName"/>
+    	<result column="COUPON_NAME" property="couponName"/>
+    	<result column="TRANS_NO" property="transNo"/>
+    	<result column="PAY_SUM" property="paySum"/>
+    	<result column="PAY_TIME" property="payTime"/>
+    	<result column="PRICE" property="price"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL_M">
+		<isNotEmpty prepend="and" property="accountId" >
+			ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountName" >
+			ACCOUNT_NAME = #accountName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="realName" >
+			REAL_NAME = #realName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="ruleId" >
+			RULE_ID = #ruleId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="couponName" >
+			COUPON_NAME = #couponName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="couponCode" >
+			COUPON_CODE = #couponCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="transNo" >
+			TRANS_NO = #transNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="paySum" >
+			PAY_SUM = #paySum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="price" >
+			PRICE = #price#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="tradeLeft" >
+			TRADE_LEFT = #tradeLeft#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="payTime" >
+			to_char(PAY_TIME,'yyyy-mm-dd') = to_char(#payTime#,'yyyy-mm-dd')
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endDate" >
+			<![CDATA[to_char(CREATE_TIME,'yyyy-mm-dd') <= to_char(#endDate#,'yyyy-mm-dd')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="beginDate" >
+			<![CDATA[to_char(CREATE_TIME,'yyyy-mm-dd') >= to_char(#beginDate#,'yyyy-mm-dd')]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="couponStatus" >
+			COUPON_STATUS = #couponStatus#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark2" >
+			REMARK2 = #remark2#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE_COUNT" parameterClass="java.util.Map" resultMap="couponUseRecordResultMapVo">
+		select a.ID,A.ACCOUNT_NAME,A.REAL_NAME,a.COUPON_NAME,A.COUPON_NAME,A.TRANS_NO,
+		A.PAY_SUM,A.PRICE,A.CREATE_TIME,a.REMARK,b.create_time as PAY_TIME
+		from COUPON_USE_RECORD a LEFT JOIN ACCOUNT_COUPON b on a.COUPON_CODE=b.BARCODE
+		where a.COUPON_STATUS=1 
+		AND A.deleted=0
+		<include refid="ALL_SQL_M"/>
+		order by A.create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE_COUNT" parameterClass="java.util.Map" resultClass="Integer">
+		select count(A.ID) as totalCount from COUPON_USE_RECORD A 
+		where a.COUPON_STATUS=1 
+		AND A.deleted=0
+		<include refid="ALL_SQL_M"/>
+	</select>
+	  <select id="SELECT_BY_PAGE_COUNT" resultMap="couponUseRecordResultMapVo" parameterClass="java.util.Map">
+	  select a.ID,A.ACCOUNT_NAME,A.REAL_NAME,a.COUPON_NAME,A.COUPON_NAME,A.TRANS_NO,A.PAY_SUM,A.PRICE,A.CREATE_TIME,a.REMARK
+			from COUPON_USE_RECORD a RIGHT JOIN ACCOUNT_COUPON b on a.COUPON_CODE=b.BARCODE
+			where a.COUPON_STATUS=1 
+			AND A.deleted=0
+			<include refid="ALL_SQL_M"/>
+			order by A.create_time desc
+		</select>
+	
+</sqlMap>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="STOREINFO" >
+	
+	<sql id="ALL_SQL_M">
+		<isNotEmpty prepend="and" property="storeName" >
+			a.STORE_NAME like #storeName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="storeCode" >
+			a.STORE_CODE = #storeCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="qrCode" >
+			a.QR_CODE = #qrCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="linkman" >
+			a.LINKMAN like #linkman#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="linkmanTel" >
+			a.LINKMAN_TEL = #linkmanTel#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="telphone" >
+			a.TELPHONE = #telphone#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="fax" >
+			a.FAX = #fax#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="address" >
+			a.ADDRESS = #address#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			a.REMARK = #remark#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE_M" parameterClass="java.util.Map" resultMap="storeInfoResultMap">
+		select a.ID,a.STORE_NAME,b.account_name as STORE_CODE, a.LINKMAN,a.LINKMAN_TEL,b.cur_left_value as TELPHONE, 
+		a.QR_CODE,
+    	a.FAX,
+    	a.REMARK,
+    	a.CREATE_TIME,
+    	a.MODIFIED_TIME,
+    	a.DELETED,
+		a.ADDRESS from STORE_INFO a,TRADE_ACCOUNT B where a.deleted=0 and b.deleted=0 and a.id=b.id
+		<include refid="ALL_SQL_M"/>
+		order by A.create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE_M" parameterClass="storeInfoAlias" resultClass="Integer">
+		select count(*) as totalCount from STORE_INFO a where 1=1 and a.deleted=0
+		<include refid="ALL_SQL_M"/>
+	</select>
+  
+	
+</sqlMap>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SYSFUNCTIONS" >
+	<typeAlias alias="sysFunctionsAlias" type="com.mall.butler.sys.model.SysFunctions"/>
+	<resultMap id="sysFunctionsResultMap" class="sysFunctionsAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="FUN_NAME" property="funName"/>
+    	<result column="FUN_ICO" property="funIco"/>
+    	<result column="FUN_ACC_TYPE" property="funAccType"/>
+    	<result column="FUN_TYPE" property="funType"/>
+    	<result column="FUN_URL" property="funUrl"/>
+    	<result column="SORT" property="sort"/>
+    	<result column="PARENT_ID" property="parentId"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="id" >
+			ID = #id#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="funName" >
+			FUN_NAME = #funName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="funIco" >
+			FUN_ICO = #funIco#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="funAccType" >
+			FUN_ACC_TYPE = #funAccType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="funType" >
+			FUN_TYPE = #funType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="funUrl" >
+			FUN_URL = #funUrl#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="sort" >
+			SORT = #sort#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="parentId" >
+			PARENT_ID = #parentId#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="sysFunctionsResultMap">
+		select * from SYS_FUNCTIONS where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="sysFunctionsAlias" resultClass="Integer">
+		select count(*) as totalCount from SYS_FUNCTIONS where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="sysFunctionsResultMap" parameterClass="sysFunctionsAlias">
+  	select * from SYS_FUNCTIONS
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="sysFunctionsResultMap" parameterClass="sysFunctionsAlias" >
+		select *
+		from SYS_FUNCTIONS
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="sysFunctionsAlias" >
+		delete from SYS_FUNCTIONS
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="sysFunctionsAlias" >
+		insert into SYS_FUNCTIONS
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="funName" >
+				FUN_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="funIco" >
+				FUN_ICO
+			</isNotNull>
+			<isNotNull prepend="," property="funAccType" >
+				FUN_ACC_TYPE
+			</isNotNull>
+			<isNotNull prepend="," property="funType" >
+				FUN_TYPE
+			</isNotNull>
+			<isNotNull prepend="," property="funUrl" >
+				FUN_URL
+			</isNotNull>
+			<isNotNull prepend="," property="sort" >
+				SORT
+			</isNotNull>
+			<isNotNull prepend="," property="parentId" >
+				PARENT_ID
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="funName" >
+				#funName#
+			</isNotNull>
+			<isNotNull prepend="," property="funIco" >
+				#funIco#
+			</isNotNull>
+			<isNotNull prepend="," property="funAccType" >
+				#funAccType#
+			</isNotNull>
+			<isNotNull prepend="," property="funType" >
+				#funType#
+			</isNotNull>
+			<isNotNull prepend="," property="funUrl" >
+				#funUrl#
+			</isNotNull>
+			<isNotNull prepend="," property="sort" >
+				#sort#
+			</isNotNull>
+			<isNotNull prepend="," property="parentId" >
+				#parentId#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="sysFunctionsAlias" >
+		update SYS_FUNCTIONS
+		set 
+		FUN_NAME = #funName#,
+		FUN_ICO = #funIco#,
+		FUN_ACC_TYPE = #funAccType#,
+		FUN_TYPE = #funType#,
+		FUN_URL = #funUrl#,
+		SORT = #sort#,
+		PARENT_ID = #parentId#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_SYS_FUNCTIONS.nextval from dual
+	</select>
+</sqlMap>

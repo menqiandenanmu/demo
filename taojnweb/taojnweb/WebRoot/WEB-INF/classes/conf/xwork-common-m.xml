@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"struts-2.3.dtd">
+<struts>
+	<package name="common" extends="manage" namespace="/manage">
+		<default-interceptor-ref name="annoyStack" />
+		<action name="index" class="com.mall.butler.action.m.IndexAction">
+			<result name="success" type="freemarker">/template/m/index.ftl</result>
+			<result name="panel" type="freemarker">/template/m/panel.ftl</result>
+			<result name="left" type="freemarker">/template/m/left.ftl</result>
+			<result name="top" type="freemarker">/template/m/top.ftl</result>
+			<interceptor-ref name="authStack" />
+		</action>
+		<action name="login" class="com.mall.butler.account.m.action.AuthAction">
+			<result type="redirect" name="success">
+				<param name="location">/manage/index.htm</param>
+				<param name="parse">true</param>
+			</result>
+			<result type="freemarker" name="input">/template/m/login.ftl</result>
+		</action>
+		<action name="checkCode" class="com.mall.butler.action.m.CheckCodeAction">
+		</action>
+		<action name="uploadFile" class="com.mall.butler.action.m.UploadFileAction">
+			<interceptor-ref name="fileUpload" />
+			<interceptor-ref name="annoyStack" />
+		</action>
+	</package>
+</struts>

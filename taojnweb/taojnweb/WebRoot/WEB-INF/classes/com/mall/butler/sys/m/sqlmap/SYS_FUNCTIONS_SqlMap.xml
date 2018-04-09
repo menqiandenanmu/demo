@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SYSFUNCTIONS" >
+<sql id="SQL_FUN_DELETE">
+		<isNotEmpty prepend="and" property="funIds">
+			ID IN
+			<iterate property="funIds" open="(" close=")"
+				conjunction=",">
+				<![CDATA[
+                    	#funIds[]#   
+            		]]>
+			</iterate>
+		</isNotEmpty>
+	</sql>
+  <!-- 分页查询模块信息记录数 -->
+  <select id="SELECT_COUNT_SYS_FUNCTIONS" resultClass="java.lang.Integer" parameterClass="sysFunctionsAlias">
+		select 
+			count(ID)
+		from SYS_FUNCTIONS
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="id">
+				ID = #id#
+      		</isNotNull>
+			<isNotNull prepend="and" property="funName">
+				FUN_NAME like '%$funName$%'
+      		</isNotNull>
+			<isNotNull prepend="and" property="funType">
+				FUN_TYPE = #funType#
+			</isNotNull>
+			<isNotNull prepend="and" property="funUrl">
+				FUN_URL = #funUrl#
+			</isNotNull>
+			<isNotNull prepend="and" property="parentId">
+				PARENT_ID = #parentId#
+			</isNotNull>
+			<isNotNull prepend="and" property="deleted">
+				DELETED = #deleted#
+			</isNotNull>
+		</dynamic>
+  </select>
+ 
+  
+  <!-- 分页查询系统模块信息 -->
+  <select id="SELECT_SYS_FUNCTIONS" resultMap="sysFunctionsResultMap" parameterClass="java.util.Map">
+		select 
+			*
+		from SYS_FUNCTIONS
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="id">
+				ID = #id#
+      		</isNotNull>
+			<isNotNull prepend="and" property="funName">
+				FUN_NAME like '%$funName$%'
+      		</isNotNull>
+			<isNotNull prepend="and" property="funType">
+				FUN_TYPE = #funType#
+			</isNotNull>
+			<isNotNull prepend="and" property="funUrl">
+				FUN_URL = #funUrl#
+			</isNotNull>
+			<isNotNull prepend="and" property="parentId">
+				PARENT_ID = #parentId#
+			</isNotNull>
+			<isNotNull prepend="and" property="deleted">
+				DELETED = #deleted#
+			</isNotNull>
+			order by ID desc
+		</dynamic>
+  </select>
+  
+  <!-- 获取登录用户所有模块信息 -->
+  <select id="SELECT_BY_ACCOUNT_FUNCTIONS" resultMap="sysFunctionsResultMap" parameterClass="Long">
+		select 
+			distinct F.*
+    	from 
+    		ACCOUNT_ROLE A,
+    		SYS_ROLE R,
+    		SYS_ROLEPLUGS P,
+    		SYS_FUNCTIONS F
+		where A.ROLE_ID = R.ID
+			AND A.DELETED = 0
+			AND R.ID = P.ROLE_ID
+			AND R.USE_FLAG = 1
+			AND R.DELETED = 0
+			AND P.FUNC_ID = F.ID
+			AND P.DELETED = 0
+			AND F.DELETED = 0
+			AND A.OPERATOR_ID = #value#
+			order by F.PARENT_ID,F.FUN_TYPE,F.SORT
+	</select>
+	
+	<!-- 获取子模块信息 -->
+	<select id="SELECT_BY_SUB_FUNCTIONS" resultMap="sysFunctionsResultMap" parameterClass="java.util.Map" >
+		select 
+			F.*
+    	from 
+    		ACCOUNT_ROLE A,
+    		SYS_ROLE R,
+    		SYS_ROLEPLUGS P,
+    		SYS_FUNCTIONS F
+		where A.ROLE_ID = R.ID
+			AND A.DELETED = 0
+			AND R.ID = P.ROLE_ID
+			AND R.USE_FLAG = 1
+			AND R.DELETED = 0
+			AND P.FUNC_ID = F.ID
+			AND P.DELETED = 0
+			AND F.PARENT_ID = #parentId# 
+			AND F.DELETED = 0
+			AND A.OPERATOR_ID = #operatorId#
+			order by F.ID
+  </select>
+  
+  <!-- 获取子模块信息 -->
+  <select id="SELECT_BY_SUB_FUNCTIONS_PARM" resultMap="sysFunctionsResultMap" parameterClass="Long" >
+    	select 
+    		*
+    	from SYS_FUNCTIONS
+    	where PARENT_ID = #value# 
+    		and DELETED = 0
+    		order by id
+  </select>
+  
+  <!-- 查询所有主模块信息 -->
+  <select id="SELECT_BY_PARENT_FUNCTIONS" resultMap="sysFunctionsResultMap">
+    select *
+    from SYS_FUNCTIONS
+    where PARENT_ID=0 
+    	and DELETED=0 order by id
+  </select>
+  
+  <select id="SELECT_BY_ROLE"  resultMap="sysFunctionsResultMap" parameterClass="Long">
+	select * from SYS_FUNCTIONS where ID in (select FUNC_ID from SYS_ROLEPLUGS where ROLE_ID=#value#) 
+  </select>
+  
+  <!-- 验证模块名是否已存在 -->
+  <select id="SELECT_BY_FUNCTION_NAME" resultMap="sysFunctionsResultMap" parameterClass="java.util.Map" >
+    select *
+    from SYS_FUNCTIONS
+	<dynamic prepend="WHERE">
+    	<isPropertyAvailable property="functionId">
+    		<isNotNull prepend="and" property="functionId">
+    			ID != #functionId#
+    		</isNotNull>
+    	</isPropertyAvailable>
+    	<isPropertyAvailable property="functionName">
+    		<isNotNull prepend="and" property="functionName">
+    			FUN_NAME = #functionName#
+    		</isNotNull>
+    	</isPropertyAvailable>
+    	<isPropertyAvailable property="deleted">
+    		<isNotNull prepend="and" property="deleted">
+    			DELETED = #deleted#
+    		</isNotNull>
+    	</isPropertyAvailable>
+    </dynamic>
+  </select>
+	
+	<!-- 得到未设定父模块功能连接 -->
+	<select id="SELECT_BY_NEW_FUNCTION" resultMap="sysFunctionsResultMap" parameterClass="sysFunctionsAlias" >
+		select * from SYS_FUNCTIONS where parent_id is NULL and fun_type=1
+		<isNotNull prepend="and" property="funAccType">
+    			fun_acc_type = #funAccType#
+    	</isNotNull>
+	</select>
+	
+	<!-- 删除子模块 -->
+	<delete id="DELETE_BY_FUN_PK" parameterClass="java.util.Map">
+		delete from SYS_FUNCTIONS
+		where 1=1
+		<include refid="SQL_FUN_DELETE" />
+	</delete>
+</sqlMap>

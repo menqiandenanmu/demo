@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="STOREINFO" >
+	<typeAlias alias="storeInfoAlias" type="com.mall.butler.account.model.StoreInfo"/>
+	<resultMap id="storeInfoResultMap" class="storeInfoAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="STORE_NAME" property="storeName"/>
+    	<result column="STORE_CODE" property="storeCode"/>
+    	<result column="QR_CODE" property="qrCode"/>
+    	<result column="LINKMAN" property="linkman"/>
+    	<result column="LINKMAN_TEL" property="linkmanTel"/>
+    	<result column="TELPHONE" property="telphone"/>
+    	<result column="FAX" property="fax"/>
+    	<result column="ADDRESS" property="address"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="storeName" >
+			STORE_NAME = #storeName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="storeCode" >
+			STORE_CODE = #storeCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="qrCode" >
+			QR_CODE = #qrCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="linkman" >
+			LINKMAN = #linkman#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="linkmanTel" >
+			LINKMAN_TEL = #linkmanTel#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="telphone" >
+			TELPHONE = #telphone#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="fax" >
+			FAX = #fax#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="address" >
+			ADDRESS = #address#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="storeInfoResultMap">
+		select * from STORE_INFO where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="storeInfoAlias" resultClass="Integer">
+		select count(*) as totalCount from STORE_INFO where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="storeInfoResultMap" parameterClass="storeInfoAlias">
+  	select * from STORE_INFO
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="storeInfoResultMap" parameterClass="storeInfoAlias" >
+		select *
+		from STORE_INFO
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="storeInfoAlias" >
+		delete from STORE_INFO
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="storeInfoAlias" >
+		insert into STORE_INFO
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="storeName" >
+				STORE_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="storeCode" >
+				STORE_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="qrCode" >
+				QR_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="linkman" >
+				LINKMAN
+			</isNotNull>
+			<isNotNull prepend="," property="linkmanTel" >
+				LINKMAN_TEL
+			</isNotNull>
+			<isNotNull prepend="," property="telphone" >
+				TELPHONE
+			</isNotNull>
+			<isNotNull prepend="," property="fax" >
+				FAX
+			</isNotNull>
+			<isNotNull prepend="," property="address" >
+				ADDRESS
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="storeName" >
+				#storeName#
+			</isNotNull>
+			<isNotNull prepend="," property="storeCode" >
+				#storeCode#
+			</isNotNull>
+			<isNotNull prepend="," property="qrCode" >
+				#qrCode#
+			</isNotNull>
+			<isNotNull prepend="," property="linkman" >
+				#linkman#
+			</isNotNull>
+			<isNotNull prepend="," property="linkmanTel" >
+				#linkmanTel#
+			</isNotNull>
+			<isNotNull prepend="," property="telphone" >
+				#telphone#
+			</isNotNull>
+			<isNotNull prepend="," property="fax" >
+				#fax#
+			</isNotNull>
+			<isNotNull prepend="," property="address" >
+				#address#
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				#remark#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="storeInfoAlias" >
+		update STORE_INFO
+		set 
+		STORE_NAME = #storeName#,
+		STORE_CODE = #storeCode#,
+		QR_CODE = #qrCode#,
+		LINKMAN = #linkman#,
+		LINKMAN_TEL = #linkmanTel#,
+		TELPHONE = #telphone#,
+		FAX = #fax#,
+		ADDRESS = #address#,
+		REMARK = #remark#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_STORE_INFO.nextval from dual
+	</select>
+</sqlMap>

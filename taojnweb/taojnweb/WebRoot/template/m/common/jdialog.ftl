@@ -1,0 +1,1 @@
+({"flag":'${action.msgInfo.flag}',"message":[<#list action.msgInfo.messages as index>'${index}'<#if index_has_next>,</#if></#list>]})

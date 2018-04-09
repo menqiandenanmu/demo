@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SENDRULES">
+
+	<sql id="ALL_SQL_M">
+		<isNotEmpty prepend="and" property="sendName">
+			SEND_NAME =
+			#sendName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="ruleStatus">
+			RULE_STATUS = #ruleStatus#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="superimposedFalg">
+			SUPERIMPOSED_FALG = #superimposedFalg#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="resourceName">
+			RESOURCE_NAME = #resourceName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="sendAmount">
+			SEND_AMOUNT = #sendAmount#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="maxNum">
+			MAX_NUM =
+			#maxNum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="todayCashNum">
+			TODAY_CASH_NUM = #todayCashNum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="activeCashNum">
+			ACTIVE_CASH_NUM = #activeCashNum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="spendParam">
+			SPEND_PARAM = #spendParam#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark2">
+			REMARK2 =
+			#remark2#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark">
+			REMARK =
+			#remark#
+		</isNotEmpty>
+	</sql>
+
+
+	<select id="SELECT_BY_FIND_USED" resultMap="sendRulesResultMap"
+		parameterClass="sendRulesAlias">
+		select * from SEND_RULES
+		where deleted=0 AND
+		RULE_STATUS =1 AND
+		<![CDATA[
+		SEND_SUM <=
+		#sendSum#
+		and 
+		to_char(BEGIN_TIME,'yyyy-mm-dd') <= to_char(SYSDATE,'yyyy-mm-dd')
+		AND to_char(END_TIME,'yyyy-mm-dd') >= to_char(SYSDATE,'yyyy-mm-dd')
+		]]>
+		<include refid="ALL_SQL_M" />
+		order by SEND_SUM desc
+	</select>
+
+
+</sqlMap>

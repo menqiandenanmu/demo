@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"struts-2.3.dtd">
+<struts>
+	<package name="web" extends="struts-default" namespace="/">
+		<result-types>
+			<result-type name="redirect-action" class="org.apache.struts2.dispatcher.ServletActionRedirectResult" />
+		</result-types>
+		<interceptors>
+			<interceptor name="i18n" class="com.opensymphony.xwork.interceptor.I18nInterceptor">
+				<param name="parameterName">locale</param>
+				<param name="attributeName">ww_locale</param>
+			</interceptor>
+			<interceptor name="requestInterceptor" class="com.mall.butler.interceptor.RequestContextInterceptor" />
+				<interceptor name="securityInterceptor" class="com.mall.butler.interceptor.WAuthInterceptor" />
+			<interceptor name="urlStackInterceptor" class="com.mall.butler.interceptor.WUrlStackInterceptor" />
+			<interceptor-stack name="annoyStack">
+				<interceptor-ref name="defaultStack" />
+					<interceptor-ref name="urlStackInterceptor" />
+				<interceptor-ref name="requestInterceptor"/>
+			</interceptor-stack>
+			<interceptor-stack name="authStack">
+				<interceptor-ref name="annoyStack" />
+				<interceptor-ref name="securityInterceptor" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="annoyStack"></default-interceptor-ref>
+		<global-results>
+			<result name="login" type="chain">
+				<param name="actionName">login</param>
+				<param name="namespace">/</param>
+			</result>
+			<result name="error" type="chain">
+				<param name="actionName">error</param>
+				<param name="namespace">/</param>
+			</result>
+			<result name="invalid.token" type="redirect-action">
+				<param name="actionName">reSubmit</param>
+				<param name="namespace">/</param>
+			</result>
+			<result name="wxUserCheck" type="chain">
+				<param name="actionName">wxUserCheck</param>
+				<param name="namespace">/weixin</param>
+			</result>
+			<result name="warning" type="freemarker">/template/w/common/error.ftl</result>
+			<result name="dialog" type="freemarker">/template/w/common/dialog.ftl</result>
+			<result name="jdialog" type="freemarker">/template/w/common/jdialog.ftl</result>
+		</global-results>
+
+		<global-exception-mappings>
+			<exception-mapping name="noLoginException" exception="com.mall.butler.exception.NoLoginException" result="login" />
+			<exception-mapping name="exception" exception="java.lang.Exception" result="error" />
+		</global-exception-mappings>
+		<action name="error" class="com.mall.butler.action.ErrorAction"></action>
+		<action name="reSubmit" class="com.mall.butler.action.ReSubmitAction">
+		<result type="freemarker" name="success">/template/w/common/reSubmit.ftl</result>
+		</action>
+	</package>
+</struts>

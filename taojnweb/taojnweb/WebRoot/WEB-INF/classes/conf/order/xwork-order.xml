@@ -1,0 +1,6 @@
+<!DOCTYPE struts PUBLIC	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "struts-2.3.dtd">
+<struts>
+	<include file="conf/order/xwork-order-m.xml"></include>
+	<include file="conf/order/xwork-pay.xml"></include>
+
+</struts>

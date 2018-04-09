@@ -1,0 +1,77 @@
+.index-icon{ display: inline-block; background: url("../images/index-icon.png") no-repeat; vertical-align: middle;}
+.icon-data{ background-position: 0 0;}
+.icon-chart{ background-position: -20px 0;}
+.icon-qc{ background-position: -40px 0;}
+.icon-notice{ background-position: -60px 0;}
+.icon-service{ background-position: -80px 0;}
+.icon-tel{ background-position: 0 -20px;}
+.icon-mail{ background-position: -22px -20px;}
+.icon-more{ background-position: -124px -28px;}
+.icon-refresh{ background-position: -100px 0;}
+.icon-time{ background-position: -120px 0;}
+
+.index-left{ margin-right: 310px;}
+.user-info{ height: 150px; position: relative;}
+.user-img{ display: inline-block; width: 65px; height: 65px; vertical-align: middle; margin:30px 20px 0; }
+.uesr-price{ display: inline-block; vertical-align: middle; font-size: 14px; color: #999; margin-top: 30px;}
+.user-name{font-size: 18px; margin-bottom: 5px; color: #666;}
+.price{ font-size: 20px;}
+.price-handle{ position: absolute; width: 400px; height: 40px; right: 0px; top:50%; margin-top: -20px;}
+.price-handle a{ margin-right: 20px;}
+.refresh-btn{ display: block; top:10px; right: 10px; position: absolute; line-height: 20px;}
+.refresh-btn i{ width: 20px; height: 20px; }
+.msg-panel{ position: absolute; bottom: 0;}
+.msg-panel i{ margin-left: 20px; width: 20px; height: 20px; margin-right: 10px;}
+
+.index-right{ width: 305px; position: absolute; top:5px; right: 5px;}
+.index-item{ background-color: #fff; border: 1px solid #ddd; margin-bottom: 5px;}
+
+.index-item-title{ height: 65px; line-height: 65px; padding-left: 20px; font-size: 14px; color: #666; position: relative;}
+.index-item-title span{ margin-left: 15px;}
+.index-item-title i{ width: 20px; height: 20px; margin-right: 10px;}
+
+.qc-code-content{ padding: 10px 20px 30px;}
+.qc-code-content img{ float: left;}
+.qc-code-info{ margin-left: 120px; font-size: 14px; color: #666; line-height: 24px;}
+.qc-code-info em{ margin: 0 5px;}
+.qc-code-info p{ margin-bottom: 10px;}
+
+.notice-list{ padding: 10px 20px;}
+.notice-list li{ height: 50px; overflow: hidden;}
+.notice-list li a{ display: block; height: 100%; font-size: 14px; color: #999; line-height: 14px;}
+.notice-icon{ display: block; width: 11px; height: 100%; background: url("../images/news-icon.png") 0 0 no-repeat; float: left; margin-right: 30px;}
+.notice-time{ display: block; margin-top: 8px; font-size: 12px; margin-left: 41px;}
+.notice-list li.last .notice-icon{ background-position: bottom left; height: 11px;}
+.notice-list li a:hover{ color: #3bc0c3;}
+.notice-list li a:hover .notice-icon{background-position: -11px 0;}
+.notice-more{ height: 45px; line-height: 45px; background-color: #3bc0c3; padding: 0 20px; display: block; font-size: 14px; color: #fff;}
+.notice-more i{ width: 16px; height: 16px; float: right; margin-top: 14px;}
+
+.service-info{ padding: 0 20px;}
+.service-info a{ display: block; height: 66px; line-height: 66px; text-align: center; color: #fff; border-radius: 3px; margin-bottom: 20px;}
+.tel-btn{ font-size: 16px;}
+.service-info a i{ width: 22px; height: 22px; margin-right: 10px;}
+
+.order-item{ width: 50%; float: left;}
+.pei-item{ width: 33%; float: left; padding: 37px 0;}
+.pei-info{ width: 100px; height: 100px; margin: 0 auto;}
+.order-list li{ height: 59px; border-top: 1px solid #eee; line-height: 59px; padding: 0 20px; font-size: 14px; color: #666;}
+.order-list li:hover{ background-color: #f9f9f9;}
+.point-icon{ width: 12px; height: 12px; display: inline-block; vertical-align: middle; margin-right: 25px; border-radius: 100%;}
+.order-list-right{ border-left: 1px solid #eee;}
+.order-list-right li:first-child{ border-top: none;}
+
+.chart-item-left{ width: 40%; float: left;}
+.chart-item-left .order-list{ margin: 0 20px;}
+.chart-item-right{ width: 60%; float: left; height: 300px;}
+.chart-line{ height: 100%;}
+
+@media (max-width: 1439px){
+    .order-item{ width: 100%;}
+    .chart-item-left,.chart-item-right{ width: 100%;}
+    .chart-line{margin: 0 20px;}
+    .order-list-right li:first-child{  border-top: 1px solid #eee;}
+    .price-handle{ width: 200px; top:60px;}
+    .price-handle a{ margin-bottom: 10px;}
+    .user-info{ height: 180px;}
+}

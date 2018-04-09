@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="POINTCHANGEDETAL" >
+	<typeAlias alias="pointChangeDetalAlias" type="com.mall.butler.point.model.PointChangeDetal"/>
+	<resultMap id="pointChangeDetalResultMap" class="pointChangeDetalAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="ACCOUNT_ID" property="accountId"/>
+    	<result column="OP_TYPE" property="opType"/>
+    	<result column="ORDER_NO" property="orderNo"/>
+    	<result column="POINT" property="point"/>
+    	<result column="LEFT_POINT" property="leftPoint"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="LOGIN_ID" property="loginId"/>
+    	<result column="LOGIN_NAME" property="loginName"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="accountId" >
+			ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opType" >
+			OP_TYPE = #opType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="orderNo" >
+			ORDER_NO = #orderNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="point" >
+			POINT = #point#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="leftPoint" >
+			LEFT_POINT = #leftPoint#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="loginId" >
+			LOGIN_ID = #loginId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="loginName" >
+			LOGIN_NAME = #loginName#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="pointChangeDetalResultMap">
+		select * from POINT_CHANGE_DETAL where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="pointChangeDetalAlias" resultClass="Integer">
+		select count(*) as totalCount from POINT_CHANGE_DETAL where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="pointChangeDetalResultMap" parameterClass="pointChangeDetalAlias">
+  	select * from POINT_CHANGE_DETAL
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="pointChangeDetalResultMap" parameterClass="pointChangeDetalAlias" >
+		select *
+		from POINT_CHANGE_DETAL
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETED_BY_PK" parameterClass="pointChangeDetalAlias" >
+		delete from POINT_CHANGE_DETAL
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="pointChangeDetalAlias" >
+		insert into POINT_CHANGE_DETAL
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				ACCOUNT_ID
+			</isNotNull>
+			<isNotNull prepend="," property="opType" >
+				OP_TYPE
+			</isNotNull>
+			<isNotNull prepend="," property="orderNo" >
+				ORDER_NO
+			</isNotNull>
+			<isNotNull prepend="," property="point" >
+				POINT
+			</isNotNull>
+			<isNotNull prepend="," property="leftPoint" >
+				LEFT_POINT
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="loginId" >
+				LOGIN_ID
+			</isNotNull>
+			<isNotNull prepend="," property="loginName" >
+				LOGIN_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				#accountId#
+			</isNotNull>
+			<isNotNull prepend="," property="opType" >
+				#opType#
+			</isNotNull>
+			<isNotNull prepend="," property="orderNo" >
+				#orderNo#
+			</isNotNull>
+			<isNotNull prepend="," property="point" >
+				#point#
+			</isNotNull>
+			<isNotNull prepend="," property="leftPoint" >
+				#leftPoint#
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				#remark#
+			</isNotNull>
+			<isNotNull prepend="," property="loginId" >
+				#loginId#
+			</isNotNull>
+			<isNotNull prepend="," property="loginName" >
+				#loginName#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="pointChangeDetalAlias" >
+		update POINT_CHANGE_DETAL
+		set 
+		ACCOUNT_ID = #accountId#,
+		OP_TYPE = #opType#,
+		ORDER_NO = #orderNo#,
+		POINT = #point#,
+		LEFT_POINT = #leftPoint#,
+		REMARK = #remark#,
+		LOGIN_ID = #loginId#,
+		LOGIN_NAME = #loginName#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_POINT_CHANGE_DETAL.nextval from dual
+	</select>
+</sqlMap>

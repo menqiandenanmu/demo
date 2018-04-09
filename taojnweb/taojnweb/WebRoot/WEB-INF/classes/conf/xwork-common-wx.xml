@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"struts-2.3.dtd">
+<struts>
+	<package name="web.weixin" extends="weixin" namespace="/weixin">
+		<!-- 微信用户检查  本方法用户于处理不是微信帐号的时，选择微信支付   跳至用户授权页面 -->
+		<action name="wxUserCheck" class="com.mall.butler.weixin.action.AuthAction" method="wxUserCheck">
+			<result name="success" type="freemarker">/template/wx/wxLogin.ftl</result>
+		</action>
+			<!--
+			微信用户检查 本方法处理微信支付时，授 权成功后，跳至需要支付的方法 wxPayUrl 这个值需要在微信支付方法中，保存到SESSION
+			用于授权成功后，直接跳至支付页
+		-->
+		<action name="wxReturnUserCheck" class="com.mall.butler.weixin.action.AuthAction"
+			method="wxReturnUserCheck">
+			<result type="redirect" name="success">
+				<param name="location">${wxPayUrl}</param>
+				<param name="parse">true</param>
+			</result>
+			<result type="redirect" name="wxUserCheck">
+				<param name="location">/weixin/wxUserCheck.htm</param>
+				<param name="parse">true</param>
+			</result>
+			<result type="redirect" name="index">
+				<param name="location">/wap/index.htm</param>
+				<param name="parse">true</param>
+			</result>
+		</action>		
+
+	</package>
+</struts>

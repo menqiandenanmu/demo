@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="AGENTINFO" >
+	<typeAlias alias="agentInfoAlias" type="com.mall.butler.account.model.AgentInfo"/>
+	<resultMap id="agentInfoResultMap" class="agentInfoAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="CORP_NAME" property="corpName"/>
+    	<result column="CODE" property="code"/>
+    	<result column="URL" property="url"/>
+    	<result column="LINKMAN" property="linkman"/>
+    	<result column="LINKMAN_TEL" property="linkmanTel"/>
+    	<result column="TELPHONE" property="telphone"/>
+    	<result column="FAX" property="fax"/>
+    	<result column="ADDRESS" property="address"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="BEG_DATE" property="begDate"/>
+    	<result column="END_DATE" property="endDate"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+    	<result column="PARENT_AGENT_ID" property="parentAgentId"/>
+    	<result column="PARENT_AGENT_NAME" property="parentAgentName"/>
+    	<result column="AGENT_TYPE" property="agentType"/>
+    	<result column="PARTNER_KEY" property="partnerKey"/>
+    	<result column="BANK_CODE" property="bankCode"/>
+    	<result column="BANK_NAME" property="bankName"/>
+    	<result column="BANK_OPEN_INFO" property="bankOpenInfo"/>
+ 	    <result column="AGENT_NO" property="agentNo"/>
+    	<result column="AGENT_ACCOUNT_TYPE" property="agentAccountType"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="corpName" >
+			CORP_NAME = #corpName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="code" >
+			CODE = #code#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="url" >
+			URL = #url#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="linkman" >
+			LINKMAN = #linkman#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="linkmanTel" >
+			LINKMAN_TEL = #linkmanTel#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="telphone" >
+			TELPHONE = #telphone#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="fax" >
+			FAX = #fax#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="address" >
+			ADDRESS = #address#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="begDate" >
+			convert(varchar(10),BEG_DATE,121) = convert(varchar(10),#begDate#,121)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endDate" >
+			convert(varchar(10),END_DATE,121) = convert(varchar(10),#endDate#,121)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="parentAgentId" >
+			PARENT_AGENT_ID = #parentAgentId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="parentAgentName" >
+			PARENT_AGENT_NAME = #parentAgentName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="agentType" >
+			AGENT_TYPE = #agentType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="partnerKey" >
+			PARTNER_KEY = #partnerKey#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="bankCode" >
+			BANK_CODE = #bankCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="bankName" >
+			BANK_NAME = #bankName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="bankOpenInfo" >
+			BANK_OPEN_INFO = #bankOpenInfo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="agentNo" >
+			AGENT_NO = #agentNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="agentAccountType" >
+			AGENT_ACCOUNT_TYPE = #agentAccountType#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="agentInfoResultMap">
+		select * from AGENT_INFO where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="agentInfoAlias" resultClass="Integer">
+		select count(*) as totalCount from AGENT_INFO where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="agentInfoResultMap" parameterClass="agentInfoAlias">
+  	select * from AGENT_INFO
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="agentInfoResultMap" parameterClass="agentInfoAlias" >
+		select *
+		from AGENT_INFO
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="agentInfoAlias" >
+		delete from AGENT_INFO
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="agentInfoAlias" >
+		insert into AGENT_INFO
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="corpName" >
+				CORP_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="code" >
+				CODE
+			</isNotNull>
+			<isNotNull prepend="," property="url" >
+				URL
+			</isNotNull>
+			<isNotNull prepend="," property="linkman" >
+				LINKMAN
+			</isNotNull>
+			<isNotNull prepend="," property="linkmanTel" >
+				LINKMAN_TEL
+			</isNotNull>
+			<isNotNull prepend="," property="telphone" >
+				TELPHONE
+			</isNotNull>
+			<isNotNull prepend="," property="fax" >
+				FAX
+			</isNotNull>
+			<isNotNull prepend="," property="address" >
+				ADDRESS
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="begDate" >
+				BEG_DATE
+			</isNotNull>
+			<isNotNull prepend="," property="endDate" >
+				END_DATE
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			<isNotNull prepend="," property="parentAgentId" >
+				PARENT_AGENT_ID
+			</isNotNull>
+			<isNotNull prepend="," property="parentAgentName" >
+				PARENT_AGENT_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="agentType" >
+				AGENT_TYPE
+			</isNotNull>
+			<isNotNull prepend="," property="partnerKey" >
+				PARTNER_KEY
+			</isNotNull>
+			<isNotNull prepend="," property="bankCode" >
+				BANK_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="bankName" >
+				BANK_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="bankOpenInfo" >
+				BANK_OPEN_INFO
+			</isNotNull>
+			<isNotNull prepend="," property="agentNo" >
+				AGENT_NO
+			</isNotNull>
+			<isNotNull prepend="," property="agentAccountType" >
+				AGENT_ACCOUNT_TYPE
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="corpName" >
+				#corpName#
+			</isNotNull>
+			<isNotNull prepend="," property="code" >
+				#code#
+			</isNotNull>
+			<isNotNull prepend="," property="url" >
+				#url#
+			</isNotNull>
+			<isNotNull prepend="," property="linkman" >
+				#linkman#
+			</isNotNull>
+			<isNotNull prepend="," property="linkmanTel" >
+				#linkmanTel#
+			</isNotNull>
+			<isNotNull prepend="," property="telphone" >
+				#telphone#
+			</isNotNull>
+			<isNotNull prepend="," property="fax" >
+				#fax#
+			</isNotNull>
+			<isNotNull prepend="," property="address" >
+				#address#
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				#remark#
+			</isNotNull>
+			<isNotNull prepend="," property="begDate" >
+				#begDate#
+			</isNotNull>
+			<isNotNull prepend="," property="endDate" >
+				#endDate#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			<isNotNull prepend="," property="parentAgentId" >
+				#parentAgentId#
+			</isNotNull>
+			<isNotNull prepend="," property="parentAgentName" >
+				#parentAgentName#
+			</isNotNull>
+			<isNotNull prepend="," property="agentType" >
+				#agentType#
+			</isNotNull>
+			<isNotNull prepend="," property="partnerKey" >
+				#partnerKey#
+			</isNotNull>
+			<isNotNull prepend="," property="bankCode" >
+				#bankCode#
+			</isNotNull>
+			<isNotNull prepend="," property="bankName" >
+				#bankName#
+			</isNotNull>
+			<isNotNull prepend="," property="bankOpenInfo" >
+				#bankOpenInfo#
+			</isNotNull>
+			<isNotNull prepend="," property="agentNo" >
+				#agentNo#
+			</isNotNull>
+			<isNotNull prepend="," property="agentAccountType" >
+				#agentAccountType#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="agentInfoAlias" >
+		update AGENT_INFO
+		set 
+		CORP_NAME = #corpName#,
+		CODE = #code#,
+		URL = #url#,
+		LINKMAN = #linkman#,
+		LINKMAN_TEL = #linkmanTel#,
+		TELPHONE = #telphone#,
+		FAX = #fax#,
+		ADDRESS = #address#,
+		REMARK = #remark#,
+		BEG_DATE = #begDate#,
+		END_DATE = #endDate#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		PARENT_AGENT_ID = #parentAgentId#,
+		PARENT_AGENT_NAME = #parentAgentName#,
+		AGENT_TYPE = #agentType#,
+		PARTNER_KEY = #partnerKey#,
+		BANK_CODE = #bankCode#,
+		BANK_NAME = #bankName#,
+		BANK_OPEN_INFO = #bankOpenInfo#,
+		AGENT_NO = #agentNo#,
+		AGENT_ACCOUNT_TYPE = #agentAccountType#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+
+	<select id="SELECT_BY_BNSTYPE_M" resultMap="agentInfoResultMap" parameterClass="String" >
+		select *
+		from AGENT_INFO agent
+		where agent.DELETED=0 and  id in(select CORP_ID from AGENT_BNS where deleted =0 and BNS_TYPE=#value#)
+	</select>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_AGENT_INFO.nextval from dual
+	</select>
+</sqlMap>

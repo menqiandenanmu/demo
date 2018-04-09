@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"  
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+	<!-- 基本信息 -->
+	<import resource="classpath:/conf/spring-ds-jndi.xml"/>
+<!--	<import resource="classpath:/conf/spring-ds-jdbc.xml"/>-->
+	<import resource="classpath:/conf/spring-ibatis.xml"/>
+	<import resource="classpath:/conf/spring-context.xml"/>
+	<import resource="classpath:/conf/spring-helper.xml"/>
+	<import resource="classpath:/conf/dao-base.xml"/>
+		<import resource="classpath:/conf/spring-task.xml"/> 
+	<!-- 系统管理 -->
+	<import resource="classpath:/conf/sys/spring-sys.xml"/>
+	<!-- 用户管理 -->
+	<import resource="classpath:/conf/account/spring-account.xml"/>
+	<!-- 网站信息管理 -->
+	<import resource="classpath:/conf/web/spring-web.xml"/>
+	<!-- 商城管理 -->
+	<import resource="classpath:/conf/store/spring-store.xml"/>
+	<!-- 订单 -->
+	<import resource="classpath:/conf/order/spring-order.xml"/>
+	<!-- 接口业务 -->
+	<import resource="classpath:/conf/port/spring-port.xml"/>
+	<!-- 积分业务 -->
+	<import resource="classpath:/conf/point/spring-point.xml"/>
+</beans>

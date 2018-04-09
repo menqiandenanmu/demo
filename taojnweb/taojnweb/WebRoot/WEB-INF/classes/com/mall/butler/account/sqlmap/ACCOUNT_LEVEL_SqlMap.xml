@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ACCOUNTLEVEL" >
+	<typeAlias alias="accountLevelAlias" type="com.mall.butler.account.model.AccountLevel"/>
+	<resultMap id="accountLevelResultMap" class="accountLevelAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="LEVEL_NAME" property="levelName"/>
+    	<result column="LEVEL_VALUE" property="levelValue"/>
+    	<result column="DEFAULT_FLAG" property="defaultFlag"/>
+    	<result column="LEVEL_ACC_TYPE" property="levelAccType"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotNull prepend="and" property="id" >
+			ID = #id#
+		</isNotNull>
+		<isNotNull prepend="and" property="levelName" >
+			LEVEL_NAME = #levelName#
+		</isNotNull>
+		<isNotNull prepend="and" property="levelValue" >
+			LEVEL_VALUE = #levelValue#
+		</isNotNull>
+		<isNotNull prepend="and" property="defaultFlag" >
+			DEFAULT_FLAG = #defaultFlag#
+		</isNotNull>
+		<isNotNull prepend="and" property="levelAccType" >
+			LEVEL_ACC_TYPE = #levelAccType#
+		</isNotNull>
+		<isNotNull prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotNull>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="accountLevelResultMap">
+		select * from ACCOUNT_LEVEL where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="accountLevelAlias" resultClass="Integer">
+		select count(*) as totalCount from ACCOUNT_LEVEL where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="accountLevelResultMap" parameterClass="accountLevelAlias">
+  	select * from ACCOUNT_LEVEL
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="accountLevelResultMap" parameterClass="accountLevelAlias" >
+		select *
+		from ACCOUNT_LEVEL
+		where ID = #id# and DELETED=0
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="accountLevelAlias" >
+		delete from ACCOUNT_LEVEL
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="accountLevelAlias" >
+		insert into ACCOUNT_LEVEL
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="levelName" >
+				LEVEL_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="levelValue" >
+				LEVEL_VALUE
+			</isNotNull>
+			<isNotNull prepend="," property="defaultFlag" >
+				DEFAULT_FLAG
+			</isNotNull>
+			<isNotNull prepend="," property="levelAccType" >
+				LEVEL_ACC_TYPE
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="levelName" >
+				#levelName#
+			</isNotNull>
+			<isNotNull prepend="," property="levelValue" >
+				#levelValue#
+			</isNotNull>
+			<isNotNull prepend="," property="defaultFlag" >
+				#defaultFlag#
+			</isNotNull>
+			<isNotNull prepend="," property="levelAccType" >
+				#levelAccType#
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				#remark#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="accountLevelAlias" >
+		update ACCOUNT_LEVEL
+		set 
+		LEVEL_NAME = #levelName#,
+		LEVEL_VALUE = #levelValue#,
+		DEFAULT_FLAG = #defaultFlag#,
+		LEVEL_ACC_TYPE = #levelAccType#,
+		REMARK = #remark#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_ACCOUNT_LEVEL.nextval from dual
+	</select>
+</sqlMap>

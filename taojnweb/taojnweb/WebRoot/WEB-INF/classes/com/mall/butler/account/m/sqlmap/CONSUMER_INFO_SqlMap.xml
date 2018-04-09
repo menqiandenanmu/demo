@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ACCOUNTINFO" >
+	<typeAlias alias="consumerAlias" type="com.mall.butler.account.model.ConsumerInfo"/>
+	<resultMap id="consumerResultMap" class="consumerAlias" extends="accountInfoResultMap">
+    	<result column="LOGIN_ID" property="loginId"/>
+    	<result column="LOGIN_NAME" property="loginName"/>
+    	<result column="LOGIN_PASS" property="loginPass"/>
+    	<result column="REALNAME" property="realname"/>
+    	<result column="STATUS" property="status"/>
+    	<result column="ADMIN_FLAG" property="adminFlag"/>
+    	<result column="BIRTHDAY" property="birthday"/>
+    	<result column="EMAIL" property="email"/>
+    	<result column="SEX" property="sex"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="LOGIN_COUNT" property="loginCount"/>
+    	<result column="LAST_IP" property="lastIp"/>
+    	<result column="LAST_LOGIN_TIME" property="lastLoginTime"/>
+    	<result column="MOBILE" property="mobile"/>
+    	<result column="ID_CARD" property="idCard"/>
+    	<result column="CREATE_LOGIN_ID" property="createLoginId"/>
+	</resultMap>
+	<sql id="CONSUMER_COLUMNS">
+		account.*,
+		login.id as LOGIN_ID,
+		login.LOGIN_NAME as LOGIN_NAME,
+		login.LOGIN_PASS as LOGIN_PASS,
+		login.REALNAME as REALNAME,
+		login.STATUS as STATUS,
+		login.ADMIN_FLAG as ADMIN_FLAG,
+		login.BIRTHDAY as BIRTHDAY,
+		login.EMAIL as EMAIL,
+		login.SEX as SEX,
+		login.REMARK as REMARK,
+		login.LOGIN_COUNT as LOGIN_COUNT,
+		login.LAST_IP as LAST_IP,
+		login.LAST_LOGIN_TIME as LAST_LOGIN_TIME,
+		login.MOBILE as MOBILE, 
+		login.ID_CARD as ID_CARD, 
+		login.CREATE_LOGIN_ID as CREATE_LOGIN_ID 
+	</sql>
+	<sql id="COMSUNER_ALL_SQL">
+		<isNotEmpty prepend="and" property="id" >
+			account.ID = #id#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accName" >
+			account.ACC_NAME = #accName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accNo" >
+			account.ACC_NO = #accNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accType" >
+			account.ACC_TYPE = #accType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accStatus" >
+			account.ACC_STATUS = #accStatus#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accLevelId" >
+			account.ACC_LEVEL_ID = #accLevelId#
+		</isNotEmpty>
+		<!-- login条件 -->
+		<isNotEmpty prepend="and" property="loginName" >
+			login.LOGIN_NAME = #loginName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="loginPass" >
+			login.LOGIN_PASS = #loginPass#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="realname" >
+			login.REALNAME = #realname#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="sex" >
+			login.SEX = #sex#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			login.REMARK = #remark#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="mobile" >
+			login.MOBILE = #mobile#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="idCard" >
+			login.ID_CARD = #idCard#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_CONSUMER" parameterClass="java.util.Map" resultMap="consumerResultMap">
+		select 
+		<include refid="CONSUMER_COLUMNS"/> 
+		from ACCOUNT_INFO AS ACCOUNT inner JOIN ACCOUNT_LOGIN  AS LOGIN ON ACCOUNT.ID=LOGIN.ACCOUNT_ID
+		where account.acc_Type=1 and account.deleted=0
+		<include refid="COMSUNER_ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_CONSUMER" parameterClass="accountInfoAlias" resultClass="Integer">
+		select 
+		count(*) as totalCount  
+		from ACCOUNT_INFO AS ACCOUNT inner JOIN ACCOUNT_LOGIN  AS LOGIN ON ACCOUNT.ID=LOGIN.ACCOUNT_ID
+		where account.acc_Type=1 and account.deleted=0
+		<include refid="COMSUNER_ALL_SQL"/>
+	</select>
+	
+	<select id="SELECT_BY_CONSUMER_ID" parameterClass="Long" resultMap="consumerResultMap">
+		select 
+		<include refid="CONSUMER_COLUMNS"/> 
+		from ACCOUNT_INFO AS ACCOUNT inner JOIN ACCOUNT_LOGIN  AS LOGIN ON ACCOUNT.ID=LOGIN.ACCOUNT_ID
+		where account.id=#value# and account.acc_Type=1
+	</select>
+</sqlMap>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="GOODSORDER" >
+	
+	
+	<sql id="ALL_SQL_M">
+		<isNotNull property="buyerId" >
+		   <isNotEmpty property="buyerId" >
+			and BUYER_ID = #buyerId#
+  		   </isNotEmpty>
+		</isNotNull>
+		<isNotNull property="buyerName" >
+		   <isNotEmpty property="buyerName" >
+			and BUYER_NAME like #buyerName#
+  		   </isNotEmpty>
+		</isNotNull>
+		<isNotNull property="storeId" >
+		   <isNotEmpty property="storeId" >
+			and STORE_ID = #storeId#
+  		   </isNotEmpty>
+		</isNotNull>
+		<isNotNull property="storeName" >
+		   <isNotEmpty property="storeName" >
+			and STORE_NAME like #storeName#
+  		   </isNotEmpty>
+		</isNotNull>
+		<isNotNull property="orderId" >
+		   <isNotEmpty property="orderId" >
+			and ORDER_ID = #orderId#
+  		   </isNotEmpty>
+		</isNotNull>
+		<isNotNull property="orderNo" >
+		   <isNotEmpty property="orderNo" >
+			and ORDER_NO = #orderNo#
+  		   </isNotEmpty>
+		</isNotNull>
+		<isNotNull property="subOrderNo" >
+		   <isNotEmpty property="subOrderNo" >
+			and SUB_ORDER_NO = #subOrderNo#
+  		   </isNotEmpty>
+		</isNotNull>
+		<isNotNull property="goodsId" >
+		   <isNotEmpty property="goodsId" >
+			and GOODS_ID = #goodsId#
+  		   </isNotEmpty>
+		</isNotNull>
+		<isNotNull property="goodsName" >
+		   <isNotEmpty property="goodsName" >
+			and GOODS_NAME like #goodsName#
+  		   </isNotEmpty>
+		</isNotNull>
+		<isNotNull property="amount" >
+		   <isNotEmpty property="amount" >
+			and AMOUNT = #amount#
+  		   </isNotEmpty>
+		</isNotNull>
+		<isNotNull property="price" >
+		   <isNotEmpty property="price" >
+			and PRICE = #price#
+  		   </isNotEmpty>
+		</isNotNull>
+		<isNotNull property="sum" >
+		   <isNotEmpty property="sum" >
+			and SUM = #sum#
+  		   </isNotEmpty>
+		</isNotNull>
+		<isNotNull property="checkStatus" >
+		   <isNotEmpty property="checkStatus" >
+			and CHECK_STATUS = #checkStatus#
+  		   </isNotEmpty>
+		</isNotNull>
+		<isNotNull property="orderStatus" >
+		   <isNotEmpty property="orderStatus" >
+			and ORDER_STATUS = #orderStatus#
+  		   </isNotEmpty>
+		</isNotNull>
+		<isNotNull property="remark" >
+		   <isNotEmpty property="remark" >
+			and REMARK = #remark#
+  		   </isNotEmpty>
+		</isNotNull>
+		<isNotEmpty prepend="and" property="begCreateDate" >
+		<![CDATA[
+			create_time > #begCreateDate#
+			]]> 
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endCreateDate" >
+		<![CDATA[
+			create_time < dateadd(d,1,#endCreateDate#)
+			]]>
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_GOODSORDER_M" parameterClass="java.util.Map" resultMap="goodsOrderResultMap">
+		select * from GOODS_ORDER where 1=1 and deleted=0
+		<include refid="ALL_SQL_M"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_GOODSORDER_M" parameterClass="java.util.Map" resultClass="Integer">
+		select count(*) as totalCount from GOODS_ORDER where 1=1 and deleted=0
+		<include refid="ALL_SQL_M"/>
+	</select>
+</sqlMap>

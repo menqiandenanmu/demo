@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SYSDICT" >
+	<typeAlias alias="sysDictAlias" type="com.mall.butler.sys.model.SysDict"/>
+	<resultMap id="sysDictResultMap" class="sysDictAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="DICT_CODE" property="dictCode"/>
+    	<result column="DICT_NAME" property="dictName"/>
+    	<result column="VALUE_REGEX" property="valueRegex"/>
+    	<result column="LIST_SORT" property="listSort"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="dictCode" >
+			DICT_CODE = #dictCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="dictName" >
+			DICT_NAME = #dictName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="valueRegex" >
+			VALUE_REGEX = #valueRegex#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="listSort" >
+			LIST_SORT = #listSort#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="sysDictResultMap">
+		select * from SYS_DICT where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="sysDictAlias" resultClass="Integer">
+		select count(*) as totalCount from SYS_DICT where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="sysDictResultMap" parameterClass="sysDictAlias">
+  	select * from SYS_DICT
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="sysDictResultMap" parameterClass="sysDictAlias" >
+		select *
+		from SYS_DICT
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="sysDictAlias" >
+		delete from SYS_DICT
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="sysDictAlias" >
+		insert into SYS_DICT
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="dictCode" >
+				DICT_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="dictName" >
+				DICT_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="valueRegex" >
+				VALUE_REGEX
+			</isNotNull>
+			<isNotNull prepend="," property="listSort" >
+				LIST_SORT
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="dictCode" >
+				#dictCode#
+			</isNotNull>
+			<isNotNull prepend="," property="dictName" >
+				#dictName#
+			</isNotNull>
+			<isNotNull prepend="," property="valueRegex" >
+				#valueRegex#
+			</isNotNull>
+			<isNotNull prepend="," property="listSort" >
+				#listSort#
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				#remark#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="sysDictAlias" >
+		update SYS_DICT
+		set 
+		DICT_CODE = #dictCode#,
+		DICT_NAME = #dictName#,
+		VALUE_REGEX = #valueRegex#,
+		LIST_SORT = #listSort#,
+		REMARK = #remark#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_SYS_DICT.nextval from dual
+	</select>
+</sqlMap>

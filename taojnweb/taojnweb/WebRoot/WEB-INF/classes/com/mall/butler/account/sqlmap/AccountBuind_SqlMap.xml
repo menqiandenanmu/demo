@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ACCOUNTBUIND" >
+	<typeAlias alias="accountBuindAlias" type="com.mall.butler.account.model.AccountBuind"/>
+	<resultMap id="accountBuindResultMap" class="accountBuindAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="ACCOUNT_ID" property="accountId"/>
+    	<result column="ACCOUNT_NAME" property="accountName"/>
+    	<result column="MALL_NAME" property="mallName"/>
+    	<result column="MALL_CODE" property="mallCode"/>
+    	<result column="REMAKR3" property="remakr3"/>
+    	<result column="REMAKR2" property="remakr2"/>
+    	<result column="REMAKR" property="remakr"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="accountId" >
+			ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountName" >
+			ACCOUNT_NAME = #accountName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="mallName" >
+			MALL_NAME = #mallName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="mallCode" >
+			MALL_CODE = #mallCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remakr3" >
+			REMAKR3 = #remakr3#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remakr2" >
+			REMAKR2 = #remakr2#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remakr" >
+			REMAKR = #remakr#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="accountBuindResultMap">
+		select * from ACCOUNT_BUIND where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="accountBuindAlias" resultClass="Integer">
+		select count(*) as totalCount from ACCOUNT_BUIND where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="accountBuindResultMap" parameterClass="accountBuindAlias">
+  	select * from ACCOUNT_BUIND
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="accountBuindResultMap" parameterClass="accountBuindAlias" >
+		select *
+		from ACCOUNT_BUIND
+		where ID = #id# and deleted=0
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="accountBuindAlias" >
+		delete from ACCOUNT_BUIND
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="accountBuindAlias" >
+		insert into ACCOUNT_BUIND
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				ACCOUNT_ID
+			</isNotNull>
+			<isNotNull prepend="," property="accountName" >
+				ACCOUNT_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="mallName" >
+				MALL_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="mallCode" >
+				MALL_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="remakr3" >
+				REMAKR3
+			</isNotNull>
+			<isNotNull prepend="," property="remakr2" >
+				REMAKR2
+			</isNotNull>
+			<isNotNull prepend="," property="remakr" >
+				REMAKR
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				#accountId#
+			</isNotNull>
+			<isNotNull prepend="," property="accountName" >
+				#accountName#
+			</isNotNull>
+			<isNotNull prepend="," property="mallName" >
+				#mallName#
+			</isNotNull>
+			<isNotNull prepend="," property="mallCode" >
+				#mallCode#
+			</isNotNull>
+			<isNotNull prepend="," property="remakr3" >
+				#remakr3#
+			</isNotNull>
+			<isNotNull prepend="," property="remakr2" >
+				#remakr2#
+			</isNotNull>
+			<isNotNull prepend="," property="remakr" >
+				#remakr#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="accountBuindAlias" >
+		update ACCOUNT_BUIND
+		set 
+		ACCOUNT_ID = #accountId#,
+		ACCOUNT_NAME = #accountName#,
+		MALL_NAME = #mallName#,
+		MALL_CODE = #mallCode#,
+		REMAKR3 = #remakr3#,
+		REMAKR2 = #remakr2#,
+		REMAKR = #remakr#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_ACCOUNT_BUIND.nextval from dual
+	</select>
+</sqlMap>

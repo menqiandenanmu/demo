@@ -1,0 +1,36 @@
+<!DOCTYPE struts PUBLIC	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "struts-2.3.dtd">
+<struts>
+	<package name="manage.port" extends="manage" namespace="/port">
+		<!-- 账户绑定接口 -->
+		<action name="doBindUser" class="com.mall.butler.port.m.PayPortAction" method="doBindUser">
+		</action>
+		<!-- 账户解除绑定接口 -->
+		<action name="doUnBindUser" class="com.mall.butler.port.m.PayPortAction" method="doUnBindUser">
+		</action>
+		<!-- 支付接口 -->
+		<action name="doPay" class="com.mall.butler.port.m.PayPortAction" method="doPay">
+		</action>
+		<!-- crm条码支付接口 -->
+		<action name="doCrmPay" class="com.mall.butler.port.m.PayPortAction" method="doCrmPay">
+		</action>
+		<!-- crm退款接口 -->
+		<action name="doCrmRefund" class="com.mall.butler.port.m.RefundPortAction" method="doCrmRefund">
+		</action>
+		<!-- 退款接口 -->
+		<action name="doRefund" class="com.mall.butler.port.m.RefundPortAction" method="doRefund">
+		</action>
+		
+		<!-- 账户详情 -->
+		<action name="userInfo" class="com.mall.butler.port.m.AccountPortAction" method="userInfo">
+		</action>
+		<!-- crm账户详情 -->
+		<action name="crmUserInfo" class="com.mall.butler.port.m.AccountPortAction" method="crmUserInfo">
+		</action>
+		<!-- CRM交易详情 -->
+		<action name="crmTransInfo" class="com.mall.butler.port.m.AccountPortAction" method="crmTransInfo">
+		</action>
+		<!-- 交易详情 -->
+		<action name="transInfo" class="com.mall.butler.port.m.AccountPortAction" method="transInfo">
+		</action>
+	</package>
+</struts>

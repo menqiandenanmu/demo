@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="PAGEAREADETAIL" >
+	
+	<select id="SELECT_BY_AREACODE" resultMap="pageAreaDetailResultMap" parameterClass="java.util.Map">
+  			select  a.* from PAGE_AREA_DETAIL a,PAGE_AREA_INFO b where a.deleted=0 and b.DELETED=0
+			and a.AREA_ID=b.ID and b.CODE=#code# and rownum &lt;= #count#
+	</select>
+	
+
+</sqlMap>

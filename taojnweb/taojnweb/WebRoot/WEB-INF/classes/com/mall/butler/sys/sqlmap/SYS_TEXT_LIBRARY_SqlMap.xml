@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SYSTEXTLIBRARY" >
+	<typeAlias alias="sysTextLibraryAlias" type="com.mall.butler.sys.model.SysTextLibrary"/>
+	<resultMap id="sysTextLibraryResultMap" class="sysTextLibraryAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="TITLE" property="title"/>
+    	<result column="CONTEXT" property="context"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="id" >
+			ID = #id#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="title" >
+			TITLE = #title#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="context" >
+			CONTEXT = #context#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="sysTextLibraryResultMap">
+		select * from SYS_TEXT_LIBRARY where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="sysTextLibraryAlias" resultClass="Integer">
+		select count(*) as totalCount from SYS_TEXT_LIBRARY where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="sysTextLibraryResultMap" parameterClass="sysTextLibraryAlias">
+  	select * from SYS_TEXT_LIBRARY
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="sysTextLibraryResultMap" parameterClass="sysTextLibraryAlias" >
+		select *
+		from SYS_TEXT_LIBRARY
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="sysTextLibraryAlias" >
+		delete from SYS_TEXT_LIBRARY
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="sysTextLibraryAlias" >
+		insert into SYS_TEXT_LIBRARY
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="title" >
+				TITLE
+			</isNotNull>
+			<isNotNull prepend="," property="context" >
+				CONTEXT
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="title" >
+				#title#
+			</isNotNull>
+			<isNotNull prepend="," property="context" >
+				#context#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="sysTextLibraryAlias" >
+		update SYS_TEXT_LIBRARY
+		set 
+		TITLE = #title#,
+		CONTEXT = #context#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_SYS_TEXT_LIBRARY.nextval from dual
+	</select>
+</sqlMap>

@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="TRADEACCOUNTDETAIL" >
+	<typeAlias alias="tradeAccountDetailAlias" type="com.mall.butler.account.model.TradeAccountDetail"/>
+	<resultMap id="tradeAccountDetailResultMap" class="tradeAccountDetailAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="ACCOUNT_ID" property="accountId"/>
+    	<result column="ACCOUNT_NAME" property="accountName"/>
+    	<result column="TRADE_ACC_ID" property="tradeAccId"/>
+    	<result column="TRADE_ACC_NAME" property="tradeAccName"/>
+    	<result column="OP_TYPE" property="opType"/>
+    	<result column="ORDER_NO" property="orderNo"/>
+    	<result column="SERIAL_NO" property="serialNo"/>
+    	<result column="OP_VALUE" property="opValue"/>
+    	<result column="LEFT_VALUE" property="leftValue"/>
+    	<result column="OP_LOGIN_ID" property="opLoginId"/>
+    	<result column="OP_LOGIN_NAME" property="opLoginName"/>
+    	<result column="TRADE_TYPE" property="tradeType"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="REMARK1" property="remark1"/>
+    	<result column="REMARK2" property="remark2"/>
+    	<result column="REMARK3" property="remark3"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="accountId" >
+			ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountName" >
+			ACCOUNT_NAME = #accountName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="tradeAccId" >
+			TRADE_ACC_ID = #ownerSupplyId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="tradeAccName" >
+			TRADE_ACC_NAME = #tradeAccName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opType" >
+			OP_TYPE = #opType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="orderNo" >
+			ORDER_NO = #orderNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="serialNo" >
+			SERIAL_NO = #serialNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opValue" >
+			OP_VALUE = #opValue#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="leftValue" >
+			LEFT_VALUE = #leftValue#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opLoginName" >
+			OP_LOGIN_NAME = #opLoginName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opLoginId" >
+			OP_LOGIN_ID = #opLoginId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="tradeType" >
+			TRADE_TYPE = #tradeType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			remark like '%$remark$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark1" >
+			remark1 = #remark1#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark2" >
+			remark2 = #remark2#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark3" >
+			remark3 = #remark3#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" resultMap="tradeAccountDetailResultMap">
+		select * from TRADE_ACCOUNT_DETAIL where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="tradeAccountDetailAlias" resultClass="Integer">
+		select count(*) as totalCount from TRADE_ACCOUNT_DETAIL where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+	
+	
+	
+	<select id="SELECT_BY_PAGE_M" resultClass="com.mall.butler.account.model.TradeAccountDetail">
+		select to_char(create_time,'yyyy-mm-dd') as RechargeTime,op_type as opType ,to_char(sum(op_value),'9999999999990.99') as remark
+		from trade_Account_Detail where  1=1 and deleted=0 
+		<isNotEmpty prepend="and" property="begDate" >
+			to_char(create_time,'yyyy-mm-dd') &gt;= to_char(#begDate#,'yyyy-mm-dd')
+		</isNotEmpty> 
+		<isNotEmpty prepend="and" property="endDate" >
+			to_char(create_time,'yyyy-mm-dd') &lt;= to_char(#endDate#,'yyyy-mm-dd')
+		</isNotEmpty> 
+		<isNotEmpty prepend="and" property="opType" >
+			OP_TYPE = #opType#
+		</isNotEmpty> 
+	    group by to_char(create_time,'yyyy-mm-dd'),op_type order by to_char(create_time,'yyyy-mm-dd')
+	</select>
+	  
+	<select id="SELECT_COUNT_BY_PAGE_M" parameterClass="tradeAccountDetailAlias" resultClass="Integer">
+		
+		select count(count(*)) from trade_Account_Detail where  1=1 and deleted=0 
+	
+		<isNotEmpty prepend="and" property="begDate" >
+			to_char(create_time,'yyyy-mm-dd') &gt;= to_char(#begDate#,'yyyy-mm-dd')
+		</isNotEmpty> 
+		<isNotEmpty prepend="and" property="endDate" >
+			to_char(create_time,'yyyy-mm-dd') &lt;= to_char(#endDate#,'yyyy-mm-dd')
+		</isNotEmpty> 
+		<isNotEmpty prepend="and" property="opType" >
+			OP_TYPE = #opType#
+		</isNotEmpty> 
+	    group by to_char(create_time,'yyyy-mm-dd'),op_type
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="tradeAccountDetailResultMap" parameterClass="tradeAccountDetailAlias">
+  	select * from TRADE_ACCOUNT_DETAIL
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="tradeAccountDetailResultMap" parameterClass="tradeAccountDetailAlias" >
+		select *
+		from TRADE_ACCOUNT_DETAIL
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="tradeAccountDetailAlias" >
+		delete from TRADE_ACCOUNT_DETAIL
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="tradeAccountDetailAlias" >
+		insert into TRADE_ACCOUNT_DETAIL
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				ACCOUNT_ID
+			</isNotNull>
+			<isNotNull prepend="," property="accountName" >
+				ACCOUNT_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="tradeAccId" >
+				TRADE_ACC_ID
+			</isNotNull>
+			<isNotNull prepend="," property="tradeAccName" >
+				TRADE_ACC_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="opType" >
+				OP_TYPE
+			</isNotNull>
+			<isNotNull prepend="," property="orderNo" >
+				ORDER_NO
+			</isNotNull>
+			<isNotNull prepend="," property="serialNo" >
+				SERIAL_NO
+			</isNotNull>
+			<isNotNull prepend="," property="opValue" >
+				OP_VALUE
+			</isNotNull>
+			<isNotNull prepend="," property="leftValue" >
+				LEFT_VALUE
+			</isNotNull>
+			<isNotNull prepend="," property="opLoginId" >
+				OP_LOGIN_ID
+			</isNotNull>
+			<isNotNull prepend="," property="opLoginName" >
+				OP_LOGIN_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="tradeType" >
+				TRADE_TYPE
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="remark1" >
+				REMARK1
+			</isNotNull>
+			<isNotNull prepend="," property="remark2" >
+				REMARK2
+			</isNotNull>
+			<isNotNull prepend="," property="remark3" >
+				REMARK3
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				#accountId#
+			</isNotNull>
+			<isNotNull prepend="," property="accountName" >
+				#accountName#
+			</isNotNull>
+			<isNotNull prepend="," property="tradeAccId" >
+				#tradeAccId#
+			</isNotNull>
+			<isNotNull prepend="," property="tradeAccName" >
+				#tradeAccName#
+			</isNotNull>
+			<isNotNull prepend="," property="opType" >
+				#opType#
+			</isNotNull>
+			<isNotNull prepend="," property="orderNo" >
+				#orderNo#
+			</isNotNull>
+			<isNotNull prepend="," property="serialNo" >
+				#serialNo#
+			</isNotNull>
+			<isNotNull prepend="," property="opValue" >
+				#opValue#
+			</isNotNull>
+			<isNotNull prepend="," property="leftValue" >
+				#leftValue#
+			</isNotNull>
+			<isNotNull prepend="," property="opLoginId" >
+				#opLoginId#
+			</isNotNull>
+			<isNotNull prepend="," property="opLoginName" >
+				#opLoginName#
+			</isNotNull>
+			<isNotNull prepend="," property="tradeType" >
+				#tradeType#
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				#remark#
+			</isNotNull>
+			<isNotNull prepend="," property="remark1" >
+				#remark1#
+			</isNotNull>
+			<isNotNull prepend="," property="remark2" >
+				#remark2#
+			</isNotNull>
+			<isNotNull prepend="," property="remark3" >
+				#remark3#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="tradeAccountDetailAlias" >
+		update TRADE_ACCOUNT_DETAIL
+		set 
+		ACCOUNT_ID = #accountId#,
+		ACCOUNT_NAME = #accountName#,
+		TRADE_ACC_ID = #tradeAccId#,
+		TRADE_ACC_NAME = #tradeAccName#,
+		OP_TYPE = #opType#,
+		ORDER_NO = #orderNo#,
+		SERIAL_NO = #serialNo#,
+		OP_VALUE = #opValue#,
+		LEFT_VALUE = #leftValue#,
+		OP_LOGIN_ID = #opLoginId#,
+		TRADE_TYPE = #tradeType#,
+		OP_LOGIN_NAME = #opLoginName#,
+		REMARK = #remark#,
+		REMARK1 = #remark1#,
+		REMARK2 = #remark2#,
+		REMARK3 = #remark3#,
+		CREATE_TIME = #createTime#,
+		MODIFIED_TIME=#modifiedTime#
+		DELETED = #deleted#,
+		where ID = #id# 
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_TRADE_ACCOUNT_DETAIL.nextval from dual
+	</select>
+</sqlMap>

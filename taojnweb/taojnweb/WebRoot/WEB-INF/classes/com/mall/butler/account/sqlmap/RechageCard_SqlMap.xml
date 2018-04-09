@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="RECHAGECARD">
+	<typeAlias alias="rechageCardAlias" type="com.mall.butler.account.model.RechageCard" />
+	<resultMap id="rechageCardResultMap" class="rechageCardAlias">
+		<result column="ID" property="id" />
+		<result column="CARD_NAME" property="cardName" />
+		<result column="CARD_CODE" property="cardCode" />
+		<result column="LEFT_VALUE" property="leftValue" />
+		<result column="STATUS" property="status" />
+		<result column="AUDIT_SYATUS" property="auditSyatus" />
+		<result column="REMARK" property="remark" />
+		<result column="AUDIT_REMARK" property="auditRemark" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="MODIFIED_TIME" property="modifiedTime" />
+		<result column="DELETED" property="deleted" />
+		<result column="CARD_PASSWORD" property="cardPassword" />
+		<result column="CARD_TYPE" property="cardType" />
+		<result column="CREATE_YEAR" property="createYear" />
+		<result column="FAILURE_TIME" property="failureTime" />
+		<result column="CARD_MONEY" property="cardMoney" />
+		<result column="AUDIT_PERSON" property="auditPerson" />
+		<result column="USE_STATUS" property="useStatus" />
+		<result column="SOURCE" property="source" />
+	</resultMap>
+
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="cardName">
+			CARD_NAME like 
+			'%$cardName$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cardCode">
+			CARD_CODE like
+			#cardCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="leftValue">
+			LEFT_VALUE =
+			#leftValue#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="status">
+			STATUS =
+			#status#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="auditSyatus">
+			AUDIT_SYATUS = #auditSyatus#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="auditPerson">
+			AUDIT_PERSON like
+			'%$auditPerson$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark">
+			REMARK =
+			#remark#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="auditRemark">
+			AUDIT_REMARK =
+			#auditRemark#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cardPassword">
+			CARD_PASSWORD = #cardPassword#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cardType">
+			CARD_TYPE =
+			#cardType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createYear">
+			CREATE_YEAR = #createYear#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="failureTime">
+			FAILURE_TIME = #failureTime#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="cardMoney">
+			CARD_MONEY =
+			#cardMoney#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="useStatus">
+			USE_STATUS =
+			#useStatus#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="source">
+			SOURCE =
+			#source#
+		</isNotEmpty>
+	</sql>
+
+	<select id="SELECT_PAGE" parameterClass="java.util.Map"
+		resultMap="rechageCardResultMap">
+		select * from RECHAGE_CARD where 1=1 and deleted=0
+		<include refid="ALL_SQL" />
+		order by create_time desc
+	</select>
+		<select id="SELECT_BY_PAGE_M" parameterClass="rechageCardAlias" resultMap="rechageCardResultMap">
+			select * from RECHAGE_CARD where 1=1 and deleted=0
+			<include refid="ALL_SQL"/>
+			order by create_time desc
+		</select>
+		
+	<select id="SELECT_COUNT_PAGE" parameterClass="rechageCardAlias"
+		resultClass="Integer">
+		select count(*) as totalCount from RECHAGE_CARD where 1=1 and
+		deleted=0
+		<include refid="ALL_SQL" />
+	</select>
+
+	<select id="SELECT_BY_ALL" resultMap="rechageCardResultMap"
+		parameterClass="rechageCardAlias">
+		select * from RECHAGE_CARD
+		where deleted=0
+		<include refid="ALL_SQL" />
+		order by create_time desc
+	</select>
+
+	<select id="SELECT_BY_PK" resultMap="rechageCardResultMap"
+		parameterClass="rechageCardAlias">
+		select *
+		from RECHAGE_CARD
+		where ID =
+		#id#
+	</select>
+
+	<delete id="DELETE_BY_PK" parameterClass="rechageCardAlias">
+		delete from RECHAGE_CARD
+		where ID = #id# and
+		MODIFIED_TIME=#modifiedTime#
+	</delete>
+
+	<insert id="INSERT" parameterClass="rechageCardAlias">
+		insert into RECHAGE_CARD
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id">
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="cardName">
+				CARD_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="cardCode">
+				CARD_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="leftValue">
+				LEFT_VALUE
+			</isNotNull>
+			<isNotNull prepend="," property="status">
+				STATUS
+			</isNotNull>
+			<isNotNull prepend="," property="auditSyatus">
+				AUDIT_SYATUS
+			</isNotNull>
+			<isNotNull prepend="," property="auditPerson">
+				AUDIT_PERSON
+			</isNotNull>
+			<isNotNull prepend="," property="remark">
+				REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="auditRemark">
+				AUDIT_REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="createTime">
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime">
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted">
+				DELETED
+			</isNotNull>
+			<isNotNull prepend="," property="cardPassword">
+				CARD_PASSWORD
+			</isNotNull>
+			<isNotNull prepend="," property="cardType">
+				CARD_TYPE
+			</isNotNull>
+			<isNotNull prepend="," property="createYear">
+				CREATE_YEAR
+			</isNotNull>
+			<isNotNull prepend="," property="failureTime">
+				FAILURE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="cardMoney">
+				CARD_MONEY
+			</isNotNull>
+			<isNotNull prepend="," property="useStatus">
+				USE_STATUS
+			</isNotNull>
+			<isNotNull prepend="," property="source">
+				SOURCE
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id">
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="cardName">
+				#cardName#
+			</isNotNull>
+			<isNotNull prepend="," property="cardCode">
+				#cardCode#
+			</isNotNull>
+			<isNotNull prepend="," property="leftValue">
+				#leftValue#
+			</isNotNull>
+			<isNotNull prepend="," property="status">
+				#status#
+			</isNotNull>
+			<isNotNull prepend="," property="auditSyatus">
+				#auditSyatus#
+			</isNotNull>
+			<isNotNull prepend="," property="auditPerson">
+				#auditPerson#
+			</isNotNull>
+			<isNotNull prepend="," property="remark">
+				#remark#
+			</isNotNull>
+			<isNotNull prepend="," property="auditRemark">
+				#auditRemark#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime">
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime">
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted">
+				#deleted#
+			</isNotNull>
+			<isNotNull prepend="," property="cardPassword">
+				#cardPassword#
+			</isNotNull>
+			<isNotNull prepend="," property="cardType">
+				#cardType#
+			</isNotNull>
+			<isNotNull prepend="," property="createYear">
+				#createYear#
+			</isNotNull>
+			<isNotNull prepend="," property="failureTime">
+				#failureTime#
+			</isNotNull>
+			<isNotNull prepend="," property="cardMoney">
+				#cardMoney#
+			</isNotNull>
+			<isNotNull prepend="," property="useStatus">
+				#useStatus#
+			</isNotNull>
+			<isNotNull prepend="," property="source">
+				#source#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+
+	<update id="UPDATE_BY_PK" parameterClass="rechageCardAlias">
+		update RECHAGE_CARD
+		set
+		CARD_NAME = #cardName#,
+		CARD_CODE = #cardCode#,
+		LEFT_VALUE = #leftValue#,
+		STATUS =
+		#status#,
+		AUDIT_SYATUS = #auditSyatus#,
+		AUDIT_PERSON = #auditPerson#,
+		REMARK = #remark#,
+		AUDIT_REMARK = #auditRemark#,
+		CARD_PASSWORD=#cardPassword#,
+		CARD_TYPE=#cardType#,
+		CREATE_YEAR=#createYear#,
+		FAILURE_TIME=#failureTime#,
+		CARD_MONEY=#cardMoney#,
+		CREATE_TIME =
+		#createTime#,
+		DELETED = #deleted#,
+		USE_STATUS = #useStatus#,
+		SOURCE = #source#,
+		MODIFIED_TIME = #now#
+		where ID = #id#
+		and MODIFIED_TIME=#modifiedTime#
+	</update>
+
+	<select id="SELECT_SEQ" resultClass="Long">
+		select
+		SEQ_RECHAGE_CARD.nextval from dual
+	</select>
+	
+</sqlMap>

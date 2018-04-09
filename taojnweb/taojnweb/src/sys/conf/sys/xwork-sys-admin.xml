@@ -1,0 +1,36 @@
+<!DOCTYPE struts PUBLIC	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "struts-2.3.dtd">
+<struts>
+	<package name="sysAdmin" extends="manage" namespace="/manage/sys">
+		<default-interceptor-ref name="authStack" />
+		<!-- 超级管理员角色 -->
+		<action name="roleAdmin" class="com.mall.butler.sys.m.action.RoleAdminAction">
+			<result name="list" type="freemarker">/template/b/sys/m/roleAdminList.ftl</result>
+			<result name="edit" type="freemarker">/template/b/sys/m/roleAdminEdit.ftl</result>
+			<result name="add" type="freemarker">/template/b/sys/m/roleAdminAdd.ftl</result>
+			<result name="infoEdit" type="freemarker">/template/b/sys/m/roleAdminInfo.ftl</result>
+		</action>
+		<action name="operatorAdmin" class="com.mall.butler.sys.m.action.OperatorAdminAction">
+			<result name="list" type="freemarker">/template/b/sys/m/operatorList.ftl</result>
+			<result name="edit" type="freemarker">/template/b/sys/m/operatorEdit.ftl</result>
+			<result name="add" type="freemarker">/template/b/sys/m/operatorAdd.ftl</result>
+			<result name="roleEdit" type="freemarker">/template/b/sys/m/operatorRole.ftl</result>
+		</action>
+		<!-- 功能模块/菜单 -->
+		<action name="sysFunction" class="com.mall.butler.sys.m.action.SysFunctionAction">
+			<result name="list" type="freemarker">/template/b/sys/m/sysFunctionList.ftl</result>
+			<result name="edit" type="freemarker">/template/b/sys/m/sysFunctionEdit.ftl</result>
+			<result name="add" type="freemarker">/template/b/sys/m/sysFunctionAdd.ftl</result>
+		</action>
+		<action name="sysFunctionGroup" class="com.mall.butler.sys.m.action.SysFunctionGroupAction">
+			<result name="list" type="freemarker">/template/b/sys/m/sysFunctionGroupList.ftl</result>
+			<result name="edit" type="freemarker">/template/b/sys/m/sysFunctionEdit.ftl</result>
+			<result name="add" type="freemarker">/template/b/sys/m/sysFunctionGroupAdd.ftl</result>
+			<result name="groupConfig" type="freemarker">/template/b/sys/m/sysFunctionGroupConfig.ftl</result>		
+		</action>
+		<!-- 配置文件 -->
+		<action name="property" class="com.mall.butler.sys.m.action.PropertyAction">
+			<result name="success" type="freemarker">/template/b/sys/m/property.ftl</result>
+			<result name="edit" type="freemarker">/template/b/sys/m/propertyEdit.ftl</result>		
+		</action>
+	</package>
+</struts>

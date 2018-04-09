@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="STOREACCOUNTDETAIL" >
+	<typeAlias alias="storeAccountDetailAlias" type="com.mall.butler.account.model.StoreAccountDetail"/>
+	<resultMap id="storeAccountDetailResultMap" class="storeAccountDetailAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="SERIAL_NO" property="serialNo"/>
+    	<result column="ACCOUNT_ID" property="accountId"/>
+    	<result column="ACCOUNT_NAME" property="accountName"/>
+    	<result column="FUKUAN_NAME" property="fukuanName"/>
+    	<result column="FUKUAN_ID" property="fukuanId"/>
+    	<result column="OP_TYPE" property="opType"/>
+    	<result column="ORDER_NO" property="orderNo"/>
+    	<result column="OP_VALUE" property="opValue"/>
+    	<result column="LEFT_VALUE" property="leftValue"/>
+    	<result column="OP_LOGIN_NAME" property="opLoginName"/>
+    	<result column="OP_LOGIN_ID" property="opLoginId"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="serialNo" >
+			SERIAL_NO = #serialNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountId" >
+			ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountName" >
+			ACCOUNT_NAME = #accountName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="fukuanName" >
+			FUKUAN_NAME = #fukuanName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="fukuanId" >
+			FUKUAN_ID = #fukuanId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opType" >
+			OP_TYPE = #opType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="orderNo" >
+			ORDER_NO = #orderNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opValue" >
+			OP_VALUE = #opValue#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="leftValue" >
+			LEFT_VALUE = #leftValue#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opLoginName" >
+			OP_LOGIN_NAME = #opLoginName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opLoginId" >
+			OP_LOGIN_ID = #opLoginId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="storeAccountDetailResultMap">
+		select * from STORE_ACCOUNT_DETAIL where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="storeAccountDetailAlias" resultClass="Integer">
+		select count(*) as totalCount from STORE_ACCOUNT_DETAIL where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="storeAccountDetailResultMap" parameterClass="storeAccountDetailAlias">
+  	select * from STORE_ACCOUNT_DETAIL
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="storeAccountDetailResultMap" parameterClass="storeAccountDetailAlias" >
+		select *
+		from STORE_ACCOUNT_DETAIL
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="storeAccountDetailAlias" >
+		delete from STORE_ACCOUNT_DETAIL
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="storeAccountDetailAlias" >
+		insert into STORE_ACCOUNT_DETAIL
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="serialNo" >
+				SERIAL_NO
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				ACCOUNT_ID
+			</isNotNull>
+			<isNotNull prepend="," property="accountName" >
+				ACCOUNT_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="fukuanName" >
+				FUKUAN_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="fukuanId" >
+				FUKUAN_ID
+			</isNotNull>
+			<isNotNull prepend="," property="opType" >
+				OP_TYPE
+			</isNotNull>
+			<isNotNull prepend="," property="orderNo" >
+				ORDER_NO
+			</isNotNull>
+			<isNotNull prepend="," property="opValue" >
+				OP_VALUE
+			</isNotNull>
+			<isNotNull prepend="," property="leftValue" >
+				LEFT_VALUE
+			</isNotNull>
+			<isNotNull prepend="," property="opLoginName" >
+				OP_LOGIN_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="opLoginId" >
+				OP_LOGIN_ID
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="serialNo" >
+				#serialNo#
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				#accountId#
+			</isNotNull>
+			<isNotNull prepend="," property="accountName" >
+				#accountName#
+			</isNotNull>
+			<isNotNull prepend="," property="fukuanName" >
+				#fukuanName#
+			</isNotNull>
+			<isNotNull prepend="," property="fukuanId" >
+				#fukuanId#
+			</isNotNull>
+			<isNotNull prepend="," property="opType" >
+				#opType#
+			</isNotNull>
+			<isNotNull prepend="," property="orderNo" >
+				#orderNo#
+			</isNotNull>
+			<isNotNull prepend="," property="opValue" >
+				#opValue#
+			</isNotNull>
+			<isNotNull prepend="," property="leftValue" >
+				#leftValue#
+			</isNotNull>
+			<isNotNull prepend="," property="opLoginName" >
+				#opLoginName#
+			</isNotNull>
+			<isNotNull prepend="," property="opLoginId" >
+				#opLoginId#
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				#remark#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="storeAccountDetailAlias" >
+		update STORE_ACCOUNT_DETAIL
+		set 
+		SERIAL_NO = #serialNo#,
+		ACCOUNT_ID = #accountId#,
+		ACCOUNT_NAME = #accountName#,
+		FUKUAN_NAME = #fukuanName#,
+		FUKUAN_ID = #fukuanId#,
+		OP_TYPE = #opType#,
+		ORDER_NO = #orderNo#,
+		OP_VALUE = #opValue#,
+		LEFT_VALUE = #leftValue#,
+		OP_LOGIN_NAME = #opLoginName#,
+		OP_LOGIN_ID = #opLoginId#,
+		REMARK = #remark#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_STORE_ACCOUNT_DETAIL.nextval from dual
+	</select>
+</sqlMap>

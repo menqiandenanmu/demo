@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="NEWSCLASS" >
+	<typeAlias alias="newsClassAlias" type="com.mall.butler.web.model.NewsClass"/>
+	<resultMap id="newsClassResultMap" class="newsClassAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="NAME" property="name"/>
+    	<result column="CODE" property="code"/>
+    	<result column="PARENT_NAMES" property="parentNames"/>
+    	<result column="PARENT_ID" property="parentId"/>
+    	<result column="INFO" property="info"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="name" >
+			NAME = #name#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="code" >
+			CODE = #code#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="parentNames" >
+			PARENT_NAMES = #parentNames#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="parentId" >
+			PARENT_ID = #parentId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="info" >
+			INFO = #info#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="newsClassResultMap">
+		select * from NEWS_CLASS where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="newsClassAlias" resultClass="Integer">
+		select count(*) as totalCount from NEWS_CLASS where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="newsClassResultMap" parameterClass="newsClassAlias">
+  	select * from NEWS_CLASS
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="newsClassResultMap" parameterClass="newsClassAlias" >
+		select *
+		from NEWS_CLASS
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="newsClassAlias" >
+		delete from NEWS_CLASS
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="newsClassAlias" >
+		insert into NEWS_CLASS
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="name" >
+				NAME
+			</isNotNull>
+			<isNotNull prepend="," property="code" >
+				CODE
+			</isNotNull>
+			<isNotNull prepend="," property="parentNames" >
+				PARENT_NAMES
+			</isNotNull>
+			<isNotNull prepend="," property="parentId" >
+				PARENT_ID
+			</isNotNull>
+			<isNotNull prepend="," property="info" >
+				INFO
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="name" >
+				#name#
+			</isNotNull>
+			<isNotNull prepend="," property="code" >
+				#code#
+			</isNotNull>
+			<isNotNull prepend="," property="parentNames" >
+				#parentNames#
+			</isNotNull>
+			<isNotNull prepend="," property="parentId" >
+				#parentId#
+			</isNotNull>
+			<isNotNull prepend="," property="info" >
+				#info#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="newsClassAlias" >
+		update NEWS_CLASS
+		set 
+		NAME = #name#,
+		CODE = #code#,
+		PARENT_NAMES = #parentNames#,
+		PARENT_ID = #parentId#,
+		INFO = #info#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_NEWS_CLASS.nextval from dual
+	</select>
+</sqlMap>

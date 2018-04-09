@@ -1,0 +1,6 @@
+<!DOCTYPE struts PUBLIC	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "struts-2.3.dtd">
+<struts>
+	<package name="web.port" extends="web" namespace="/port">
+		
+	</package>
+</struts>

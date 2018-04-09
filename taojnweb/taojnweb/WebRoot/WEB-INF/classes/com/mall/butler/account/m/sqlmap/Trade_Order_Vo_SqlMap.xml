@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="TRADEORDER" >
+    <typeAlias alias="tradeOrderVoAlias" type="com.mall.butler.account.m.model.TradeOrderVo"/>
+    
+	<resultMap id="netTradeOrderCountMap" class="tradeOrderVoAlias" >
+    	<result column="ACCOUNT_ID" property="accountId"/>
+    	<result column="ACCOUNT_NAME" property="accountName"/>
+    	<result column="TRADE_ACC_ID" property="tradeAccId"/>
+    	<result column="TRADE_ACC_NAME" property="tradeAccName"/>
+    	<result column="OP_VALUE" property="opValue"/>
+	</resultMap>
+	
+	<select id="SELECT_ACCOUNT_PAGE_M" parameterClass="java.util.Map" resultMap="netTradeOrderCountMap">		
+		SELECT ACCOUNT_ID,TRADE_ACC_ID,ACCOUNT_NAME,TRADE_ACC_NAME,OP_VALUE FROM ( 
+		SELECT  o.ACCOUNT_ID,o.TRADE_ACC_ID,a.ACCOUNT_NAME,a.TRADE_ACC_NAME,SUM(OP_VALUE) OP_VALUE 
+		FROM TRADE_ORDER o,TRADE_ACCOUNT a
+		where o.DELETED=0
+		AND a.DELETED = 0
+		AND o.CREATE_TIME >= #begDate# 
+		AND <![CDATA[ 
+		o.CREATE_TIME <= #endDate# 
+		]]>
+		<isNotEmpty prepend="and" property="accountId">
+			o.ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+		AND o.ACCOUNT_ID = a.ACCOUNT_ID
+		AND o.TRADE_ACC_ID = a.ID
+		AND o.OP_TYPE = #opType#
+		AND o.PAY_STATUS = #payStatus#
+		GROUP BY o.ACCOUNT_ID,o.TRADE_ACC_ID,a.ACCOUNT_NAME,a.TRADE_ACC_NAME
+		 ) m 
+		 order by ACCOUNT_ID
+	</select>
+	
+	<select id="SELECT_COUNT_ACCOUNT_PAGE_M" resultClass="Integer">
+		SELECT COUNT(*) FROM ( 
+		SELECT ACCOUNT_NAME,TRADE_ACC_NAME,OP_VALUE FROM (
+		SELECT  a.ACCOUNT_NAME,a.TRADE_ACC_NAME,SUM(OP_VALUE) OP_VALUE 
+		FROM TRADE_ORDER o,TRADE_ACCOUNT a
+		where o.DELETED=0
+		AND o.CREATE_TIME >= #begDate# 
+		AND a.DELETED = 0
+		AND <![CDATA[ 
+		o.CREATE_TIME <= #endDate# 
+		]]>
+		<isNotEmpty prepend="and" property="accountId">
+			o.ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+		AND o.ACCOUNT_ID = a.ACCOUNT_ID
+		AND o.TRADE_ACC_ID = a.ID
+		AND o.OP_TYPE = #opType#
+		AND o.PAY_STATUS = #payStatus#
+		GROUP BY o.ACCOUNT_ID,o.TRADE_ACC_ID,a.ACCOUNT_NAME,a.TRADE_ACC_NAME
+		) m ) t
+	</select>
+</sqlMap>

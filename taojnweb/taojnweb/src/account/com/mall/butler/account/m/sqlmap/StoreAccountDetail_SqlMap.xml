@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="STOREACCOUNTDETAIL" >
+	
+	<sql id="ALL_SQL_M">
+		<isNotEmpty prepend="and" property="serialNo" >
+			SERIAL_NO = #serialNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountId" >
+			ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountName" >
+			ACCOUNT_NAME = #accountName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="fukuanName" >
+			FUKUAN_NAME = #fukuanName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="fukuanId" >
+			FUKUAN_ID = #fukuanId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opType" >
+			OP_TYPE = #opType#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="orderNo" >
+			ORDER_NO = #orderNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opValue" >
+			OP_VALUE = #opValue#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="leftValue" >
+			LEFT_VALUE = #leftValue#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opLoginName" >
+			OP_LOGIN_NAME = #opLoginName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="opLoginId" >
+			OP_LOGIN_ID = #opLoginId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE_M" parameterClass="java.util.Map" resultMap="storeAccountDetailResultMap">
+		select * from STORE_ACCOUNT_DETAIL where 1=1 and deleted=0
+		<include refid="ALL_SQL_M"/>
+		<![CDATA[ 
+		AND  to_char(CREATE_TIME,'yyyy-MM-dd') >= to_char(#begDate#,'yyyy-MM-dd')
+		AND to_char(CREATE_TIME,'yyyy-MM-dd') <= to_char(#endDate#,'yyyy-MM-dd')
+		]]>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE_M" parameterClass="java.util.Map" resultClass="Integer">
+		select count(*) as totalCount from STORE_ACCOUNT_DETAIL where 1=1 and deleted=0
+		<![CDATA[ 
+		AND  to_char(CREATE_TIME,'yyyy-MM-dd') >= to_char(#begDate#,'yyyy-MM-dd')
+		AND to_char(CREATE_TIME,'yyyy-MM-dd') <= to_char(#endDate#,'yyyy-MM-dd')
+		]]>
+		<include refid="ALL_SQL_M"/>
+	</select>
+  
+	
+</sqlMap>

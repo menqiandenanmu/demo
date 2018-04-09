@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="MERCHANT" >
+	<typeAlias alias="merchantAlias" type="com.mall.butler.account.model.Merchant"/>
+	<resultMap id="merchantResultMap" class="merchantAlias" >
+    	<result column="MERCHANT_NAME" property="merchantName"/>
+    	<result column="MERCHANT_NUMBER" property="merchantNumber"/>
+    	<result column="MERCHANT_KEY" property="merchantKey"/>
+    	<result column="MERCHANT_STATUS" property="merchantStatus"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+    	<result column="ID" property="id"/>
+	</resultMap>
+
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="merchantName">
+			MERCHANT_NAME like
+			'%$merchantName$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="merchantNumber">
+			MERCHANT_NUMBER = #merchantNumber#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="merchantKey">
+			MERCHANT_KEY =
+			#merchantKey#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="merchantStatus">
+			MERCHANT_STATUS = #merchantStatus#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="merchantResultMap">
+		select * from MERCHANT where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="merchantAlias" resultClass="Integer">
+		select count(*) as totalCount from MERCHANT where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	
+  
+  
+	<select id="SELECT_BY_ALL" resultMap="merchantResultMap" parameterClass="merchantAlias">
+  	select * from MERCHANT
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="merchantResultMap" parameterClass="merchantAlias" >
+		select *
+		from MERCHANT
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="merchantAlias" >
+		delete from MERCHANT
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	
+	
+	<update id="UPDATE_BY_PK" parameterClass="merchantAlias" >
+		update MERCHANT
+		set 
+		MERCHANT_NAME = #merchantName#,
+		MERCHANT_NUMBER = #merchantNumber#,
+		MERCHANT_STATUS = #merchantStatus#,
+		MERCHANT_KEY = #merchantKey#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_MERCHANT.nextval from dual
+	</select>
+	
+	<insert id="INSERT">
+		insert into MERCHANT
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="merchantName">
+				MERCHANT_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="merchantNumber">
+				MERCHANT_NUMBER
+			</isNotNull>
+			<isNotNull prepend="," property="merchantStatus">
+				MERCHANT_STATUS
+			</isNotNull>
+			<isNotNull prepend="," property="merchantKey">
+				MERCHANT_KEY
+			</isNotNull>
+			<isNotNull prepend="," property="deleted">
+				DELETED
+			</isNotNull>
+			<isNotNull prepend="," property="createTime">
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime">
+				MODIFIED_TIME
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id">#id#</isNotNull>
+			<isNotNull prepend="," property="merchantName">#merchantName#</isNotNull>
+			<isNotNull prepend="," property="merchantNumber">#merchantNumber#</isNotNull>
+			<isNotNull prepend="," property="merchantStatus">#merchantStatus#</isNotNull>
+			<isNotNull prepend="," property="merchantKey">#merchantKey#</isNotNull>
+			<isNotNull prepend="," property="deleted">#deleted#</isNotNull>
+			<isNotNull prepend="," property="createTime">#createTime#</isNotNull>
+			<isNotNull prepend="," property="modifiedTime">#modifiedTime#</isNotNull>
+			)
+		</dynamic>
+	</insert>
+
+</sqlMap>

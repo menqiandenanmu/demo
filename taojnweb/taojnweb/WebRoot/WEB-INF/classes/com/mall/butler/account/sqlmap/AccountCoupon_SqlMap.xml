@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ACCOUNTCOUPON" >
+	<typeAlias alias="accountCouponAlias" type="com.mall.butler.account.model.AccountCoupon"/>
+	<resultMap id="accountCouponResultMap" class="accountCouponAlias" >
+    	<result column="ID" property="id"/>
+    	<result column="ACCOUNT_ID" property="accountId"/>
+    	<result column="ACCOUNT_NAME" property="accountName"/>
+    	<result column="REAL_NAME" property="realName"/>
+    	<result column="RULE_ID" property="ruleId"/>
+    	<result column="COUPON_NAME" property="couponName"/>
+    	<result column="COUPON_CODE" property="couponCode"/>
+    	<result column="TRANS_NO" property="transNo"/>
+    	<result column="PAY_SUM" property="paySum"/>
+    	<result column="PRICE" property="price"/>
+    	<result column="PAY_TIME" property="payTime"/>
+    	<result column="EXPIRAT_DATE" property="expiratDate"/>
+    	<result column="COUPON_STATUS" property="couponStatus"/>
+    	<result column="BARCODE" property="barcode"/>
+    	<result column="REMARK2" property="remark2"/>
+    	<result column="REMARK" property="remark"/>
+    	<result column="CREATE_TIME" property="createTime"/>
+    	<result column="MODIFIED_TIME" property="modifiedTime"/>
+    	<result column="DELETED" property="deleted"/>
+	</resultMap>
+	
+	<sql id="ALL_SQL">
+		<isNotEmpty prepend="and" property="accountId" >
+			ACCOUNT_ID = #accountId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="accountName" >
+			ACCOUNT_NAME like #accountName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="realName" >
+			REAL_NAME like #realName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="ruleId" >
+			RULE_ID = #ruleId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="couponName" >
+			COUPON_NAME like #couponName#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="couponCode" >
+			COUPON_CODE = #couponCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="transNo" >
+			TRANS_NO = #transNo#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="paySum" >
+			PAY_SUM = #paySum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="price" >
+			PRICE = #price#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="payTime" >
+			to_char(PAY_TIME,'yyyy-mm-dd') = to_char(#payTime#,'yyyy-mm-dd')
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="expiratDate" >
+			to_char(EXPIRAT_DATE,'yyyy-mm-dd') = to_char(#expiratDate#,'yyyy-mm-dd')
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="couponStatus" >
+			COUPON_STATUS = #couponStatus#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="barcode" >
+			BARCODE = #barcode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark2" >
+			REMARK2 = #remark2#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark" >
+			REMARK = #remark#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="SELECT_PAGE" parameterClass="java.util.Map" resultMap="accountCouponResultMap">
+		select * from ACCOUNT_COUPON where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	  
+	<select id="SELECT_COUNT_PAGE" parameterClass="accountCouponAlias" resultClass="Integer">
+		select count(*) as totalCount from ACCOUNT_COUPON where 1=1 and deleted=0
+		<include refid="ALL_SQL"/>
+	</select>
+  
+	<select id="SELECT_BY_ALL" resultMap="accountCouponResultMap" parameterClass="accountCouponAlias">
+  	select * from ACCOUNT_COUPON
+	where deleted=0
+		<include refid="ALL_SQL"/>
+		order by create_time desc
+	</select>
+	
+	<select id="SELECT_BY_PK" resultMap="accountCouponResultMap" parameterClass="accountCouponAlias" >
+		select *
+		from ACCOUNT_COUPON
+		where ID = #id#
+	</select>
+	
+	<delete id="DELETE_BY_PK" parameterClass="accountCouponAlias" >
+		delete from ACCOUNT_COUPON
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</delete>
+	
+	<insert id="INSERT" parameterClass="accountCouponAlias" >
+		insert into ACCOUNT_COUPON
+		<dynamic prepend="(" >
+			<isNotNull prepend="," property="id" >
+				ID
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				ACCOUNT_ID
+			</isNotNull>
+			<isNotNull prepend="," property="accountName" >
+				ACCOUNT_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="realName" >
+				REAL_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="ruleId" >
+				RULE_ID
+			</isNotNull>
+			<isNotNull prepend="," property="couponName" >
+				COUPON_NAME
+			</isNotNull>
+			<isNotNull prepend="," property="couponCode" >
+				COUPON_CODE
+			</isNotNull>
+			<isNotNull prepend="," property="transNo" >
+				TRANS_NO
+			</isNotNull>
+			<isNotNull prepend="," property="paySum" >
+				PAY_SUM
+			</isNotNull>
+			<isNotNull prepend="," property="price" >
+				PRICE
+			</isNotNull>
+			<isNotNull prepend="," property="payTime" >
+				PAY_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="expiratDate" >
+				EXPIRAT_DATE
+			</isNotNull>
+			<isNotNull prepend="," property="couponStatus" >
+				COUPON_STATUS
+			</isNotNull>
+			<isNotNull prepend="," property="barcode" >
+				BARCODE
+			</isNotNull>
+			<isNotNull prepend="," property="remark2" >
+				REMARK2
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				REMARK
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				CREATE_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				MODIFIED_TIME
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				DELETED
+			</isNotNull>
+			)
+		</dynamic>
+		values
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="id" >
+				#id#
+			</isNotNull>
+			<isNotNull prepend="," property="accountId" >
+				#accountId#
+			</isNotNull>
+			<isNotNull prepend="," property="accountName" >
+				#accountName#
+			</isNotNull>
+			<isNotNull prepend="," property="realName" >
+				#realName#
+			</isNotNull>
+			<isNotNull prepend="," property="ruleId" >
+				#ruleId#
+			</isNotNull>
+			<isNotNull prepend="," property="couponName" >
+				#couponName#
+			</isNotNull>
+			<isNotNull prepend="," property="couponCode" >
+				#couponCode#
+			</isNotNull>
+			<isNotNull prepend="," property="transNo" >
+				#transNo#
+			</isNotNull>
+			<isNotNull prepend="," property="paySum" >
+				#paySum#
+			</isNotNull>
+			<isNotNull prepend="," property="price" >
+				#price#
+			</isNotNull>
+			<isNotNull prepend="," property="payTime" >
+				#payTime#
+			</isNotNull>
+			<isNotNull prepend="," property="expiratDate" >
+				#expiratDate#
+			</isNotNull>
+			<isNotNull prepend="," property="couponStatus" >
+				#couponStatus#
+			</isNotNull>
+			<isNotNull prepend="," property="barcode" >
+				#barcode#
+			</isNotNull>
+			<isNotNull prepend="," property="remark2" >
+				#remark2#
+			</isNotNull>
+			<isNotNull prepend="," property="remark" >
+				#remark#
+			</isNotNull>
+			<isNotNull prepend="," property="createTime" >
+				#createTime#
+			</isNotNull>
+			<isNotNull prepend="," property="modifiedTime" >
+				#modifiedTime#
+			</isNotNull>
+			<isNotNull prepend="," property="deleted" >
+				#deleted#
+			</isNotNull>
+			)
+		</dynamic>
+	</insert>
+	
+	<update id="UPDATE_BY_PK" parameterClass="accountCouponAlias" >
+		update ACCOUNT_COUPON
+		set 
+		ACCOUNT_ID = #accountId#,
+		ACCOUNT_NAME = #accountName#,
+		REAL_NAME = #realName#,
+		RULE_ID = #ruleId#,
+		COUPON_NAME = #couponName#,
+		COUPON_CODE = #couponCode#,
+		TRANS_NO = #transNo#,
+		PAY_SUM = #paySum#,
+		PRICE = #price#,
+		PAY_TIME = #payTime#,
+		EXPIRAT_DATE = #expiratDate#,
+		COUPON_STATUS = #couponStatus#,
+		BARCODE = #barcode#,
+		REMARK2 = #remark2#,
+		REMARK = #remark#,
+		CREATE_TIME = #createTime#,
+		DELETED = #deleted#,
+		MODIFIED_TIME = #now#
+		where ID = #id# and MODIFIED_TIME=#modifiedTime#
+	</update>
+	
+	<select id="SELECT_SEQ" resultClass="Long">
+		select SEQ_ACCOUNT_COUPON.nextval from dual
+	</select>
+</sqlMap>

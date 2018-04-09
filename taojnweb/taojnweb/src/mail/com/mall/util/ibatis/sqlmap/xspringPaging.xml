@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="xspringPaging">
+    <!-- ================================================================ -->
+    <!-- ALI_PAGING_START                         				 	  	  -->
+	<!-- @param pageSize                        				 	  	  -->
+	<!-- @param pageStart                       				  		  -->
+    <!-- ================================================================ -->
+	<sql id="XPAGING_START">
+		<dynamic>
+			<isNotNull property="pageSize">
+				<![CDATA[
+                   select * from (
+                       select rownum rnm, z.* from (
+               ]]>
+			</isNotNull>
+		</dynamic>
+	</sql>
+	
+	<sql id="XPAGING_END">
+		<dynamic>
+			<isNotNull property="pageSize">
+				<![CDATA[
+                       ) z where rownum <= #pageStart#+#pageSize#
+                   ) where rnm > #pageStart#
+               ]]>
+			</isNotNull>
+		</dynamic>
+	</sql>
+	
+    <!-- ================================================================ -->
+    <!-- XORDER                         				 	  			  -->
+    <!-- ================================================================ -->
+	<sql id="XORDER">
+		<dynamic>
+			<isNotNull property="pageOrder" prepend="ORDER BY">
+				<iterate property="pageOrder" conjunction=",">$pageOrder[]$</iterate>
+			</isNotNull>
+		</dynamic>
+	</sql>
+</sqlMap>

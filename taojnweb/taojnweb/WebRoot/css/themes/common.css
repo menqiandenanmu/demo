@@ -1,0 +1,68 @@
+/** Extend css. */
+body {
+	font-size: 12px;
+	font-family: arial;
+}
+
+.datagrid-toolbar div.buttons {
+	float: left;
+	padding-left: 4px;
+	padding-right: 30px;
+	font-size: 12px;
+}
+
+.datagrid-toolbar div.buttons a {
+	margin-top: 2px;
+	float: left
+}
+
+.datagrid-toolbar div.search {
+	float: right;
+	padding-top: 3px;
+	padding-right: 6px;
+	font-size: 12px;
+}
+
+.padding6 {
+	padding: 6px;
+}
+
+.formtable {
+	-background-color: #FBFBFB;
+	border-collapse: collapse;
+	font-size: 12px;
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+}
+
+.formtable tr {
+	height: 28px;
+}
+
+.formtable td {
+	padding: 2px 6px;
+	-border: 1px dotted #ccc;
+	border: 1px solid #e0ecff;
+}
+
+.formtable td.label {
+	text-align: right;
+}
+
+.formtable font.mask {
+	color: red;
+}
+
+.formtable input,.formtable select,.formtable textarea {
+	border: 1px solid #95B8E7;
+}
+
+.formtable input[type="text"],.formtable select {
+	width: 150px;
+	height: 18px;
+}
+
+.formtable input[type="file"] {
+	height: 24px;
+}
